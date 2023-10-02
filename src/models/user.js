@@ -24,7 +24,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    dt_birth:{
+    dtBirth:{
         type: DATE,
         allowNull: false,
         validate: {
@@ -60,7 +60,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    users_id: {
+    usersId: {
         type: INTEGER,
         references: {
             model: address,
@@ -69,16 +69,31 @@ const User = dbConnection.define('user', {
         allowNull: false
     },
 
-    type_user:{
+    typeUser:{
         type: ENUM("administrador", "comprador"),
         allowNull:false,
         validate:{
             isIn: [['administrador', 'comprador']]
         },
     },
+
+    createdAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+
+      deletedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
     
 },  {  underscored: true })
 
-//Falta fazer as relações
+
 
 module.exports = {User};
