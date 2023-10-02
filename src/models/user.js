@@ -1,62 +1,99 @@
-const { Sequelize, DataTypes } = require('sequelize'); //adicionado para teste
-
+const { INTEGER, STRING, DATE, ENUM } = require ('sequelize')
 const {dbConnection} = require('../database/dbConnection');
 
 const User = dbConnection.define('user', {
-    //adicionado para tetse
     id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        autoIncrement: true,
+        type: INTEGER,
         primaryKey: true,
+        autoIncrement: true,
       },
+
       name: {
-        type: DataTypes.STRING,
+        type: STRING,
+        allowNull:false,
+        validate:{
+            len: {args: [2, 50], msg: "Nome precisa ter entre 2 a 20 char."},
+        },
+    },
+
+    cpf: {
+        type: STRING,
         allowNull: false,
-      },
-      cpf: {
-        type: DataTypes.STRING,
+        validate:{
+            len: {args: [11, 11], msg: "CPF precisa ter 11 char."},
+        },
+    },
+
+    dtBirth:{
+        type: DATE,
         allowNull: false,
-      },
-      dt_birth: {
-        type: DataTypes.DATE,
+        validate: {
+            isDate: true,
+        },
+    },
+
+    email: {
+        type: STRING,
         allowNull: false,
-      },
-      email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      telephone: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      addressId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      typeUser: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        type: DataTypes.DATE,
+        validate: {
+            isEmail: true,
+        },
+    },
+
+    telephone: {
+        type: STRING,
         allowNull: true,
-      },
-      updatedAt: {
-        type: DataTypes.DATE,
-        allowNull: true,
-      },
-      deletedAt: {
-        type: DataTypes.DATE,
+    },
+    password:{
+        type: STRING,
+        allowNull: false,
+        validate: {
+            len: {args: [8, 12], msg: "Senha precisa ter entre 8 a 15 char."},
+            strongPassword(value) {
+                const strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
+                if (!strongPasswordRegex.test(value)) {
+                  throw new Error(
+                    'Senha deve conter pelo menos 1 letra maiúscula, minúscula e numeros, entre 8 á 12 diígitos'
+                  );
+                }
+            }
+        },
+    },
+
+    usersId: {
+        type: INTEGER,
+        references: {
+            model: address,
+            key: 'id'
+        },
+        allowNull: false
+    },
+
+    typeUser:{
+        type: ENUM("administrador", "comprador"),
+        allowNull:false,
+        validate:{
+            isIn: [['administrador', 'comprador']]
+        },
+    },
+
+    createdAt: {
+        type: Sequelize.DATE,
         allowNull: true,
       },
 
-}
-);
+      updatedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+
+      deletedAt: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
+    
+},  {  underscored: true })
+
+
 
 module.exports = {User};
-
