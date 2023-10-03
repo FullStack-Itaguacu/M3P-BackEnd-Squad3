@@ -25,7 +25,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    birthData:{
+    birthDate:{
         type: DATE,
         allowNull: false,
         validate: {
