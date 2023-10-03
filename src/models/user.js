@@ -82,23 +82,27 @@ const User = dbConnection.define('user', {
         },
     },
 
-    created_by:{
-        type: Sequelize.STRING,
-        allowNull: true
-    },
+    created_by: {
+        type: INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
 
     createdAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
 
       updatedAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
 
       deletedAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
     
