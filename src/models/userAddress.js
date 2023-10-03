@@ -1,6 +1,8 @@
 
 const { DataTypes, Model } = require('sequelize');
-const { sequelize } = require('../database');
+const dbConnection = require('../database/dbConnection').dbConnection;
+
+
 
 class UserAddress extends Model {}
 
@@ -17,13 +19,13 @@ UserAddress.init({
   addressId: {
     type: DataTypes.INTEGER,
     references: {
-      model: 'addresses',
+      model: 'address',
       key: 'id' 
     }
   }
 
 }, {
-  sequelize,
+  sequelize:dbConnection,
   modelName: 'user_address'
 }); 
 

@@ -65,14 +65,6 @@ const User = dbConnection.define('user', {
         },
     },
 
-    addressId: {
-        type: INTEGER,
-        references: {
-            model: address,
-            key: 'id'
-        },
-        allowNull: false
-    },
 
     typeUser:{
         type: ENUM("administrador", "comprador"),
@@ -83,22 +75,22 @@ const User = dbConnection.define('user', {
     },
 
     created_by:{
-        type: Sequelize.STRING,
+        type: STRING,
         allowNull: true
     },
 
     createdAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
 
       updatedAt: {
-        type: Sequelize.DATE,
+        type:DATE,
         allowNull: true,
       },
 
       deletedAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
     

@@ -9,7 +9,7 @@ const relations = {
     hasMany: {
       addresses: {
         model: UserAddress,
-        as: 'Addresses',
+        as: 'addresses',
         foreignKey: 'userId'
       }
     },
@@ -17,8 +17,8 @@ const relations = {
     belongsTo: {
       parent: {
         model: User,
-        as: 'Parent',
-        foreignKey: 'parentId'
+        as: 'users',
+        foreignKey: 'userId'
       },
       createdBy: {
         model: User,
@@ -32,7 +32,7 @@ const relations = {
     hasMany: {
       users: {
         model: UserAddress,
-        as: 'Users',
+        as: 'users',
         foreignKey: 'addressId'
       }
     }

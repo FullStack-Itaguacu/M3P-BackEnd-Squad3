@@ -1,26 +1,49 @@
-const {User} = require('../models/user');
+const { User} = require('../models/user');
+const { Address} = require('../models/address');
+const {relations} = require('../models/relationShips');
 
 class UserController{
 
 
     createUser = (req, res) => {
         
-        const {name, cpf, dt_birth, email, telephone, password, address_id, type_user} = req.body;
+        const { user, address } = req.body;
+        const { street, numberStreet,neighborhood, city, state, country } = address;
+        const { fullName, email, cpf,phone,password,birthDate,typeUser} = user;
+        console.log(birthDate);
+               const date = new Date(birthDate);
+        console.log(date);
+       try {
         User.create({
-            name,
-            cpf,
-            dt_birth,
+            fullName,
             email,
-            telephone,
+            cpf,
+            phone,
             password,
-            address_id,
-            type_user
+            typeUser,
+            birthData:new Date(birthDate),
         }).then((user) => {
-            res.status(200).json(user);
-        }).catch((error) => {
-            res.status(500).json(error);
+            Address.create({
+                street,
+                numberStreet,
+                neighborhood,
+                city,
+                state,
+                country,
+            }).then((address) => {
+                relations.create({
+                    userId: user.id,
+                    addressId: address.id,
+                }).then((relation) => {
+                    res.status(201).json({ user, address, relation });
+                });
+            });
         });
         
+       } catch (error) {
+        
+       }
+
         
     }
 
