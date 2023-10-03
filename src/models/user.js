@@ -8,7 +8,7 @@ const User = dbConnection.define('user', {
         autoIncrement: true,
       },
 
-      name: {
+      fullName: {
         type: STRING,
         allowNull:false,
         validate:{
@@ -20,11 +20,12 @@ const User = dbConnection.define('user', {
         type: STRING,
         allowNull: false,
         validate:{
+            isNumeric: true,
             len: {args: [11, 11], msg: "CPF precisa ter 11 char."},
         },
     },
 
-    dtBirth:{
+    birthData:{
         type: DATE,
         allowNull: false,
         validate: {
@@ -40,10 +41,14 @@ const User = dbConnection.define('user', {
         },
     },
 
-    telephone: {
+    phone: {
         type: STRING,
         allowNull: true,
+        validate:{
+            isNumeric: true, // Usando isNumeric para validar apenas números
+        },
     },
+
     password:{
         type: STRING,
         allowNull: false,
@@ -60,7 +65,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    usersId: {
+    addressId: {
         type: INTEGER,
         references: {
             model: address,
@@ -77,18 +82,27 @@ const User = dbConnection.define('user', {
         },
     },
 
+    created_by: {
+        type: INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+
     createdAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
 
       updatedAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
 
       deletedAt: {
-        type: Sequelize.DATE,
+        type: DATE,
         allowNull: true,
       },
     
