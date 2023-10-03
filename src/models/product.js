@@ -7,7 +7,8 @@ const {
   DECIMAL,
   ENUM,
 } = require("sequelize");
-const { dbConnection } = require("../database/dbConnection");
+
+
 
 const Product = dbConnection.define(
   "product",
@@ -62,7 +63,9 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    productType: {
+
+    typeProduct: {
+
       type: ENUM("Medicamento controlado", "Medicamento não controlado"),
       allowNull: false,
     },
