@@ -8,7 +8,7 @@ const User = dbConnection.define('user', {
         autoIncrement: true,
       },
 
-      name: {
+      fullName: {
         type: STRING,
         allowNull:false,
         validate:{
@@ -24,7 +24,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    dtBirth:{
+    birthData:{
         type: DATE,
         allowNull: false,
         validate: {
@@ -40,10 +40,11 @@ const User = dbConnection.define('user', {
         },
     },
 
-    telephone: {
+    phone: {
         type: STRING,
         allowNull: true,
     },
+
     password:{
         type: STRING,
         allowNull: false,
@@ -60,7 +61,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    usersId: {
+    addressId: {
         type: INTEGER,
         references: {
             model: address,
@@ -75,6 +76,11 @@ const User = dbConnection.define('user', {
         validate:{
             isIn: [['administrador', 'comprador']]
         },
+    },
+
+    created_by:{
+        type: Sequelize.STRING,
+        allowNull: true
     },
 
     createdAt: {
