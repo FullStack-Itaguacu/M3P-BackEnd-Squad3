@@ -11,6 +11,15 @@ const Product = dbConnection.define(
       primaryKey: true,
     },
 
+    userId: {
+      type: INTEGER,
+      allowNull: false,
+      references: {
+        model: { tableName: "user" },
+        key: "id",
+      },
+    },
+
     productName: {
       type: STRING,
       allowNull: false,
@@ -21,7 +30,7 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    image: {
+    imageLink: {
       type: BLOB,
       allowNull: false,
     },
@@ -31,38 +40,34 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    productDescription: {
-      type: STRING,
-      allowNull: true,
-    },
-
-    productUnitPrice: {
+    unitPrice: {
       type: NUMBER,
       allowNull: false,
     },
 
-    productType: {
+    totalPrice: {
+      type: NUMBER,
+      allowNull: false,
+    },
+
+    totalStock: {
+      type: INTEGER,
+      allowNull: false,
+    },
+
+    typeProduct: {
       type: tipoProduto,
       allowNull: false,
     },
 
-    quantityStock: {
-      type: INTEGER,
-      allowNull: false,
+    description: {
+      type: STRING,
+      allowNull: true,
     },
 
-    productRegistrationDate: {
+    registrationDate: {
       type: DATE,
       allowNull: false,
-    },
-
-    idUsers: {
-      type: INTEGER,
-      allowNull: false,
-      references: {
-        model: { tableName: "users" },
-        key: "id",
-      },
     },
 
     createdAt: {
