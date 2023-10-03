@@ -17,12 +17,12 @@ module.exports = {
           allowNull: false,
         },
       
-        address: {
+        street: {
           type: Sequelize.STRING,
           allowNull: false
         },
       
-        number: {
+        number_street: {
           type: Sequelize.STRING,
           allowNull: false
         },
@@ -47,12 +47,12 @@ module.exports = {
           allowNull: true
         },
 
-        latitude: {
+        lat: {
           type: Sequelize.STRING,
           allowNull: true
         },
 
-        longitude: {
+        long: {
           type: Sequelize.STRING,
           allowNull: true
         },

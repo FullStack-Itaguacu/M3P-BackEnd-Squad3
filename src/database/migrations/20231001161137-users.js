@@ -22,7 +22,7 @@ module.exports = {
           allowNull: false
         },
 
-        dt_birth: {
+        birth_data: {
           type: Sequelize.DATE,
           allowNull: false
         },
@@ -32,24 +32,13 @@ module.exports = {
           allowNull: false
         },
 
-        telephone:{
+        phone:{
           type: Sequelize.STRING,
           allowNull: false
         },
 
           password: {
             type: Sequelize.STRING,
-            allowNull: false
-          },
-        
-          address_id: {
-            type: Sequelize.INTEGER,
-            references: {
-              model:{
-              tableName: 'address'
-            },
-            key: 'id'
-          },
             allowNull: false
           },
 

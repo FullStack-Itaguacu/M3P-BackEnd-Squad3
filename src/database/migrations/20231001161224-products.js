@@ -12,17 +12,17 @@ module.exports = {
           primaryKey: true
         }, 
 
-        name_product: {
+        name: {
           type: Sequelize.STRING,
           allowNull: false
         },
 
-        name_laboratory :{
+        lab_name :{
           type: Sequelize.STRING,
           allowNull: false
         },
 
-        img_product: {
+        image_link: {
         type: Sequelize.STRING,
         allowNull: false
         },
@@ -47,7 +47,7 @@ module.exports = {
           allowNull: false
         },
 
-        quantity: {
+        total_stock: {
           type: Sequelize.INTEGER,
           allowNull: false
         },
