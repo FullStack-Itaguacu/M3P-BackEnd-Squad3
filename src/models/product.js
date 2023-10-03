@@ -1,4 +1,12 @@
-const { INTEGER, BLOB, NUMBER, DATE, STRING, ENUM } = require("sequelize");
+const {
+  INTEGER,
+  BLOB,
+  NUMBER,
+  DATE,
+  STRING,
+  DECIMAL,
+  ENUM,
+} = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
 const Product = dbConnection.define(
@@ -40,12 +48,12 @@ const Product = dbConnection.define(
     },
 
     unitPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
     totalPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
