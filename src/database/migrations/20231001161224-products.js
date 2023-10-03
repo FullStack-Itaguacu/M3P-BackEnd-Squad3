@@ -52,11 +52,6 @@ module.exports = {
           allowNull: false
         },
 
-        dt_registration: {
-          type: Sequelize.DATE,
-          allowNull: false
-        },
-
         user_id:{
           type: Sequelize.INTEGER,
             references: {
@@ -70,7 +65,7 @@ module.exports = {
 
         created_at: {
           type: Sequelize.DATE,
-          allowNull: true,
+          allowNull: false,
         },
   
         updated_at: {
