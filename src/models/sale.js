@@ -1,6 +1,6 @@
 const paymentType = require("../constants/paymentType");
 const { dbConnection } = require("../database/dbConnection");
-const { INTEGER, NUMBER, DATE, STRING } = require("sequelize");
+const { INTEGER, NUMBER, DATE } = require("sequelize");
 
 const Sale = dbConnection.define(
   "sale",

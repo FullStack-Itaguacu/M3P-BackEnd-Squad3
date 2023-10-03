@@ -1,4 +1,3 @@
-import tipoProduto from "../constants/tipoProduto";
 const { INTEGER, BLOB, NUMBER, DATE, STRING } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
@@ -11,6 +10,15 @@ const Product = dbConnection.define(
       primaryKey: true,
     },
 
+    userId: {
+      type: INTEGER,
+      allowNull: false,
+      references: {
+        model: { tableName: "user" },
+        key: "id",
+      },
+    },
+
     productName: {
       type: STRING,
       allowNull: false,
@@ -21,7 +29,7 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    image: {
+    imageLink: {
       type: BLOB,
       allowNull: false,
     },
@@ -31,38 +39,34 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    productDescription: {
-      type: STRING,
-      allowNull: true,
-    },
-
-    productUnitPrice: {
+    unitPrice: {
       type: NUMBER,
       allowNull: false,
     },
 
-    productType: {
-      type: tipoProduto,
+    totalPrice: {
+      type: NUMBER,
       allowNull: false,
     },
 
-    quantityStock: {
+    totalStock: {
       type: INTEGER,
       allowNull: false,
     },
 
-    productRegistrationDate: {
+    productType: {
+      type: ENUM("Medicamento controlado", "Medicamento não controlado"),
+      allowNull: false,
+    },
+
+    description: {
+      type: STRING,
+      allowNull: true,
+    },
+
+    registrationDate: {
       type: DATE,
       allowNull: false,
-    },
-
-    idUsers: {
-      type: INTEGER,
-      allowNull: false,
-      references: {
-        model: { tableName: "users" },
-        key: "id",
-      },
     },
 
     createdAt: {
