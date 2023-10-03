@@ -1,4 +1,3 @@
-import tipoProduto from "../constants/tipoProduto";
 const { INTEGER, BLOB, NUMBER, DATE, STRING } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
@@ -56,7 +55,7 @@ const Product = dbConnection.define(
     },
 
     productType: {
-      type: ENUM("controlado", "não controlado"),
+      type: ENUM("Medicamento controlado", "Medicamento não controlado"),
       allowNull: false,
     },
 

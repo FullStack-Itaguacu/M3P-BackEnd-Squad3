@@ -11,7 +11,7 @@ const Address = dbConnection.define(
       primaryKey: true,
     },
 
-    CEP: {
+    zip: {
       type: NUMBER,
       allowNull: false,
       validade: {
