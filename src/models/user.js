@@ -82,7 +82,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    created_by: {
+    createdBy: {
         type: INTEGER,
         allowNull: true,
         references: {
