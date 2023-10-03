@@ -17,7 +17,7 @@ module.exports = {
           allowNull: false
         },
 
-        name_admin :{
+        name_laboratory :{
           type: Sequelize.STRING,
           allowNull: false
         },
@@ -25,6 +25,11 @@ module.exports = {
         img_product: {
         type: Sequelize.STRING,
         allowNull: false
+        },
+
+        dosage: {
+          type: Sequelize.STRING,
+          allowNull: false
         },
 
         description: {
@@ -77,7 +82,7 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: true,
         }
-      });
+      })
   },
 
   async down (queryInterface, Sequelize) {

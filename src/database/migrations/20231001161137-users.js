@@ -12,7 +12,7 @@ module.exports = {
           primaryKey: true
         }, 
       
-        name:{
+        full_name:{
           type: Sequelize.STRING,
           allowNull: false
         },
@@ -72,8 +72,7 @@ module.exports = {
             type: Sequelize.DATE,
             allowNull: true,
           }
-      
-    });
+    })
     
   },
 
