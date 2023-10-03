@@ -1,4 +1,4 @@
-const { INTEGER, BLOB, NUMBER, DATE, STRING } = require("sequelize");
+const { INTEGER, BLOB, NUMBER, DATE, STRING, ENUM } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
 const Product = dbConnection.define(
