@@ -1,69 +1,88 @@
-const { INTEGER, NUMBER } = require("sequelize");
+const paymentType = require("../constants/paymentType");
 const { dbConnection } = require("../database/dbConnection");
-const formPayment = require("../constants/formPayment");
+const { INTEGER, NUMBER, DATE, STRING } = require("sequelize");
 
-const Sale = dbConnection.define("sale", {
-  id: {
-    primaryKey: true,
-    autoIncrement: true,
-  },
+const Sale = dbConnection.define(
+  "sale",
+  {
+    id: {
+      primaryKey: true,
+      autoIncrement: true,
+    },
 
-  buyerId: {
-    allowNull: true,
-    references: {
-      model: { tableName: "" },
-      key: "id,",
+    buyerId: {
+      allowNull: true,
+      references: {
+        model: { tableName: "user" },
+        key: "id",
+      },
+    },
+
+    sellerId: {
+      allowNull: true,
+      references: {
+        model: { tableName: "sale" },
+        key: "id",
+      },
+    },
+    userAddressId: {
+      allowNull: true,
+      references: {
+        model: { tableName: "address" },
+        key: "id",
+      },
+    },
+
+    amountBuy: {
+      type: NUMBER,
+      allowNull: false,
+    },
+
+    productUnitPrice: {
+      type: NUMBER,
+      allowNull: false,
+    },
+
+    quantityProductSold: {
+      type: INTEGER,
+      allowNull: false,
+    },
+
+    saleDate: {
+      type: DATE,
+      allowNull: false,
+    },
+
+    totalSalePrice: {
+      type: NUMBER,
+      allowNull: false,
+    },
+
+    formPayment: {
+      type: paymentType,
+      allowNull: false,
+    },
+
+    createdAt: {
+      type: DATE,
+      allowNull: true,
+    },
+
+    updatedAt: {
+      type: DATE,
+      allowNull: true,
+    },
+
+    deletedAt: {
+      type: DATE,
+      allowNull: true,
     },
   },
-
-  sellerId: {
-    allowNull: true,
-    references: {
-      model: { tableName: "" },
-      key: "id,",
-    },
-  },
-
-  amountBuy: {
-    allowNull: false,
-    references: {
-      model: { tableName: "product" },
-      key: "id",
-    },
-  },
-
-  addressUserId: {
-    allowNull: false,
-    references: {
-      model: { tableName: "address" },
-      key: "id",
-    },
-  },
-
-  productUnitPrice: {
-    type: NUMBER,
-    allowNull: false,
-  },
-
-  quantityProductSold: {
-    type: INTEGER,
-    allowNull: false,
-  },
-
-  saleDate: {
-    type: DATE,
-    allowNull: false,
-  },
-
-  totalSalePrice: {
-    type: NUMBER,
-    allowNull: false,
-  },
-
-  formPayment: {
-    type: formPayment,
-    allowNull: false,
-  },
-});
+  {
+    freezeTableName: true,
+    paranoid: true,
+    timestamps: true,
+  }
+);
 
 module.exports = { Sale };
