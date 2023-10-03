@@ -20,6 +20,7 @@ const User = dbConnection.define('user', {
         type: STRING,
         allowNull: false,
         validate:{
+            isNumeric: true,
             len: {args: [11, 11], msg: "CPF precisa ter 11 char."},
         },
     },
@@ -43,6 +44,9 @@ const User = dbConnection.define('user', {
     phone: {
         type: STRING,
         allowNull: true,
+        validate:{
+            isNumeric: true, // Usando isNumeric para validar apenas números
+        },
     },
 
     password:{
