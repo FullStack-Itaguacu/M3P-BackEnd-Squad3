@@ -55,8 +55,8 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    typeProduct: {
-      type: tipoProduto,
+    productType: {
+      type: ENUM("controlado", "não controlado"),
       allowNull: false,
     },
 
