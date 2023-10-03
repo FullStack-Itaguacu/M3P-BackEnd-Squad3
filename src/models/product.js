@@ -1,3 +1,4 @@
+import tipoProduto from "../constants/tipoProduto";
 const { INTEGER, BLOB, NUMBER, DATE, STRING } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
@@ -40,12 +41,12 @@ const Product = dbConnection.define(
     },
 
     unitPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
     totalPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
