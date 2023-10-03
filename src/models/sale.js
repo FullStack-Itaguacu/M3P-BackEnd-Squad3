@@ -8,7 +8,7 @@ const Sale = dbConnection.define("sale", {
     autoIncrement: true,
   },
 
-  idBuyer: {
+  buyerId: {
     allowNull: true,
     references: {
       model: { tableName: "" },
@@ -16,7 +16,7 @@ const Sale = dbConnection.define("sale", {
     },
   },
 
-  idSeller: {
+  sellerId: {
     allowNull: true,
     references: {
       model: { tableName: "" },
@@ -24,7 +24,7 @@ const Sale = dbConnection.define("sale", {
     },
   },
 
-  idProductSold: {
+  amountBuy: {
     allowNull: false,
     references: {
       model: { tableName: "product" },
@@ -32,7 +32,7 @@ const Sale = dbConnection.define("sale", {
     },
   },
 
-  idAddressSale: {
+  addressUserId: {
     allowNull: false,
     references: {
       model: { tableName: "address" },
