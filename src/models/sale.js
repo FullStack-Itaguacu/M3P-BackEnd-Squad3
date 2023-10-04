@@ -1,12 +1,6 @@
 const paymentType = require("../constants/paymentType");
 const { dbConnection } = require("../database/dbConnection");
-<<<<<<< HEAD
 const { INTEGER, NUMBER, DATE, DECIMAL } = require("sequelize");
-=======
-
-const { INTEGER, NUMBER, DATE, STRING } = require("sequelize");
-
->>>>>>> 642e2c5329ea7a05e2558c86f1d08c95f21fc807
 
 const Sale = dbConnection.define(
   "sale",
