@@ -29,7 +29,7 @@ const Address = dbConnection.define(
       allowNull: false,
     },
 
-    number: {
+    numberStreet: {
       type: STRING,
       allowNull: false,
     },
@@ -54,11 +54,11 @@ const Address = dbConnection.define(
       allowNull: true,
     },
 
-    latitude: {
+    lat: {
       type: STRING,
       allowNull: true,
     },
-    longitude: {
+    long: {
       type: STRING,
       allowNull: true,
     },
@@ -77,6 +77,7 @@ const Address = dbConnection.define(
     },
   },
   {
+   
     freezeTableName: true,
     paranoid: true,
     timestamps: true,

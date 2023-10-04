@@ -5,43 +5,37 @@ const {relations} = require('../models/relationShips');
 class UserController{
 
 
-    createUser = (req, res) => {
+    createUser = async (req, res) => {
         
         const { user, address } = req.body;
-        const { street, numberStreet,neighborhood, city, state, country } = address;
+        const { street, numberStreet,neighborhood, city, state, zip } = address[0];
         const { fullName, email, cpf,phone,password,birthDate,typeUser} = user;
-        console.log(birthDate);
-               const date = new Date(birthDate);
-        console.log(date);
+ 
        try {
-        User.create({
-            fullName,
-            email,
-            cpf,
-            phone,
-            password,
-            typeUser,
-            birthData:new Date(birthDate),
-        }).then((user) => {
-            Address.create({
-                street,
-                numberStreet,
-                neighborhood,
-                city,
-                state,
-                country,
-            }).then((address) => {
-                relations.create({
-                    userId: user.id,
-                    addressId: address.id,
-                }).then((relation) => {
-                    res.status(201).json({ user, address, relation });
-                });
-            });
-        });
+        // const user = await User.create({
+        //     fullName,
+        //     email,
+        //     cpf,
+        //     phone,
+        //     password,
+        //     typeUser,
+        //     birthDate:new Date(birthDate),
+        // })
+        
+        const address = await Address.create({
+            street,
+            numberStreet :numberStreet,
+            neighborhood,
+            city,
+            state,
+            zip:Number(zip),
+            latitude:0,
+            longitude:0,
+        })
+        console.log(address);
         
        } catch (error) {
-        
+        console.log(error);
        }
 
         
