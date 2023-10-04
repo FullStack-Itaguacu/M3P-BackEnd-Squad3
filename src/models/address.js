@@ -1,8 +1,6 @@
-
 const { dbConnection } = require("../database/dbConnection");
 const { STRING, DATE, INTEGER, NUMBER } = require("sequelize");
 const StatesEnum = require("../constants/statesEnum");
-
 
 const Address = dbConnection.define(
   "address",
@@ -29,7 +27,7 @@ const Address = dbConnection.define(
       allowNull: false,
     },
 
-    number: {
+    numberStreet: {
       type: STRING,
       allowNull: false,
     },
@@ -54,11 +52,11 @@ const Address = dbConnection.define(
       allowNull: true,
     },
 
-    latitude: {
+    lat: {
       type: STRING,
       allowNull: true,
     },
-    longitude: {
+    long: {
       type: STRING,
       allowNull: true,
     },
