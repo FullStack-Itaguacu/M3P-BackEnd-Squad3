@@ -66,15 +66,6 @@ const User = dbConnection.define('user', {
         },
     },
 
-    addressId: {
-        type: INTEGER,
-        references: {
-            model: { tableName: "address" },
-            key: 'id'
-        },
-        allowNull: false
-    },
-
     typeUser:{
         type: ENUM("administrador", "comprador"),
         allowNull:false,
