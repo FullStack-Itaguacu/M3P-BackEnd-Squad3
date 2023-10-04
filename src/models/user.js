@@ -1,6 +1,7 @@
 const { INTEGER, STRING, DATE, ENUM } = require ('sequelize')
 const {dbConnection} = require('../database/dbConnection');
 
+
 const User = dbConnection.define('user', {
     id: {
         type: INTEGER,
@@ -68,7 +69,7 @@ const User = dbConnection.define('user', {
     addressId: {
         type: INTEGER,
         references: {
-            model: address,
+            model: { tableName: "address" },
             key: 'id'
         },
         allowNull: false
