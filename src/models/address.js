@@ -1,6 +1,8 @@
+
 const { dbConnection } = require("../database/dbConnection");
 const { STRING, DATE, INTEGER, NUMBER } = require("sequelize");
 const StatesEnum = require("../constants/statesEnum");
+
 
 const Address = dbConnection.define(
   "address",
