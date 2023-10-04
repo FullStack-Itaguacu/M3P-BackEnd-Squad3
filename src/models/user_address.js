@@ -34,7 +34,7 @@ UserAddress.init({
   modelName: 'users_address' 
 });
 
-// Relacionamentos
+
 User.belongsToMany(Address, { through: UserAddress });
 Address.belongsToMany(User, { through: UserAddress });
 
