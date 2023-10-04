@@ -2,18 +2,16 @@ const { Product } = require("../models/product");
 const express = require("express");
 const app = express();
 
-class productController {
+class ProductController {
   async listProductId(req, res) {
-    function authenticate(req, res, next) {
-      if (!req.isAuthenticated()) {
+    const { id } = req.params;
+    const user = req.user;
+    try {
+      if (!user || user.roles !== "Administrador") {
         return res
           .status(401)
-          .send("Não autorizado. Faça login para acessar esta rota.");
+          .send("Não autorizado. Faça login para continuar.");
       }
-      next();
-    }
-    const { id } = req.params;
-    try {
       const produto = await Product.findById(id);
       if (!produto) {
         return res.status(404).send("Produto não encontrado.");
@@ -24,4 +22,6 @@ class productController {
     }
   }
 }
+
+const productController = new ProductController();
 module.exports = productController;
