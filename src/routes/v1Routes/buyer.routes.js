@@ -1,8 +1,11 @@
 const { Router } = require("express");
 const buyerController = require("../../controllers/buyer.controllers");
+const { auth } = require("../../middlewares/auth");
 
 const router = Router();
 
-router.get("/buyers/admin/:offset/:limit", buyerController.listBuyer);
+router.get("/buyers/admin/:offset/:limit", auth, buyerController.listBuyers);
+router.get("/buyers/admin/:userId", auth, buyerController.getBuyerById);
+router.patch("/buyers/admin/:userId", auth, buyerController.updateBuyer);
 
 module.exports = router;
