@@ -1,18 +1,18 @@
 const paymentType = require("../constants/paymentType");
 const { dbConnection } = require("../database/dbConnection");
-
-const { INTEGER, NUMBER, DATE, STRING } = require("sequelize");
-
+const { INTEGER, NUMBER, DATE, DECIMAL } = require("sequelize");
 
 const Sale = dbConnection.define(
   "sale",
   {
     id: {
+      type: INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
 
     buyerId: {
+      type: INTEGER,
       allowNull: true,
       references: {
         model: { tableName: "user" },
@@ -21,6 +21,7 @@ const Sale = dbConnection.define(
     },
 
     sellerId: {
+      type: INTEGER,
       allowNull: true,
       references: {
         model: { tableName: "sale" },
@@ -28,6 +29,7 @@ const Sale = dbConnection.define(
       },
     },
     userAddressId: {
+      type: INTEGER,
       allowNull: true,
       references: {
         model: { tableName: "address" },
@@ -41,7 +43,7 @@ const Sale = dbConnection.define(
     },
 
     productUnitPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
@@ -56,7 +58,7 @@ const Sale = dbConnection.define(
     },
 
     totalSalePrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 

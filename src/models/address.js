@@ -1,8 +1,6 @@
-
+import StatesEnum from ("../constants/statesEnum");
 const { dbConnection } = require("../database/dbConnection");
-const { STRING, DATE, INTEGER, NUMBER } = require("sequelize");
-const StatesEnum = require("../constants/statesEnum");
-
+const { STRING, DATE, INTEGER, NUMBER, ENUM } = require("sequelize");
 
 const Address = dbConnection.define(
   "address",
@@ -45,8 +43,8 @@ const Address = dbConnection.define(
     },
 
     state: {
-      type: StatesEnum,
-      allowNull: false,
+    type: StatesEnum,
+    allowNull: false,
     },
 
     complement: {
