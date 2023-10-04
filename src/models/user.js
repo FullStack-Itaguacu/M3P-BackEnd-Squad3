@@ -96,6 +96,5 @@ const User = dbConnection.define('user', {
     
 },  {  underscored: true })
 
-
-
 module.exports = {User};
+
