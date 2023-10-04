@@ -1,9 +1,7 @@
 const { INTEGER, STRING, DATE, ENUM } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 
-const User = dbConnection.define(
-  "user",
-  {
+const User = dbConnection.define('user', {
     id: {
       type: INTEGER,
       primaryKey: true,
@@ -33,6 +31,7 @@ const User = dbConnection.define(
       validate: {
         isDate: true,
       },
+
     },
 
     email: {
@@ -50,6 +49,7 @@ const User = dbConnection.define(
         isNumeric: true, // Usando isNumeric para validar apenas números
       },
     },
+
 
     password: {
       type: STRING,
@@ -81,6 +81,7 @@ const User = dbConnection.define(
       references: {
         model: "users",
         key: "id",
+
       },
     },
 

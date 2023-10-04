@@ -43,8 +43,8 @@ const Address = dbConnection.define(
     },
 
     state: {
-      type: StatesEnum,
-      allowNull: false,
+    type: StatesEnum,
+    allowNull: false,
     },
 
     complement: {
