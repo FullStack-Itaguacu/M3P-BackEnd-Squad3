@@ -1,11 +1,18 @@
 const { User } = require("../models/user");
+const Sequelize = require("sequelize");
 
 class BuyerController {
-  async searchBuyer(req, res) {
-    const { offset, limit } = req.params;
-    const { fullName, createdAt } = req.query;
+  async listBuyer(req, res) {
+    const { offset, limit } = buyersData.params;
+    const { fullName, createdAt } = buyersData.query;
+    const user = data; // lembrar de modificar para receber os dados do db
 
     try {
+      if (user.typeUser == "BUYER") {
+        return res
+          .status(403)
+          .send({ message: "Acesso negado para este tipo de usuário" });
+      }
       const whereClause = {
         typeUser: "BUYER",
       };
@@ -30,7 +37,9 @@ class BuyerController {
       });
 
       if (count === 0) {
-        return res.status(204).json({ message: "Nenhum comprador encontrado" });
+        return res
+          .status(204)
+          .send({ message: "Nenhum comprador encontrado!" });
       }
 
       res.status(200).json({
@@ -39,7 +48,7 @@ class BuyerController {
       });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Erro interno do servidor" });
+      res.status(500).send({ message: "Erro interno do servidor" });
     }
   }
 }
