@@ -1,7 +1,5 @@
 const {
   INTEGER,
-  BLOB,
-  NUMBER,
   DATE,
   STRING,
   DECIMAL,
@@ -38,7 +36,7 @@ const Product = dbConnection.define(
     },
 
     imageLink: {
-      type: BLOB,
+      type: STRING,
       allowNull: false,
     },
 
@@ -53,7 +51,7 @@ const Product = dbConnection.define(
     },
 
     totalPrice: {
-      type: NUMBER,
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
