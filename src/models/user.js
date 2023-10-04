@@ -25,7 +25,7 @@ const User = dbConnection.define('user', {
         },
     },
 
-    birthData:{
+    birthDate:{
         type: DATE,
         allowNull: false,
         validate: {
@@ -74,10 +74,14 @@ const User = dbConnection.define('user', {
         },
     },
 
-    created_by:{
-        type: STRING,
-        allowNull: true
-    },
+    created_by: {
+        type: INTEGER,
+        allowNull: true,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
 
     createdAt: {
         type: DATE,
