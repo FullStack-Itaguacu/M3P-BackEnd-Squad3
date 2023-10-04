@@ -1,6 +1,5 @@
 const { Product } = require("../models/product");
 const express = require("express");
-const app = express();
 
 class ProductController {
   async listProductId(req, res) {
