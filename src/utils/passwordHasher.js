@@ -1,9 +1,8 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 
 class PasswordHasher {
-
   constructor(saltRounds) {
-    this.saltRounds = saltRounds; 
+    this.saltRounds = saltRounds;
   }
 
   async hashPassword(password) {
@@ -12,12 +11,11 @@ class PasswordHasher {
     return `${salt}:${hashed}`; // juntar salt e hash
   }
 
-  async verifyPassword(password, originalHash) {
-    const [salt, originalHashed] = originalHash.split(':');
+  async comparePassword(password, originalHash) {
+    const [salt, originalHashed] = originalHash.split(":");
     const hashed = await bcrypt.hash(password, salt);
-    return hashed === originalHashed; 
+    return hashed === originalHashed;
   }
-
 }
 
 const passwordHasher = new PasswordHasher(10);
