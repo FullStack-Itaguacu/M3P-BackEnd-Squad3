@@ -12,19 +12,24 @@ module.exports = {
           primaryKey: true
         }, 
 
-        name_product: {
+        name: {
           type: Sequelize.STRING,
           allowNull: false
         },
 
-        name_admin :{
+        lab_name :{
           type: Sequelize.STRING,
           allowNull: false
         },
 
-        img_product: {
+        image_link: {
         type: Sequelize.STRING,
         allowNull: false
+        },
+
+        dosage: {
+          type: Sequelize.STRING,
+          allowNull: false
         },
 
         description: {
@@ -42,13 +47,8 @@ module.exports = {
           allowNull: false
         },
 
-        quantity: {
+        total_stock: {
           type: Sequelize.INTEGER,
-          allowNull: false
-        },
-
-        dt_registration: {
-          type: Sequelize.DATE,
           allowNull: false
         },
 
@@ -65,7 +65,7 @@ module.exports = {
 
         created_at: {
           type: Sequelize.DATE,
-          allowNull: true,
+          allowNull: false,
         },
   
         updated_at: {
@@ -77,7 +77,7 @@ module.exports = {
           type: Sequelize.DATE,
           allowNull: true,
         }
-      });
+      })
   },
 
   async down (queryInterface, Sequelize) {

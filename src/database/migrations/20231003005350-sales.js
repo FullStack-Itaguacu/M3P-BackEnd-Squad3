@@ -12,7 +12,7 @@ module.exports = {
         primaryKey: true
       }, 
 
-      users_id: {
+      buyer_id: {
         type: Sequelize.INTEGER,
         references: {
           model:{
@@ -23,15 +23,13 @@ module.exports = {
         allowNull: true
       },
 
-      name_admin_id: {
+      seller_id: { 
         type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'products'
+        references: { 
+          model: 'users', 
+          key: 'id'
         },
-        key: 'id'
-      },
-        allowNull: true
+        allowNull: false
       },
 
       product_id: {
@@ -45,61 +43,35 @@ module.exports = {
         allowNull: false
       },
 
-      unit_price: {
+      amount_buy: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+
+      user_address_id: {
         type: Sequelize.INTEGER,
         references: {
           model:{
-          tableName: 'products'
+          tableName: 'users_address'
         },
         key: 'id'
       },
         allowNull: false
       },
 
-      quantity: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-
-      adderss_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'address'
-        },
-        key: 'id'
-      },
-        allowNull: false
-      },
-
-      dt_sale: {
-        type: Sequelize.DATE,
-        allowNull: false
-      },
-
-      hour_sale: {
-        type: Sequelize.TIME,
-        allowNull: false
-      },
-
-      price_total: {
+      total: {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
 
-      type_product: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-
-      payment_method:{
+      type_payment: {
         type: Sequelize.STRING,
           allowNull: false
       },
 
       created_at: {
         type: Sequelize.DATE,
-        allowNull: true,
+        allowNull: false,
       },
 
       updated_at: {
@@ -112,7 +84,7 @@ module.exports = {
         allowNull: true,
       }
 
-    });
+    })
     
   },
 
