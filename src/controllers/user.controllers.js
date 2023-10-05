@@ -7,6 +7,7 @@ const passwordHasher = require("../utils/passwordHasher");
 const validateUserInput = require("../services/validateUserInput.services");
 const checkEmailOrCPFExists = require("../services/checkEmailOrCPFExists");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
+const passport = require("../utils/passportConfig");
 
 class UserController {
   createUser = async (req, res) => {
@@ -61,6 +62,27 @@ class UserController {
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send({ message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
     }
+  };
+
+  loginUser = async (req, res) => {
+
+    const { email, password } = req.body;
+  
+    passport.authenticate('local', { session: false }, (err, user, info) => {
+  
+      if (err) {
+        return res.status(500).json({ error: 'Falha na autenticação' });
+      }
+  
+      if (!user) {
+        return res.status(401).json(info);
+      }
+  
+  
+      return res.json({user, token});
+  
+    })(req, res);
+  
   };
 }
 

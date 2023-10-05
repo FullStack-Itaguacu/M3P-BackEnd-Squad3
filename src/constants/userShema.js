@@ -47,7 +47,8 @@ const userSchema = Joi.object({
     'any.required': `Telefone é um campo obrigatório`
   }),
 
-  typeUser: Joi.string().valid('administrador', 'comprador').required().messages({
+  typeUser: Joi.string().valid('ADMIN', 'BUYER').required().messages({
+    'string.pattern.base': `Tipo de usuário inválido`,
     'string.empty': `Tipo de usuário não pode ser vazio`,
     'any.required': `Tipo de usuário é um campo obrigatório`
   }),
