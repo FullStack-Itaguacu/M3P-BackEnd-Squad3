@@ -64,6 +64,7 @@ const User = dbConnection.define('user', {
 
     typeUser: {
       type: ENUM("ADMIN", "BUYER"),
+      defaultValue: "BUYER",
       allowNull: false,
       validate: {
         isIn: [["ADMIN", "BUYER"]],
