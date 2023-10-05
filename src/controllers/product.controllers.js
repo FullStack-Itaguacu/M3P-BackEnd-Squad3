@@ -31,62 +31,47 @@ class ProductController {
     try {
       const {
         name,
-        lab_name,
-        image_link,
+        labName,
+        imageLink,
         dosage,
-        unit_price,
-        type_product,
-        total_stock,
-        user_id,
+        unitPrice,
+        typeProduct,
+        totalStock,
+        userId,
       } = req.body;
 
-      if (!name) {
+      if ((!name, !labName, !imageLink, !dosage)) {
         return res
           .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
           .send(ERROR_MESSAGES.MANDATORY_FILLING);
       }
-      if (!lab_name) {
-        return res
-          .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
-          .send(ERROR_MESSAGES.MANDATORY_FILLING);
-      }
-      if (!image_link) {
-        return res
-          .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
-          .send(ERROR_MESSAGES.MANDATORY_FILLING);
-      }
-      if (!dosage) {
-        return res
-          .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
-          .send(ERROR_MESSAGES.MANDATORY_FILLING);
-      }
-      if (!unit_price || unit_price <= 0) {
+      if (unitPrice <= 0) {
         return res
           .status(HTTP_STATUS.REQ_FIELD)
-          .send({ message: "Valor do medicamento deve ser maior que 0." });
+          .send(ERROR_MESSAGES.QUANTITY_ERROR);
       }
       if (
-        type_product !== "Medicamento controlado" &&
-        type_product !== "Medicamento não controlado"
+        typeProduct !== "Medicamento controlado" &&
+        typeProduct !== "Medicamento não controlado"
       ) {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR.MESSAGE.MANDATORY_FILLING);
       }
-      if (!total_stock || total_stock <= 0) {
+      if (totalStock <= 0) {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR_MESSAGES.QUANTITY_ERROR);
       }
       const data = await Product.create({
         name,
-        lab_name,
-        image_link,
+        labName,
+        imageLink,
         dosage,
-        unit_price,
-        type_product,
-        total_stock,
-        user_id,
+        unitPrice,
+        typeProduct,
+        totalStock,
+        userId,
       });
       return res.status(HTTP_STATUS.OK).send(ERROR_MESSAGES.OK);
     } catch (error) {

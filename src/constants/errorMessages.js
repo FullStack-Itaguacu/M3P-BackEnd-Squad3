@@ -5,13 +5,54 @@ const ERROR_MESSAGES = {
   },
 
   SERVER_ERROR: "Erro interno do servidor",
-  INVALID_CEP: "CEP inválido",
-  INVALID_EMAIL: "Email inválido",
-  UNAUTHORIZED: "Não autorizado. Faça login para continuar.",
-  NOT_FOUND: "Produto não encontrado",
-  MANDATORY_FILLING: "Preenchimento obrigatório",
-  QUANTITY_ERROR: "Quantidade não pode ser menor que 0.",
-  USER_ADM: "Campo só pode ser alterado por usuário ADMINISTRADOR",
-  OK: "Produto cadastrado com sucesso!",
+  INVALID_CEP: {
+    message: "CEP inválido",
+    code: "INVALID_CEP",
+  },
+  INVALID_EMAIL: {
+    message: "Email inválido",
+    code: "INVALID_EMAIL",
+  },
+  UNAUTHORIZED: {
+    message: "Usuário não autorizado",
+    code: "UNAUTHORIZED",
+  },
+  INVALID_PHONE: {
+    message: "Telefone inválido",
+    code: "INVALID_PHONE",
+  },
+  INVALID_PASSWORD: {
+    message: "Senha inválida",
+    cause: "Senha precisa conter letras maiúsculas, minúsculas e números",
+    code: "INVALID_PASSWORD",
+  },
+  INVALID_USER: {
+    message: "Usuário inválido",
+    code: "INVALID_USER",
+  },
+  INVALID_ADDRESS: "Endereço inválido",
+
+  CPF_ALREADY_EXISTS: {
+    message: "CPF já cadastrado",
+    code: "CPF_ALREADY_EXISTS",
+  },
+  EMAIL_ALREADY_EXISTS: {
+    message: "Email já cadastrado",
+    code: "EMAIL_ALREADY_EXISTS",
+  },
+  EMAIL_OR_PASSWORD_IS_INCORRECT: {
+    message: "Email ou senha incorretos",
+    code: "EMAIL_OR_PASSWORD_IS_INCORRECT",
+  },
+  INVALID_DATA_LOGIN: {
+    message: "Os campos email e password são obrigatórios",
+    code: "INVALID_DATA_LOGIN",
+  },
+
+  QUANTITY_ERROR: {
+    message: "Quantidade deve ser maior que 0.",
+    code: "QUANTITY_ERROR",
+  },
 };
+
 module.exports = ERROR_MESSAGES;
