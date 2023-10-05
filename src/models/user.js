@@ -19,6 +19,7 @@ const User = dbConnection.define('user', {
     cpf: {
       type: STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isNumeric: true,
         len: { args: [11, 11], msg: "CPF precisa ter 11 char." },
@@ -37,6 +38,7 @@ const User = dbConnection.define('user', {
     email: {
       type: STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: true,
       },
@@ -55,23 +57,17 @@ const User = dbConnection.define('user', {
       type: STRING,
       allowNull: false,
       validate: {
-        len: { args: [8, 12], msg: "Senha precisa ter entre 8 a 15 char." },
-        strongPassword(value) {
-          const strongPasswordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).+$/;
-          if (!strongPasswordRegex.test(value)) {
-            throw new Error(
-              "Senha deve conter pelo menos 1 letra maiúscula, minúscula e numeros, entre 8 á 12 diígitos"
-            );
-          }
-        },
+        len: { args: [8], msg: "Senha precisa ter minimo 8 caracteres" },
+        
       },
     },
 
     typeUser: {
-      type: ENUM("administrador", "comprador"),
+      type: ENUM("ADMIN", "BUYER"),
+      defaultValue: "BUYER",
       allowNull: false,
       validate: {
-        isIn: [["administrador", "comprador"]],
+        isIn: [["ADMIN", "BUYER"]],
       },
     },
 

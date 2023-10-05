@@ -1,6 +1,5 @@
 const {
   INTEGER,
-  BLOB,
   NUMBER,
   DATE,
   STRING,
@@ -27,18 +26,18 @@ const Product = dbConnection.define(
       },
     },
 
-    productName: {
+    name: {
       type: STRING,
       allowNull: false,
     },
 
-    laboratoryName: {
+    labName: {
       type: STRING,
       allowNull: false,
     },
 
     imageLink: {
-      type: BLOB,
+      type: STRING,
       allowNull: false,
     },
 
@@ -52,17 +51,12 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    totalPrice: {
-      type: NUMBER,
-      allowNull: false,
-    },
-
     totalStock: {
       type: INTEGER,
       allowNull: false,
     },
 
-    productType: {
+    typeProduct: {
       type: ENUM("Medicamento controlado", "Medicamento não controlado"),
       allowNull: false,
     },
@@ -72,10 +66,6 @@ const Product = dbConnection.define(
       allowNull: true,
     },
 
-    registrationDate: {
-      type: DATE,
-      allowNull: false,
-    },
 
     createdAt: {
       type: DATE,
@@ -93,7 +83,6 @@ const Product = dbConnection.define(
     },
   },
   {
-    freezeTableName: true,
     paranoid: true,
     timestamps: true,
   }
