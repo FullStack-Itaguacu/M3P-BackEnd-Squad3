@@ -13,7 +13,10 @@ const ERROR_MESSAGES = {
     message: "Email inválido",
     code: "INVALID_EMAIL",
   },
-  UNAUTHORIZED: "Não autorizado",
+  UNAUTHORIZED: {
+    message: "Usuário não autorizado",
+    code: "UNAUTHORIZED",
+  },
   INVALID_PHONE: {
     message: "Telefone inválido",
     code: "INVALID_PHONE",
@@ -36,6 +39,14 @@ const ERROR_MESSAGES = {
   EMAIL_ALREADY_EXISTS: {
     message: "Email já cadastrado",
     code: "EMAIL_ALREADY_EXISTS",
+  },
+  EMAIL_OR_PASSWORD_IS_INCORRECT : {
+    message: "Email ou senha incorretos",
+    code: "EMAIL_OR_PASSWORD_IS_INCORRECT",
+  },
+  INVALID_DATA_LOGIN: {
+    message: "Os campos email e password são obrigatórios",
+    code: "INVALID_DATA_LOGIN",
   },
 };
 
