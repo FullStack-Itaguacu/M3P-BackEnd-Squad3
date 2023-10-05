@@ -91,7 +91,7 @@ class ProductController {
       return res.status(HTTP_STATUS.OK).send(ERROR_MESSAGES.OK);
     } catch (error) {
       return res
-        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .status(HTTP_STATUS.USER_ADM)
         .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   }
