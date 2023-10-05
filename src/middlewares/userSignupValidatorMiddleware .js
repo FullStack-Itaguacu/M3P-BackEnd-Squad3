@@ -1,13 +1,28 @@
 const addressSchema = require('../constants/addressSchema');
+const ERROR_MESSAGES = require('../constants/errorMessages');
 const { HTTP_STATUS } = require('../constants/httpStatus');
 const userSchema  = require('../constants/userShema'); 
+const typeUserEnum = require('../constants/typeUserEnum');
 
 async function userSignupValidatorMiddleware (req, res, next) {
 
+   
+    try {
+        
+        const {user,address} = req.body;
+        
+        const patch = req.originalUrl;
+       
 
-try {
+    if(patch === "/api/admin/signup"){
+        const dataTypeUser =  user.typeUser;
+        
+        if(dataTypeUser !== typeUserEnum.ADMIN ){
+            return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.TYPE_USER_REQUIRED);
+        }
 
-    const {user,address} = req.body;
+       
+    }
     
     const userValidate = await userSchema.validate(user);
     const addressValidate = await addressSchema.validate(address);
