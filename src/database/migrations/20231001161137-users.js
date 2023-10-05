@@ -22,7 +22,7 @@ module.exports = {
           allowNull: false
         },
 
-        birth_data: {
+        birth_date: {
           type: Sequelize.DATE,
           allowNull: false
         },
@@ -48,7 +48,11 @@ module.exports = {
           },
 
           created_by: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
+            references: {
+              model: 'users', 
+              key: 'id' 
+            },
             allowNull: true
           },
 

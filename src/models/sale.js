@@ -15,7 +15,7 @@ const Sale = dbConnection.define(
       type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "user" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
@@ -24,15 +24,25 @@ const Sale = dbConnection.define(
       type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "sale" },
+        model: { tableName: "users" },
         key: "id",
       },
+    },
+    productId: {
+      type: INTEGER,
+      references: {
+        model:{
+        tableName: 'products'
+      },
+      key: 'id'
+    },
+      allowNull: false
     },
     userAddressId: {
       type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "address" },
+        model: { tableName: "users_address" },
         key: "id",
       },
     },
@@ -42,27 +52,12 @@ const Sale = dbConnection.define(
       allowNull: false,
     },
 
-    productUnitPrice: {
+    total: {
       type: DECIMAL(10, 2),
       allowNull: false,
     },
 
-    quantityProductSold: {
-      type: INTEGER,
-      allowNull: false,
-    },
-
-    saleDate: {
-      type: DATE,
-      allowNull: false,
-    },
-
-    totalSalePrice: {
-      type: DECIMAL(10, 2),
-      allowNull: false,
-    },
-
-    formPayment: {
+    typePayment: {
       type: paymentType,
       allowNull: false,
     },
