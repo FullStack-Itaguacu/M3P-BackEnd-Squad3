@@ -6,6 +6,7 @@ const ERROR_MESSAGES = require("../constants/errorMessages");
 const passwordHasher = require("../utils/passwordHasher");
 const validateUserInput = require("../services/validateUserInput.services");
 const checkEmailOrCPFExists = require("../services/checkEmailOrCPFExists");
+const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 
 class UserController {
   createUser = async (req, res) => {
@@ -24,7 +25,7 @@ class UserController {
     const { fullName, email, cpf, phone, password, birthDate, typeUser } = user;
 
     const passwordHash = await passwordHasher.hashPassword(password);
-    
+
     const dataVarify = await validateUserInput({ cpf, email, phone });
 
     try {
@@ -33,7 +34,7 @@ class UserController {
       }
       const checkEmailCpf = await checkEmailOrCPFExists(email, cpf);
       if (!checkEmailCpf.isValid) {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send(checkEmailCpf.data);
+        return res.status(HTTP_STATUS.CONFLICT).send(checkEmailCpf.data);
       }
 
       const userCreated = await User.create({
@@ -53,7 +54,7 @@ class UserController {
         addressId: addressCreated.id,
       });
 
-      return res.status(HTTP_STATUS.OK).send(userAddressCreated);
+      return res.status(HTTP_STATUS.CREATED).send(SUCESS_MESSAGE.USER_CREATED);
     } catch (error) {
       console.log(error);
       return res
