@@ -49,6 +49,10 @@ const ERROR_MESSAGES = {
     message: "Os campos email e password são obrigatórios",
     code: "INVALID_DATA_LOGIN",
   },
+  TYPE_USER_REQUIRED: {
+    message: "O campo typeUser é obrigatório para esta operação",
+    code: "TYPE_USER_REQUIRED",
+  },
 };
 
 
