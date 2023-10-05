@@ -1,11 +1,19 @@
 const { User } = require("../models/user");
+const { emailValidator } = require("../utils/emailValidator");
 const passwordHasher = require("../utils/passwordHasher");
 
 class AuthLoginService {
   async findUserByEmail(email) {
   
+    const formatEmail = email.toLowerCase();
+    
 
-    const user = await User.findOne({ where: { email: email } });
+    const isValidEmail = await emailValidator(formatEmail);
+    if (!isValidEmail) {
+      return null;
+    }
+
+    const user = await User.findOne({ where: { email: formatEmail } });
     if (!user) {
       return null;
     }
