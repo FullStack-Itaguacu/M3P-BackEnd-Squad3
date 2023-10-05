@@ -1,55 +1,54 @@
-const { Sale } = require('../models/sale');
-const { Product } = require('../models/product');
-const { User } = require('../models/user');
-const { Address } = require('../models/address');
+const { Sale } = require ('../models/sale')
+const { Product } = require ('../models/product')
+
 
 class SaleController {
   async createSale(req, res) {
     try {
       const {
-        buyerId,
-        sellerId,
         productId,
-        unitPrice,
         amountBuy,
         userAddressId,
-        total,
         typePayment,
-        email,
       } = req.body;
 
-      if (
-        !productId ||
-        !unitPrice ||
-        !amountBuy ||
-        !userAddressId ||
-        !total ||
-        !typePayment
-      ) {
+      // Verificar se todos os campos obrigatórios estão preenchidos
+      if (!productId || !amountBuy || !userAddressId || !typePayment) {
         return res.status(422).json({
           error: "Preencha todos os campos obrigatórios!",
         });
       }
 
-      if (!isValidTypeProduct(productId)) {
+      // Verificar se o tipo de pagamento está correto (conforme o ENUM)
+      const validTypePayments = ["money",
+      "credit card",
+      "debit card",
+      "pix",
+      "bank slip",
+      "bank transfer"]; 
+      if (!validTypePayments.includes(typePayment)) {
         return res.status(400).json({
-          error:
-            "O campo productId está mal formatado. Só é válido Medicamento controlado ou Medicamento não controlado",
+          error: "O campo type_payment está em um formato inválido.",
         });
       }
 
-      if (!isValidEmail(email)) {
-        return res.status(400).json({
-          error: "O campo email está em um formato inválido.",
+        const buyerId = req.peyload ; 
+     
+
+      // Verificar se o produto existe e a quantidade é suficiente
+      const product = await Product.findByPk(productId);
+      if (!product || product.quantity < amountBuy) {
+        return res.status(409).json({
+          error: "Quantidade de produtos insuficiente ou produto não encontrado.",
         });
       }
 
-      if (buyerId === undefined || req.user.typeUser !== "administrador") {
-        return res.status(403).json({
-          error:
-            "Acesso negado. O campo buyerId é obrigatório para usuários com tipo 'administrador'.",
-        });
-      }
+      // Obter o ID do vendedor a partir do produto
+      const sellerId = product.userId; 
+
+      // Calcular o total
+      const unitPrice = product.price;
+      const total = unitPrice * amountBuy;
 
       // Criar a venda usando os dados recebidos
       const newSale = await Sale.create({
@@ -63,6 +62,12 @@ class SaleController {
         typePayment,
       });
 
+      // Atualizar a quantidade de produtos na tabela products
+      await Product.update(
+        { quantity: product.quantity - amountBuy },
+        { where: { id: productId } }
+      );
+
       return res.status(201).json({
         message: "Registros criados com sucesso!",
         sale: newSale,
@@ -74,16 +79,6 @@ class SaleController {
       });
     }
   }
-}
-
-function isValidTypeProduct(productId) {
-  const validProducts = ["Medicamento controlado", "Medicamento não controlado"];
-  return validProducts.includes(productId);
-}
-
-function isValidEmail(email) {
-  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-  return emailRegex.test(email);
 }
 
 module.exports = new SaleController();
