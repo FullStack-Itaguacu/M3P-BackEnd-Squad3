@@ -48,7 +48,11 @@ module.exports = {
           },
 
           created_by: {
-            type: Sequelize.STRING,
+            type: Sequelize.INTEGER,
+            references: {
+              model: 'users', 
+              key: 'id' 
+            },
             allowNull: true
           },
 

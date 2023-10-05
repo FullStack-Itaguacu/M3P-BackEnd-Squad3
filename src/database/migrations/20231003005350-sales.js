@@ -23,29 +23,16 @@ module.exports = {
         allowNull: true
       },
 
-      seller_id: {
+      seller_id: { 
         type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'products'
+        references: { 
+          model: 'users', 
+          key: 'id'
         },
-        key: 'id'
-      },
-        allowNull: true
-      },
-
-      product_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'products'
-        },
-        key: 'id'
-      },
         allowNull: false
       },
 
-      unit_price: {
+      product_id: {
         type: Sequelize.INTEGER,
         references: {
           model:{
@@ -107,4 +94,3 @@ module.exports = {
     
   }
 };
-

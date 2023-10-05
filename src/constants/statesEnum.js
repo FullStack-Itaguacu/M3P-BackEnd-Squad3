@@ -7,7 +7,6 @@ module.exports = ENUM([
   "AM",
   "BA",
   "CE",
-  "DF",
   "ES",
   "GO",
   "MA",

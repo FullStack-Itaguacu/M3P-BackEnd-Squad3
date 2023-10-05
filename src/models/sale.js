@@ -1,36 +1,48 @@
 const paymentType = require("../constants/paymentType");
 const { dbConnection } = require("../database/dbConnection");
-
-const { INTEGER, NUMBER, DATE, STRING } = require("sequelize");
-
+const { INTEGER, NUMBER, DATE, DECIMAL } = require("sequelize");
 
 const Sale = dbConnection.define(
   "sale",
   {
     id: {
+      type: INTEGER,
       primaryKey: true,
       autoIncrement: true,
     },
 
     buyerId: {
+      type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "user" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
 
     sellerId: {
+      type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "sale" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
+    productId: {
+      type: INTEGER,
+      references: {
+        model:{
+        tableName: 'products'
+      },
+      key: 'id'
+    },
+      allowNull: false
+    },
     userAddressId: {
+      type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "address" },
+        model: { tableName: "users_address" },
         key: "id",
       },
     },
@@ -40,27 +52,12 @@ const Sale = dbConnection.define(
       allowNull: false,
     },
 
-    productUnitPrice: {
-      type: NUMBER,
+    total: {
+      type: DECIMAL(10, 2),
       allowNull: false,
     },
 
-    quantityProductSold: {
-      type: INTEGER,
-      allowNull: false,
-    },
-
-    saleDate: {
-      type: DATE,
-      allowNull: false,
-    },
-
-    totalSalePrice: {
-      type: NUMBER,
-      allowNull: false,
-    },
-
-    formPayment: {
+    typePayment: {
       type: paymentType,
       allowNull: false,
     },
