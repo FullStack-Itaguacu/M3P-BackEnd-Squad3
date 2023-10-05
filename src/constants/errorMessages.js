@@ -1,4 +1,5 @@
 const ERROR_MESSAGES = {
+
   INVALID_CPF: {
     message: "CPF inválido",
     code: "INVALID_CPF",
@@ -53,5 +54,6 @@ const ERROR_MESSAGES = {
     code: "TYPE_USER_REQUIRED",
   },
 };
+
 
 module.exports = ERROR_MESSAGES;
