@@ -1,12 +1,13 @@
 const {
   INTEGER,
-  NUMBER,
   DATE,
   STRING,
   DECIMAL,
   ENUM,
 } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
+const typeDosageEnum = require("../constants/typedosageEnum");
+const typeProductEnum = require("../constants/typeProductEnum");
 
 const Product = dbConnection.define(
   "product",
@@ -42,7 +43,7 @@ const Product = dbConnection.define(
     },
 
     dosage: {
-      type: ENUM("mg", "mcg", "g", "mL", "%", "outro"),
+      type: ENUM(...typeDosageEnum),
       allowNull: false,
     },
 
@@ -57,7 +58,7 @@ const Product = dbConnection.define(
     },
 
     typeProduct: {
-      type: ENUM("Medicamento controlado", "Medicamento não controlado"),
+      type: ENUM(...typeProductEnum),
       allowNull: false,
     },
 
