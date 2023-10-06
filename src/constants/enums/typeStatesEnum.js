@@ -1,6 +1,4 @@
-const { ENUM } = require("sequelize");
-
-module.exports = ENUM([
+const typeStatesEnum = [
   "AC",
   "AL",
   "AP",
@@ -27,4 +25,5 @@ module.exports = ENUM([
   "SP",
   "SE",
   "TO",
-]);
+];
+module.exports = typeStatesEnum;

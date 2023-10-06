@@ -6,8 +6,8 @@ const {
   ENUM,
 } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
-const typeDosageEnum = require("../constants/typedosageEnum");
-const typeProductEnum = require("../constants/typeProductEnum");
+const typeDosageEnum = require("../constants/enums/typeDosageEnum");
+const typeProductEnum = require("../constants/enums/typeProductEnum");
 
 const Product = dbConnection.define(
   "product",

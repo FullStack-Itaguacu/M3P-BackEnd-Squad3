@@ -1,6 +1,6 @@
 const { INTEGER, STRING, DATE, ENUM } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
-const typeUserEnum = require("../constants/typeUserEnum");
+const typeUserEnum = require("../constants/enums/typeUserEnum");
 
 const User = dbConnection.define('user', {
     id: {

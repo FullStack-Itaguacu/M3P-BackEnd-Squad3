@@ -1,8 +1,8 @@
-const addressSchema = require("../constants/addressSchema");
+const addressSchema = require("../constants/schemas/addressSchema");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 const { HTTP_STATUS } = require("../constants/httpStatus");
-const userSchema = require("../constants/userShema");
-const typeUserEnum = require("../constants/typeUserEnum");
+const userSchema = require("../constants/schemas/userShema");
+const typeUserEnum = require("../constants/enums/typeUserEnum");
 
 async function userSignupValidatorMiddleware(req, res, next) {
   try {
