@@ -2,29 +2,49 @@ const ERROR_MESSAGES = require("../constants/errorMessages");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const authLoginService = require("../services/authLogin.services");
 
-
 async function authLoginMiddleware(req, res, next) {
   try {
-    const { email ,password } = req.body;
-    if(!email || !password){
-      return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.INVALID_DATA_LOGIN);
-    }
+    const { email, password } = req.body;
+    const patch = req.originalUrl;
 
+    if (!email || !password) {
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .send(ERROR_MESSAGES.INVALID_DATA_LOGIN);
+    }
     const user = await authLoginService.findUserByEmail(email);
-    if (!user) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(ERROR_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT);
+
+    if (patch === "/api/admin/login") {
+      if (user.typeUser !== "ADMIN") {
+        return res
+          .status(HTTP_STATUS. FORBIDDEN)
+          .send(ERROR_MESSAGES.FORBIDDEN);
+      }
     }
 
-    const passwordMatch = await authLoginService.validatePassword(password, user);
+    if (!user) {
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(ERROR_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT);
+    }
+
+    const passwordMatch = await authLoginService.validatePassword(
+      password,
+      user
+    );
     if (!passwordMatch) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).send(ERROR_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT);
+      return res
+        .status(HTTP_STATUS.UNAUTHORIZED)
+        .send(ERROR_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT);
     }
 
     req.user = user.dataValues;
-    
+
     next();
   } catch (error) {
-    return response.status(HTTP_STATUS.UNAUTHORIZED).send(ERROR_MESSAGES.UNAUTHORIZED);
+    return res
+      .status(HTTP_STATUS.UNAUTHORIZED)
+      .send(ERROR_MESSAGES.UNAUTHORIZED);
   }
 }
 

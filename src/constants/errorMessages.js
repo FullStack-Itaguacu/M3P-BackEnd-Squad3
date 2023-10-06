@@ -53,6 +53,10 @@ const ERROR_MESSAGES = {
     message: "O campo typeUser é obrigatório para esta operação",
     code: "TYPE_USER_REQUIRED",
   },
+  FORBIDDEN: {
+    message: "Usuário não autorizado",
+    code: "FORBIDDEN",
+  }, 
 };
 
 
