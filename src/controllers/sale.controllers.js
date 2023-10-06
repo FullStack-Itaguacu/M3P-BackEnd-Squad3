@@ -1,22 +1,27 @@
 const { Sale } = require ('../models/sale')
 const { Product } = require ('../models/product')
-
+const { HTTP_STATUS } = require("../constants/httpStatus");
+const  ERROR_MESSAGES  = require("../constants/errorMessages");
+const { SUCESS_MESSAGE } = require("../constants/sucessMessage")
 
 class SaleController {
   async createSale(req, res) {
     try {
       const {
         productId,
+        unitPrince,
         amountBuy,
         userAddressId,
         typePayment,
+        email,
       } = req.body;
 
       // Verificar se todos os campos obrigatórios estão preenchidos
-      if (!productId || !amountBuy || !userAddressId || !typePayment) {
-        return res.status(422).json({
-          error: "Preencha todos os campos obrigatórios!",
-        });
+      if (!productId || !unitPrince || !amountBuy || 
+        !userAddressId || !typePayment) {
+        return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(
+          ERROR_MESSAGES.MISSING_REQUIRED_FIELDS
+        );
       }
 
       // Verificar se o tipo de pagamento está correto (conforme o ENUM)
@@ -27,20 +32,17 @@ class SaleController {
       "bank slip",
       "bank transfer"]; 
       if (!validTypePayments.includes(typePayment)) {
-        return res.status(400).json({
-          error: "O campo type_payment está em um formato inválido.",
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(
+          ERROR_MESSAGES.INVALID_PAYMENT_TYPE
+        );
       }
-
-        const buyerId = req.peyload ; 
-     
 
       // Verificar se o produto existe e a quantidade é suficiente
       const product = await Product.findByPk(productId);
       if (!product || product.quantity < amountBuy) {
-        return res.status(409).json({
-          error: "Quantidade de produtos insuficiente ou produto não encontrado.",
-        });
+        return res.status(HTTP_STATUS.CONFLICT).send(
+          ERROR_MESSAGES.INSUFFICIENT_PRODUCT_QUANTITY
+        );
       }
 
       // Obter o ID do vendedor a partir do produto
@@ -49,6 +51,26 @@ class SaleController {
       // Calcular o total
       const unitPrice = product.price;
       const total = unitPrice * amountBuy;
+
+      // Obter o comprador a partir do token JWT (payload)
+      const buyerId = req.payload.id;
+
+      //Verifica se o id do sallerId existe
+        const isSellerIdValid = async (sellerId) => {
+        const seller = await User.findByPk(sellerId);
+        return seller !== null}
+        
+        //verifica se userAddress existe
+        const isUserAddressValid = async (userAddressId) => {
+          const userAddress = await userAddress.findByPk(userAddressId);
+          return userAddress !== null;
+        };
+
+        //Verifica se  buyerId existe
+        const isBuyerIdValid = async (buyerId) => {
+          const buyer = await User.findByPk(buyerId);
+          return buyer !== null;
+        };
 
       // Criar a venda usando os dados recebidos
       const newSale = await Sale.create({
@@ -68,15 +90,15 @@ class SaleController {
         { where: { id: productId } }
       );
 
-      return res.status(201).json({
-        message: "Registros criados com sucesso!",
-        sale: newSale,
-      });
+      return res.status(HTTP_STATUS.CREATED).send(
+        SUCESS_MESSAGE.SALE_CREATED,
+        {sale: newSale},
+      );
     } catch (error) {
       console.error(error);
-      return res.status(500).json({
-        error: "Não foi possível cadastrar uma venda!",
-      });
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
+        ERROR_MESSAGES.FAILED_TO_CREATE
+      );
     }
   }
 }
