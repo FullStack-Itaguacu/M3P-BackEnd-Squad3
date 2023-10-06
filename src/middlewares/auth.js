@@ -1,6 +1,6 @@
 const passport = require('./passport.config');
 const {HTTP_STATUS} = require('../constants/httpStatus');
-const {ERROR_MESSAGES} = require('../constants/errorMessages');
+const ERROR_MESSAGES = require('../constants/errorMessages');
 
 module.exports = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (error, user) => {
