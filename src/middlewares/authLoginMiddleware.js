@@ -38,7 +38,7 @@ async function authLoginMiddleware(req, res, next) {
         .send(ERROR_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT);
     }
 
-    req.user = user.dataValues;
+    req.userDb = user.dataValues;
 
     next();
   } catch (error) {
