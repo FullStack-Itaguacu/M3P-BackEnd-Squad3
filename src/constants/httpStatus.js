@@ -4,6 +4,7 @@ const HTTP_STATUS = {
     CREATED: 201,//criado
     BAD_REQUEST: 400,//requisição inválida
     UNAUTHORIZED: 401,//  não autorizado
+    FORBIDDEN: 403,//proibido
     NOT_FOUND: 404,//não encontrado
     UNPROCESSABLE_ENTITY: 422, //dados inválidos
     CONFLICT: 409, //dados duplicadas
