@@ -9,6 +9,11 @@ const SUCESS_MESSAGE = {
     DELETED: 'Remoção realizada com sucesso!',
     PASSWORD_CHANGED: 'Senha alterada com sucesso!',
     PASSWORD_RESET: 'Senha resetada com sucesso!',
+
+    SALE_CREATED: {
+        message: "Venda cadastrada com sucesso!",
+        code: "SALE_CREATED",
+      },
 };
 
 module.exports = {

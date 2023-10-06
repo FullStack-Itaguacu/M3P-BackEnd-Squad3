@@ -49,6 +49,26 @@ const ERROR_MESSAGES = {
     message: "Os campos email e password são obrigatórios",
     code: "INVALID_DATA_LOGIN",
   },
+
+  MISSING_REQUIRED_FIELDS:  {
+    message: "Preencha todos os campos obrigatórios!",
+    code: "MISSING_REQUIRED_FIELDS",
+  },
+  
+  INVALID_PAYMENT_TYPE: {
+    message: "O campo type_payment está em um formato inválido.",
+    code: "INVALID_PAYMENT_TYPE",
+  },
+
+  INSUFFICIENT_PRODUCT_QUANTITY:{
+    message: "Quantidade de produtos insuficiente ou produto não encontrado",
+    code: "INSUFFICIENT_PRODUCT_QUANTITY",
+  },
+
+  FAILED_TO_CREATE: {
+    message: "Não foi possível fazer o cadastro!",
+    code: "FAILED_TO_CREATE",
+  }
 };
 
 
