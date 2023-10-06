@@ -1,5 +1,6 @@
 const { Sale } = require ('../models/sale')
 const { Product } = require ('../models/product')
+const { User } = require ('../models/user')
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const  ERROR_MESSAGES  = require("../constants/errorMessages");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage")
@@ -9,16 +10,17 @@ class SaleController {
     try {
       const {
         productId,
-        unitPrince,
+        unitPrice,
         amountBuy,
         userAddressId,
         typePayment,
+        total,
         email,
       } = req.body;
 
       // Verificar se todos os campos obrigatórios estão preenchidos
-      if (!productId || !unitPrince || !amountBuy || 
-        !userAddressId || !typePayment) {
+      if (!productId || !unitPrice || !amountBuy || 
+        !userAddressId || !typePayment || !total || !email ) {
         return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send(
           ERROR_MESSAGES.MISSING_REQUIRED_FIELDS
         );
@@ -38,22 +40,27 @@ class SaleController {
       }
 
       // Verificar se o produto existe e a quantidade é suficiente
-      const product = await Product.findByPk(productId);
-      if (!product || product.quantity < amountBuy) {
+      const name = await Product.findByPk(productId);
+      console.log("Product:", name);
+      // Verificar se o produto existe e a quantidade é suficiente
+      if (!name || name.stock < amountBuy) {
         return res.status(HTTP_STATUS.CONFLICT).send(
           ERROR_MESSAGES.INSUFFICIENT_PRODUCT_QUANTITY
         );
       }
 
       // Obter o ID do vendedor a partir do produto
-      const sellerId = product.userId; 
+      const sellerId = name.userId;
+      const buyerId = name.userId;
+      console.log("Seller ID:", sellerId)
+      
 
-      // Calcular o total
-      const unitPrice = product.price;
-      const total = unitPrice * amountBuy;
+      const calculatedTotal = unitPrice * amountBuy;
 
-      // Obter o comprador a partir do token JWT (payload)
-      const buyerId = req.payload.id;
+      await Product.update(
+        { quantity: name.quantity - amountBuy },
+        { where: { id: productId } }
+      );
 
       //Verifica se o id do sallerId existe
         const isSellerIdValid = async (sellerId) => {
@@ -74,26 +81,26 @@ class SaleController {
 
       // Criar a venda usando os dados recebidos
       const newSale = await Sale.create({
-        buyerId,
-        sellerId,
-        productId,
-        unitPrice,
-        amountBuy,
-        userAddressId,
-        total,
-        typePayment,
+        sellerId: sellerId,
+        buyerId: buyerId,
+        productId: productId,
+        unitPrice: unitPrice,
+        amountBuy: amountBuy,
+        userAddressId: userAddressId,
+        total: calculatedTotal,
+        typePayment: typePayment,
       });
 
       // Atualizar a quantidade de produtos na tabela products
       await Product.update(
-        { quantity: product.quantity - amountBuy },
+        { quantity: name.quantity - amountBuy },
         { where: { id: productId } }
       );
 
-      return res.status(HTTP_STATUS.CREATED).send(
-        SUCESS_MESSAGE.SALE_CREATED,
-        {sale: newSale},
-      );
+      return res.status(HTTP_STATUS.CREATED).send({
+        message: SUCESS_MESSAGE.SALE_CREATED,
+        sale: newSale,
+      });
     } catch (error) {
       console.error(error);
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
