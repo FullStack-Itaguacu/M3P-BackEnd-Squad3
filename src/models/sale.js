@@ -78,7 +78,6 @@ const Sale = dbConnection.define(
     },
   },
   {
-    freezeTableName: true,
     paranoid: true,
     timestamps: true,
   }
