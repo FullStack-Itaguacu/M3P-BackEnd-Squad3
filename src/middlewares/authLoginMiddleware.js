@@ -42,7 +42,7 @@ async function authLoginMiddleware(req, res, next) {
 
     next();
   } catch (error) {
-    return response
+    return res
       .status(HTTP_STATUS.UNAUTHORIZED)
       .send(ERROR_MESSAGES.UNAUTHORIZED);
   }
