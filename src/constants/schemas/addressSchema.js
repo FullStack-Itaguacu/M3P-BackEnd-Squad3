@@ -1,7 +1,7 @@
 const Joi = require('joi');
-const statesEnum = require('./statesEnum');
+const typeStatesEnum = require('../enums/typeStatesEnum');
 
-const states = statesEnum.values;
+const states = typeStatesEnum;
 
 const addressSchema = Joi.object({
 

@@ -1,6 +1,6 @@
 const { dbConnection } = require("../database/dbConnection");
-const { STRING, DATE, INTEGER, NUMBER } = require("sequelize");
-const StatesEnum = require("../constants/statesEnum");
+const { STRING, DATE, INTEGER, NUMBER, ENUM } = require("sequelize");
+const typeStatesEnum = require("../constants/enums/typeStatesEnum");
 
 const Address = dbConnection.define(
   "address",
@@ -43,7 +43,7 @@ const Address = dbConnection.define(
     },
 
     state: {
-    type: StatesEnum,
+    type: ENUM(...typeStatesEnum),
     allowNull: false,
     },
 
