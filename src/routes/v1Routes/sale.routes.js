@@ -1,11 +1,12 @@
 const {Router} = require("express")
-const { createSale } = require("../../controllers/sale.controllers")
-
+const { createSale, listSales} = require("../../controllers/sale.controllers")
+const { auth } = require('../../middlewares/auth')
 
 class SaleRouter {
     routesFromSale() {
         const saleRoutes = Router()
-            saleRoutes.post('/sales/admin/', createSale)
+            saleRoutes.post('/sales', createSale)
+            saleRoutes.get('/sale', auth, listSales)
 
             return saleRoutes
     }
