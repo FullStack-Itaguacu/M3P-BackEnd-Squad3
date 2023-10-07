@@ -56,7 +56,7 @@ class UserController {
   };
 
   loginUser = async (req, res) => { 
-  const userDb =(req.userDb)
+  const userDb =(req.user)
   
 
 try {
