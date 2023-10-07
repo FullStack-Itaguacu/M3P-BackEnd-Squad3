@@ -1,7 +1,7 @@
 const { Product } = require("../models/product");
 const express = require("express");
 const { HTTP_STATUS } = require("../constants/httpStatus");
-const { ERROR_MESSAGES } = require("../constants/errorMessages");
+const ERROR_MESSAGES = require("../constants/errorMessages");
 class ProductController {
   async listProductId(req, res) {
     const { id } = req.params;
