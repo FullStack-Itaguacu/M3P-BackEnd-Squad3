@@ -1,11 +1,14 @@
 const {Router} = require("express")
 const saleController = require("../../controllers/sale.controllers")
-//const  auth  = require('../../middlewares/auth')
+const acessControl = require("../../middlewares/accessControlMiddleware")
+const typeUserEnum = require("../../constants/enums/typeUserEnum")
+const  auth  = require('../../middlewares/auth')
+
 
     const saleRoutes = Router()
 
-            saleRoutes.post('/sales', saleController.createSale)
-            saleRoutes.get('/sales', saleController.listSales)
+    saleRoutes.post('/sales', saleController.createSale)
+    saleRoutes.get('/sales', auth, acessControl(typeUserEnum.BUYER), saleController.listSales)
 
 
 module.exports = saleRoutes
