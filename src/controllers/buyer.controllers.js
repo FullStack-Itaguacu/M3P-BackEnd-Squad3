@@ -1,5 +1,9 @@
 const { User } = require("../models/user");
 const Sequelize = require("sequelize");
+const { typesUserEnum } = require("../constants/typesUser");
+const { HTTP_STATUS } = require("../constants/httpStatus");
+const ERROR_MESSAGES = require("../constants/errorMessages");
+const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 
 class BuyerController {
   async listBuyers(req, res) {
@@ -8,14 +12,12 @@ class BuyerController {
     const user = req.payload;
 
     try {
-      if (user.typeUser == "BUYER") {
+      if (user.typeUser == typesUserEnum.BUYER) {
         return res
-          .status(403)
-          .send({ message: "Acesso negado para este tipo de usuário" });
+          .status(HTTP_STATUS.FORBIDDEN)
+          .send({ message: ERROR_MESSAGES.FORBIDDEN });
       }
-      const whereClause = {
-        typeUser: "BUYER",
-      };
+      const whereClause = typesUserEnum.BUYER;
 
       if (fullName) {
         whereClause.name = {
@@ -37,16 +39,18 @@ class BuyerController {
       });
 
       if (count === 0) {
-        return res.status(204).send({ message: "Nenhum usuário encontrado!" });
+        return res.status(HTTP_STATUS.NO_CONTENT).send();
       }
 
-      res.status(200).json({
+      res.status(HTTP_STATUS.OK).send({
         total: count,
         users,
       });
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Erro interno do servidor" });
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
   }
 
@@ -55,16 +59,18 @@ class BuyerController {
     const user = req.payload;
 
     try {
-      if (user.typeUser == "BUYER") {
+      if (user.typeUser == typesUserEnum.BUYER) {
         return res
-          .status(403)
-          .send({ message: "Acesso negado para este tipo de usuário" });
+          .status(HTTP_STATUS.FORBIDDEN)
+          .send({ message: ERROR_MESSAGES.FORBIDDEN });
       }
 
       const foundUser = await User.findByPk(userId);
 
       if (!foundUser) {
-        return res.status(404).send({ message: "Usuário não encontrado!" });
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.INVALID_USER });
       }
 
       const userResponse = {
@@ -75,10 +81,12 @@ class BuyerController {
         updatedAt: foundUser.updatedAt,
       };
 
-      res.status(200).send(userResponse);
+      res.status(HTTP_STATUS.OK).send(userResponse);
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Erro interno do servidor" });
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
   }
 
@@ -87,16 +95,18 @@ class BuyerController {
     const user = req.payload;
 
     try {
-      if (user.typeUser == "BUYER") {
+      if (user.typeUser == typesUserEnum.BUYER) {
         return res
-          .status(403)
-          .send({ message: "Acesso negado para este tipo de usuário" });
+          .status(HTTP_STATUS.FORBIDDEN)
+          .send({ message: ERROR_MESSAGES.FORBIDDEN });
       }
 
       const foundUser = await User.findByPk(userId);
 
       if (!foundUser) {
-        return res.status(404).send({ message: "Usuário não encontrado!" });
+        return res
+          .status(HTTP_STATUS.NOT_FOUND)
+          .send({ message: ERROR_MESSAGES.INVALID_USER });
       }
 
       const { fullName, email, cpf, phone, typeUser } = req.body;
@@ -109,8 +119,8 @@ class BuyerController {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
           return res
-            .status(422)
-            .send({ message: "O email fornecido não é válido" });
+            .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
+            .send({ message: ERROR_MESSAGES.INVALID_EMAIL });
         }
         foundUser.email = email;
       }
@@ -119,8 +129,8 @@ class BuyerController {
         const cpfRegex = /^\d{11}$/;
         if (!cpfRegex.test(cpf)) {
           return res
-            .status(422)
-            .send({ message: "O CPF fornecido não é válido" });
+            .status(HTTP_STATUS.UNPROCESSABLE_ENTIT)
+            .send({ message: ERROR_MESSAGES.INVALID_CPF });
         }
 
         foundUser.cpf = cpf.replace(/\D/g, "");
@@ -130,17 +140,19 @@ class BuyerController {
         const phoneRegex = /^\d{11,}$/;
         if (!phoneRegex.test(phone)) {
           return res
-            .status(422)
-            .send({ message: "O número de telefone fornecido não é válido" });
+            .status(HTTP_STATUS.UNPROCESSABLE_ENTIT)
+            .send({ message: ERROR_MESSAGES.INVALID_PHONE });
         }
         foundUser.phone = phone;
       }
 
       if (typeUser && typeUser !== foundUser.typeUser) {
-        if (foundUser.typeUser === "BUYER" && typeUser === "ADMIN") {
-          return res.status(422).send({
-            message:
-              "Não é permitida a troca de tipo de usuário de BUYER para ADMIN",
+        if (
+          foundUser.typeUser === typesUserEnum.BUYER &&
+          typeUser === typesUserEnum.ADMIN
+        ) {
+          return res.status(HTTP_STATUS.UNPROCESSABLE_ENTIT).send({
+            message: ERROR_MESSAGES.TYPE_USER_REQUIRED,
           });
         }
         foundUser.typeUser = typeUser;
@@ -148,10 +160,12 @@ class BuyerController {
 
       await foundUser.save();
 
-      res.status(204).send();
+      res.status(HTTP_STATUS.NO_CONTENT).send();
     } catch (error) {
       console.error(error);
-      res.status(500).send({ message: "Erro interno do servidor" });
+      res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
   }
 }
