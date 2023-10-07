@@ -121,17 +121,12 @@ class SaleController {
           if(sales.length > 0){
             res.status(HTTP_STATUS.OK).send(sales)
           }
-
-          if (!sales) {
-            return res.status(HTTP_STATUS.NOT_FOUND).send(
-              ERROR_MESSAGES.CUSTOM_SALE_NOT_FOUND
-            )};
             
           return res.status(HTTP_STATUS.OK).send({
             sales
           });
         } else {
-          return res.status(HTTP_STATUS.BAD_REQUEST).send(
+          return res.status(HTTP_STATUS.UNAUTHORIZED).send(
             ERROR_MESSAGES.FAILED_TO_LIST_EN
           )};
           
