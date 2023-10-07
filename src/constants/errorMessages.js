@@ -68,7 +68,23 @@ const ERROR_MESSAGES = {
   FAILED_TO_CREATE: {
     message: "Não foi possível fazer o cadastro!",
     code: "FAILED_TO_CREATE",
+  },
+
+  FAILED_TO_LIST:{
+    message: "Erro ao listar vendas!",
+    code: "FAILED_TO_LIST"
+  },
+
+  FAILED_TO_LIST_EN:{
+    message: "Erro ao encontrar buyedId!",
+    code: "FAILED_TO_LIST_EN"
+  },
+
+  CUSTOM_SALE_NOT_FOUND: {
+    message: "Venda não encontrada!",
+    code: "CUSTOM_SALE_NOT_FOUND"
   }
+
 };
 
 
