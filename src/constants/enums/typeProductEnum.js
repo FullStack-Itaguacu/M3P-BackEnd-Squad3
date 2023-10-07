@@ -1,5 +1,5 @@
 const typeProductEnum = [
-    "Medicamento controlado","Medicamento não controlado"
+    "Controlado" , "Não controlado"
 ]
 
 module.exports = typeProductEnum;

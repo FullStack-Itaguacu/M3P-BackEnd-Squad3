@@ -19,4 +19,5 @@ router.post("/user/login",authLoginMiddleware, userController.loginUser)
 router.post("/admin/login",authLoginMiddleware,acessControl(typeUserEnum.ADMIN), userController.loginUser)
 
 
+
 module.exports = router
