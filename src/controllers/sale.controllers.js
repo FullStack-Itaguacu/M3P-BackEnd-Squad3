@@ -113,39 +113,40 @@ class SaleController {
   
   listSales = async (req, res) => {
     try {
-      if (req.user && req.user.typeUser  === "BUYER") {
-        const { buyerId} = req.user;
+        const buyerId = req.user.id;
         
-        if (typeof buyerId !== 'undefined') { 
-          const sales = await Sale.findOne({ where: { buyerId} });
-  
+        if (typeof buyerId!== 'undefined') { 
+          const sales = await Sale.findAll({ where: { buyerId} });
+          
+          if(sales.length > 0){
+            res.status(HTTP_STATUS.OK).send(sales)
+          }
+
           if (!sales) {
             return res.status(HTTP_STATUS.NOT_FOUND).send(
               ERROR_MESSAGES.CUSTOM_SALE_NOT_FOUND
-            );
-          }
-  
+            )};
+            
           return res.status(HTTP_STATUS.OK).send({
             sales
           });
         } else {
           return res.status(HTTP_STATUS.BAD_REQUEST).send(
-             ERROR_MESSAGES.FAILED_TO_LIST_EN
-          );
-        }
-      } else {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send(
-           ERROR_MESSAGES.FAILED_TO_LIST_EN
-        );
+            ERROR_MESSAGES.FAILED_TO_LIST_EN
+          )};
+          
+        }catch (error) {
+          console.error(error);
+          return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
+            ERROR_MESSAGES.FAILED_TO_LIST
+          )}
       }
-    } catch (error) {
-      console.error(error);
-      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
-        ERROR_MESSAGES.FAILED_TO_LIST
-      );
     }
-  }
-}
+  
+  
+  
+
+
   
 
 const saleController = new SaleController();
