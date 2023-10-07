@@ -11,7 +11,7 @@ async function authMiddleware(req, res, next) {
     const { email, password } = req.body;
    
     if(!email || !password) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json(ERROR_MESSAGES);
+      return res.status(HTTP_STATUS.BAD_REQUEST).json(ERROR_MESSAGES.BAD_REQUEST);
     }
 
     const user = await authLoginServices.findUserByEmail(email);
