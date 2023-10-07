@@ -4,6 +4,9 @@ const  ERROR_MESSAGES  = require("../constants/errorMessages");
 const { Op } = require("sequelize");
 const typeProductEnum = require("../constants/enums/typeProductEnum");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
+const productService = require("../services/product.services");
+
+
 class ProductController {
   listProductId = async (req, res) => {
     const { id } = req.params;
@@ -83,7 +86,37 @@ class ProductController {
     }
   
   }
+  getProductsLimit = async (req, res) => {
+
+    try {
+
+      const options = productService.buildQueryOptions(req);
+     
+      console.log("options", options);
+      
+      let response;
+      
+      if (options.isPaginated) {
+        response = await productService.getPaginatedProducts(options);
+      } else {  
+        response = await productService.getFilteredProducts(options.where);
+      }
+      
+      if (!response.length) {
+        return res.status(204).end();  
+      }
+  
+      res.json(response);
+  
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ message: 'Internal server error'});
+    }
+
+
 }
+}
+
 
 const productController = new ProductController();
 module.exports = productController;
