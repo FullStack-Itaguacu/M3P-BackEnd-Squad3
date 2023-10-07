@@ -1,15 +1,11 @@
 const {Router} = require("express")
-const { createSale, listSales} = require("../../controllers/sale.controllers")
-const { auth } = require('../../middlewares/auth')
+const saleController = require("../../controllers/sale.controllers")
+//const  auth  = require('../../middlewares/auth')
 
-class SaleRouter {
-    routesFromSale() {
-        const saleRoutes = Router()
-            saleRoutes.post('/sales', createSale)
-            saleRoutes.get('/sale', auth, listSales)
+    const saleRoutes = Router()
 
-            return saleRoutes
-    }
-}
+            saleRoutes.post('/sales', saleController.createSale)
+            saleRoutes.get('/sales', saleController.listSales)
 
-module.exports = new SaleRouter()
+
+module.exports = saleRoutes

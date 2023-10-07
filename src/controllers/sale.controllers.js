@@ -6,7 +6,7 @@ const  ERROR_MESSAGES  = require("../constants/errorMessages");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage")
 
 class SaleController {
-  async createSale(req, res) {
+  createSale = async (req, res) => {
     try {
       const {
         productId,
@@ -109,30 +109,35 @@ class SaleController {
     }
   }
 
-  async listSales(req, res) {
-    try {
-      const { buyerId  } = req.user
-      
-      if (typeof buyerId !== 'undefined' ) { 
-        const sales = await Sale.findOne({ where: { 
-          buyerId
-        } });
 
-        if (!sales) {
-          return res.status(HTTP_STATUS.NOT_FOUND).send(
-            ERROR_MESSAGES.CUSTOM_SALE_NOT_FOUND
+  
+  listSales = async (req, res) => {
+    try {
+      if (req.user && req.user.typeUser  === "BUYER") {
+        const { buyerId} = req.user;
+        
+        if (typeof buyerId !== 'undefined') { 
+          const sales = await Sale.findOne({ where: { buyerId} });
+  
+          if (!sales) {
+            return res.status(HTTP_STATUS.NOT_FOUND).send(
+              ERROR_MESSAGES.CUSTOM_SALE_NOT_FOUND
+            );
+          }
+  
+          return res.status(HTTP_STATUS.OK).send({
+            sales
+          });
+        } else {
+          return res.status(HTTP_STATUS.BAD_REQUEST).send(
+             ERROR_MESSAGES.FAILED_TO_LIST_EN
           );
         }
-  
-        return res.status(HTTP_STATUS.OK).send({
-          sales
-        });
       } else {
         return res.status(HTTP_STATUS.BAD_REQUEST).send(
            ERROR_MESSAGES.FAILED_TO_LIST_EN
         );
       }
-  
     } catch (error) {
       console.error(error);
       return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
@@ -143,4 +148,5 @@ class SaleController {
 }
   
 
-module.exports = new SaleController();
+const saleController = new SaleController();
+module.exports = saleController;

@@ -1,11 +1,13 @@
 const { Router } = require("express")
-const { routesFromSale } = require("./v1Routes/sale.routes")
+const userRoutes = require("./v1Routes/user.routes")
+const saleRoutes = require("./v1Routes/sale.routes")
 
 
 const routes =  new Router()
 
 routes.use('/api', [
-    routesFromSale ()
+    userRoutes ,
+    saleRoutes
     
 ])
 
