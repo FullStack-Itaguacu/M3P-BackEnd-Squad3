@@ -9,7 +9,7 @@ const router = Router();
 
 router.get("/products/admin", auth,acessControl(typeUserEnum.ADMIN), productController.getProducts);
 router.get("/products/:id", productController.listProductId);
-router.get('/products/:offset/:limit',auth, productController.getProductsLimit);
+router.get('/products/:offset/:limit', productController.getProducts);
 
 
 

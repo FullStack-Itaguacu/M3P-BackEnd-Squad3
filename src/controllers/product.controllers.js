@@ -33,9 +33,10 @@ class ProductController {
     }
   };
 
-  getProducts = async (req, res) => {
+  getProducts1 = async (req, res) => {
 
     const userId = req.user.id; 
+    console.log("userId", userId);
   
     const { name, typeProduct } = req.query;
     typeProductEnum
@@ -86,31 +87,42 @@ class ProductController {
     }
   
   }
-  getProductsLimit = async (req, res) => {
+  getProducts = async (req, res) => {
+
 
     try {
 
       const options = productService.buildQueryOptions(req);
+      
      
-      console.log("options", options);
+      if(options.code === ERROR_MESSAGES.INVALID_TYPE_PRODUCT.code) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(options);
+      }
       
       let response;
       
-      if (options.isPaginated) {
-        response = await productService.getPaginatedProducts(options);
-      } else {  
-        response = await productService.getFilteredProducts(options.where);
-      }
+      let filteredProducts = [];
       
-      if (!response.length) {
-        return res.status(204).end();  
+      if(options.where) {
+        
+        filteredProducts = await productService.getFilteredProducts(options);
+      } 
+      
+      if (options.isPaginated) {
+        // faz paginação
+        const paginated = await productService.getPaginatedProducts(options);
+        
+        response = paginated;
+      } else {
+        // sem paginação, usa filteredProducts
+        response = filteredProducts; 
       }
   
-      res.json(response);
+      res.status(HTTP_STATUS.OK).json(response);
   
     } catch (error) {
       console.error(error);
-      return res.status(500).json({ message: 'Internal server error'});
+      return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
 
 
