@@ -1,3 +1,6 @@
+const typeProductEnum = require("./enums/typeProductEnum");
+
+
 const ERROR_MESSAGES = {
 
   INVALID_CPF: {
@@ -56,7 +59,18 @@ const ERROR_MESSAGES = {
   FORBIDDEN: {
     message: "Usuário não autorizado",
     code: "FORBIDDEN",
-  }, 
+  },
+  NOT_FOUND: {
+    message: "Não encontrado",
+    code: "NOT_FOUND",
+  },
+
+
+  INVALID_TYPE_PRODUCT: {
+    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(", ")}`,
+    code: "INVALID_TYPE_PRODUCT",
+  },
+  
 };
 
 
