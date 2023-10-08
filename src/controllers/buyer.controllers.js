@@ -1,9 +1,8 @@
 const { User } = require("../models/user");
 const Sequelize = require("sequelize");
-const { typesUserEnum } = require("../constants/typesUser");
+const { typesUserEnum } = require("../constants/typeUserEnum");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
-const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 
 class BuyerController {
   async listBuyers(req, res) {
