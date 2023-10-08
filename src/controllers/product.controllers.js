@@ -107,7 +107,7 @@ class ProductController {
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR.MESSAGE.MANDATORY_FILLING);
       }
-      if (totalStock <= 0) {
+      if (totalStock < 0) {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR_MESSAGES.QUANTITY_ERROR);
