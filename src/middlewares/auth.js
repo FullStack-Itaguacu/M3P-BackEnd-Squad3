@@ -2,7 +2,7 @@ const passport = require('./passport.config');
 const {HTTP_STATUS} = require('../constants/httpStatus');
 const ERROR_MESSAGES = require('../constants/errorMessages');
 
-module.exports = (req, res, next) => {
+async function auth (req, res, next)  {
   passport.authenticate('jwt', { session: false }, (error, user) => {
     if (error || !user) {
 
@@ -15,3 +15,5 @@ module.exports = (req, res, next) => {
     next();
   })(req, res, next);
 }
+
+module.exports = auth;

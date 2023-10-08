@@ -1,4 +1,5 @@
 const HTTP_STATUS = {
+
   OK: 200, //ok
   CREATED: 201, //criado
   NO_CONTENT: 204, //sem conteúdo
@@ -14,3 +15,4 @@ const HTTP_STATUS = {
 module.exports = {
   HTTP_STATUS,
 };
+

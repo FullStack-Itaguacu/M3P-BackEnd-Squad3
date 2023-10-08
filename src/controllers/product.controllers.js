@@ -1,9 +1,11 @@
 const { Product } = require("../models/product");
-const express = require("express");
 const { HTTP_STATUS } = require("../constants/httpStatus");
-const { ERROR_MESSAGES } = require("../constants/errorMessages");
+const  ERROR_MESSAGES  = require("../constants/errorMessages");
+const { Op } = require("sequelize");
+const typeProductEnum = require("../constants/enums/typeProductEnum");
+const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 class ProductController {
-  async listProductId(req, res) {
+  listProductId = async (req, res) => {
     const { id } = req.params;
     const user = req.user;
     try {
@@ -26,6 +28,60 @@ class ProductController {
         .status(errorStatus)
         .send({ mensagem: errorMsg, erro: error.name, causa: error.cause });
     }
+  };
+
+  getProducts = async (req, res) => {
+
+    const userId = req.user.id; 
+  
+    const { name, typeProduct } = req.query;
+    typeProductEnum
+
+  
+    const where = { userId }; 
+  
+    if(name) {
+      where.name = { [Op.like]: `%${name}%` } 
+    }
+  
+  
+    if(typeProduct) {
+      if(!typeProductEnum.includes(typeProduct)) {
+        return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .send(ERROR_MESSAGES.INVALID_TYPE_PRODUCT);
+      }else{
+        where.typeProduct = typeProduct;
+      }
+    }
+    
+    let order = [];
+  
+    if(req.query.totalStock) {
+      order.push(['totalStock', req.query.totalStock]);
+    }
+  
+    try {
+  
+      const products = await Product.findAll({
+        where,
+        order  
+      });
+  
+      if(products.length > 0) {
+        res.status(HTTP_STATUS.OK).json(products);
+      } else {
+        res.status(HTTP_STATUS.NO_CONTENT)
+        .send();
+      }
+  
+    } catch (err) {
+      console.error(err);
+      res
+      .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+      .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR); 
+    }
+  
   }
 }
 
