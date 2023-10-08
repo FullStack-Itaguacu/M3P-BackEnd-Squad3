@@ -118,25 +118,19 @@ class SaleController {
         if (typeof buyerId!== 'undefined') { 
           const sales = await Sale.findAll({ where: { buyerId} });
           
-          if(sales.length > 0){
+          if(sales){
             res.status(HTTP_STATUS.OK).send(sales)
           }
-            
-          return res.status(HTTP_STATUS.OK).send({
-            sales
-          });
-        } else {
-          return res.status(HTTP_STATUS.UNAUTHORIZED).send(
-            ERROR_MESSAGES.FAILED_TO_LIST_EN
-          )};
           
-        }catch (error) {
+        }
+      }catch (error) {
           console.error(error);
           return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
             ERROR_MESSAGES.FAILED_TO_LIST
           )}
       }
     }
+  
   
   
   
