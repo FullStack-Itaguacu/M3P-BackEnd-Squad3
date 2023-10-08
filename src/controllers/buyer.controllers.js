@@ -11,13 +11,7 @@ class BuyerController {
     const user = req.payload;
 
     try {
-      if (user.typeUser == typesUserEnum.BUYER) {
-        return res
-          .status(HTTP_STATUS.FORBIDDEN)
-          .send({ message: ERROR_MESSAGES.FORBIDDEN });
-      }
       const whereClause = typesUserEnum.BUYER;
-
       if (fullName) {
         whereClause.name = {
           [Sequelize.Op.iLike]: `%${fullName}%`,
