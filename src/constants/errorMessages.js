@@ -1,3 +1,5 @@
+const typeProductEnum = require("./enums/typeProductEnum");
+
 const ERROR_MESSAGES = {
   INVALID_CPF: {
     message: "CPF inválido",
@@ -48,10 +50,24 @@ const ERROR_MESSAGES = {
     message: "Os campos email e password são obrigatórios",
     code: "INVALID_DATA_LOGIN",
   },
+  TYPE_USER_REQUIRED: {
+    message: "O campo typeUser é obrigatório para esta operação",
+    code: "TYPE_USER_REQUIRED",
+  },
+  FORBIDDEN: {
+    message: "Usuário não autorizado",
+    code: "FORBIDDEN",
+  },
+  NOT_FOUND: {
+    message: "Não encontrado",
+    code: "NOT_FOUND",
+  },
 
-  QUANTITY_ERROR: {
-    message: "Quantidade deve ser maior que 0.",
-    code: "QUANTITY_ERROR",
+  INVALID_TYPE_PRODUCT: {
+    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(
+      ", "
+    )}`,
+    code: "INVALID_TYPE_PRODUCT",
   },
 };
 

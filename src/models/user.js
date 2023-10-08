@@ -1,5 +1,6 @@
 const { INTEGER, STRING, DATE, ENUM } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
+const typeUserEnum = require("../constants/enums/typeUserEnum");
 
 const User = dbConnection.define('user', {
     id: {
@@ -63,11 +64,11 @@ const User = dbConnection.define('user', {
     },
 
     typeUser: {
-      type: ENUM("ADMIN", "BUYER"),
-      defaultValue: "BUYER",
+      type: ENUM(...Object.values(typeUserEnum)),
+      defaultValue: typeUserEnum.BUYER,
       allowNull: false,
       validate: {
-        isIn: [["ADMIN", "BUYER"]],
+        isIn: [Object.values(typeUserEnum)],
       },
     },
 

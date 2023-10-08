@@ -56,10 +56,11 @@ class UserController {
   };
 
   loginUser = async (req, res) => { 
-  const user =(req.user)
+  const userDb =(req.user)
+  
 
 try {
-  createJwtToken(user).then((token) => {
+  createJwtToken(userDb).then((token) => {
     return res.status(HTTP_STATUS.OK).send({ token });
   }
 
