@@ -129,6 +129,24 @@ class SaleController {
             ERROR_MESSAGES.FAILED_TO_LIST
           )}
       }
+
+      listSaleAdmin = async (req, res) => {
+        try {
+            const sellerId = req.user.id;
+            
+            if (typeof sellerId!== 'undefined') { 
+              const sales = await Sale.findAll({ where: { sellerId} });
+              
+              if(sales){
+              return res.status(HTTP_STATUS.OK).send(sales)}
+              
+            }
+          }catch (error) {
+              console.error(error);
+              return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
+                ERROR_MESSAGES.FAILED_TO_LIST
+              )}
+          }
     }
   
   

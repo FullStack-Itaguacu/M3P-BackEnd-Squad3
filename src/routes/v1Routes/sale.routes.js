@@ -9,6 +9,7 @@ const  auth  = require('../../middlewares/auth')
 
     saleRoutes.post('/sales', saleController.createSale)
     saleRoutes.get('/sales', auth, acessControl(typeUserEnum.BUYER), saleController.listSales)
+    saleRoutes.get('/sales/admin', auth, acessControl(typeUserEnum.ADMIN), saleController.listSaleAdmin)
 
 
 module.exports = saleRoutes
