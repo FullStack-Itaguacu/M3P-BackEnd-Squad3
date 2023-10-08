@@ -144,22 +144,18 @@ class SaleController {
             if (typeof sellerId!== 'undefined') { 
               const sales = await Sale.findAll({ where: { sellerId} });
               
-              if(sales.length > 0){
-              return res.status(HTTP_STATUS.OK).send({
-                sales
-              })};
-            } else {
-              return res.status(HTTP_STATUS.UNAUTHORIZED).send(
-                ERROR_MESSAGES.FAILED_TO_LIST_ADMIN
-              )};
+              if(sales){
+              return res.status(HTTP_STATUS.OK).send(sales)}
               
-            }catch (error) {
+            }
+          }catch (error) {
               console.error(error);
               return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
                 ERROR_MESSAGES.FAILED_TO_LIST
               )}
           }
     }
+  
   
   
   
