@@ -10,7 +10,7 @@ const SUCESS_MESSAGE = {
     PASSWORD_CHANGED: 'Senha alterada com sucesso!',
     PASSWORD_RESET: 'Senha resetada com sucesso!',
     NOT_DATA: 'Nenhum dado encontrado',
-    
+
 };
 
 module.exports = {
