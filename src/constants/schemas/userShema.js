@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const validateDate = require('../../services/validateDate');
 
 const userSchema = Joi.object({
 
@@ -20,9 +21,18 @@ const userSchema = Joi.object({
     'any.required': `CPF é um campo obrigatório`
   }),
 
-  birthDate: Joi.date().required().messages({
-    'date.base': `Data de nascimento precisa ser uma data válida`,
+  birthDate: Joi.string()
+  .required()
+  .regex(/^\d{4}-\d{2}-\d{2}$/)
+  .messages({
+    'string.pattern.base': `Data de nascimento precisa estar no formato YYYY-MM-DD`,
     'any.required': `Data de nascimento é um campo obrigatório`
+  })
+  .custom((value, helpers) => {
+    if (!validateDate(value)) {
+      return helpers.message(`Usuário precisa ter pelo menos 16 anos de idade`);
+    }
+    return value;
   }),
 
   email: Joi.string().email().required().messages({

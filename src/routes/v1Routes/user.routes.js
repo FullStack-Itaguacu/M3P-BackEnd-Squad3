@@ -4,7 +4,7 @@ const userSignupValidatorMiddleware = require("../../middlewares/userSignupValid
 const authLoginMiddleware = require("../../middlewares/authLoginMiddleware")
 const acessControl = require("../../middlewares/accessControlMiddleware")
 const typeUserEnum = require("../../constants/enums/typeUserEnum")
-const auth = require("../../middlewares/auth")
+
 
 
 
