@@ -9,21 +9,20 @@ class ProductService {
     this.product = productModel;
   }
 
-  async getFilteredProducts(where) {
-  
-    const products = await this.product.findAll({ 
-      where: where.userId,
-      order: where.order, 
-     
-
+  async getPivateFilteredProducts(options) {
+       
+    const products = await this.product.findAll({
+      where:options.where,
+      order:options.order,
     });
-   
+  
     return products;
+  
   }
 
 
   async getPaginatedProducts(options) {
-    const { where, order, offset, limit } = options;
+    const { where,offset, limit,order } = options;
 
     const { count, rows } = await this.product.findAndCountAll({
       where,
@@ -50,6 +49,9 @@ class ProductService {
 
     const where = {};
 
+    if(req.user) {
+      where.userId = req.user.id;
+    }
     if (name) {
       where.name = { [Op.iLike]: `%${name}%` };
     }
@@ -57,17 +59,10 @@ class ProductService {
     if (typeProduct) {
       where.typeProduct = typeProduct;
     }
-    
-    let isOrdered = false;
 
-    if (totalStock && !name && !typeProduct) {
-      isOrdered = true;
-      
-    }
 
     const options = {
       isPaginated: !!limit,
-      isOrdered ,
       order: [],
       where,
       offset: parseInt(offset) || DEFAULT_OFFSET,
