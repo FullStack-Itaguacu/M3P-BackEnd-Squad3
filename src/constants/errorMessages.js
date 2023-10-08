@@ -85,6 +85,11 @@ const ERROR_MESSAGES = {
   FAILED_TO_LIST_ADMIN: {
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
     code: "FAILED_TO_LIST_ADMIN"
+  },
+
+  FAILED_TO_LIST_ADDRESS: {
+    message: "Erro ao listar endereços do usuário",
+    code: "FAILED_TO_LIST_ADDRESS"
   }
 
 

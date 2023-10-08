@@ -70,7 +70,32 @@ try {
   res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send({ message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
 } 
   };
-}
+
+  listAddressBuyer = async (req,res) => {
+    try {
+      const userId = req.user.id
+
+      if(typeof userId !== 'undefined') {
+        const addressBuyer = await UserAddress.findAll({
+          where: { userId },
+        include: [
+          {
+            model: Address,
+          },
+        ],
+      });
+
+        if (addressBuyer){
+          return res.status(HTTP_STATUS.OK).send(addressBuyer)}
+        }
+      } catch (error) {
+        console.error(error);
+        return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).send(
+          ERROR_MESSAGES.FAILED_TO_LIST
+        )}
+
+    }
+  }
 
 const userController = new UserController();
 
