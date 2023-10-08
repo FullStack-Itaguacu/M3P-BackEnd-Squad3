@@ -50,6 +50,7 @@ const ERROR_MESSAGES = {
     message: "Os campos email e password são obrigatórios",
     code: "INVALID_DATA_LOGIN",
   },
+
   TYPE_USER_REQUIRED: {
     message: "O campo typeUser é obrigatório para esta operação",
     code: "TYPE_USER_REQUIRED",
@@ -68,6 +69,23 @@ const ERROR_MESSAGES = {
       ", "
     )}`,
     code: "INVALID_TYPE_PRODUCT",
+  },
+
+  FAILED_TO_LIST_EN: {
+    message:
+      "Erro ao listar compras, verifique se está autenticado como comprador!",
+    code: "FAILED_TO_LIST_EN",
+  },
+
+  FAILED_TO_LIST: {
+    message: "Falha ao tentar listar compras!",
+    code: "FAILED_TO_LIST",
+  },
+
+  FAILED_TO_LIST_ADMIN: {
+    message:
+      "Erro ao listar compras, verifique se você está autenticado como vendedor!",
+    code: "FAILED_TO_LIST_ADMIN",
   },
 };
 

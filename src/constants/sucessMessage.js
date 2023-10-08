@@ -9,7 +9,6 @@ const SUCESS_MESSAGE = {
     DELETED: 'Remoção realizada com sucesso!',
     PASSWORD_CHANGED: 'Senha alterada com sucesso!',
     PASSWORD_RESET: 'Senha resetada com sucesso!',
-    NOT_DATA: 'Nenhum dado encontrado',
 };
 
 module.exports = {
