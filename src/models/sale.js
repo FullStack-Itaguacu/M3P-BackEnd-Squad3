@@ -1,6 +1,8 @@
-const paymentType = require("../constants/paymentType");
+
+const typePaymentEnum = require("../constants/enums/typePaymentEnum");
 const { dbConnection } = require("../database/dbConnection");
-const { INTEGER, NUMBER, DATE, DECIMAL } = require("sequelize");
+const { INTEGER, NUMBER, DATE, DECIMAL, ENUM } = require("sequelize");
+
 
 const Sale = dbConnection.define(
   "sale",
@@ -58,7 +60,7 @@ const Sale = dbConnection.define(
     },
 
     typePayment: {
-      type: paymentType,
+      type: ENUM(...typePaymentEnum),
       allowNull: false,
     },
 

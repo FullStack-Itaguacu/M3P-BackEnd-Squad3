@@ -1,8 +1,15 @@
 const { Router } = require("express");
 const productController = require("../../controllers/product.controllers");
+const acessControl = require("../../middlewares/accessControlMiddleware");
+const typeUserEnum = require("../../constants/enums/typeUserEnum");
+const auth = require("../../middlewares/auth");
+const router = Router();
 
-Router.get(
-  "/api/products/:id",
-  authenticate(),
-  productController.listProductId
-);
+
+
+router.get("/products/admin", auth,acessControl(typeUserEnum.ADMIN), productController.getProducts);
+router.get("/products/:id", productController.listProductId);
+
+
+
+module.exports = router;
