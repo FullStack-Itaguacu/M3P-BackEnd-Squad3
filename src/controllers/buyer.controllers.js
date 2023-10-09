@@ -1,28 +1,32 @@
 const { User } = require("../models/user");
 const Sequelize = require("sequelize");
-const { typesUserEnum } = require("../constants/typeUserEnum");
+const typeUserEnum = require("../constants/enums/typeUserEnum");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 
 class BuyerController {
   async listBuyers(req, res) {
     const { offset = 0, limit = 20 } = req.params;
-    const { fullName, createdAt } = req.query;
-    const user = req.payload;
+    const { fullName, orderBy, orderDirection } = req.query;
+    const filter = typeUserEnum.BUYER;
 
     try {
-      const whereClause = typesUserEnum.BUYER;
+      const whereClause = {
+        typeUser: filter,
+      };
       if (fullName) {
-        whereClause.name = {
+        whereClause.fullName = {
           [Sequelize.Op.iLike]: `%${fullName}%`,
         };
       }
 
       const order = [];
-      if (createdAt === "asc") {
-        order.push(["createdAt", "ASC"]);
-      } else if (createdAt === "desc") {
-        order.push(["createdAt", "DESC"]);
+      if (orderBy) {
+        if (orderDirection === "asc") {
+          order.push([orderBy, "ASC"]);
+        } else if (orderDirection === "desc") {
+          order.push([orderBy, "DESC"]);
+        }
       }
       const { count, rows: users } = await User.findAndCountAll({
         where: whereClause,
@@ -31,16 +35,29 @@ class BuyerController {
         limit: Number(limit),
       });
 
+      const userData = users.map((user) => {
+        return {
+          id: user.id,
+          name: user.fullName,
+          email: user.email,
+          cpf: user.cpf,
+          phone: user.phone,
+          typeUser: user.typeUser,
+          createdAt: user.createdAt,
+        };
+      });
+
       if (count === 0) {
         return res.status(HTTP_STATUS.NO_CONTENT).send();
       }
 
       res.status(HTTP_STATUS.OK).send({
         total: count,
-        users,
+        userData,
       });
     } catch (error) {
       console.error(error);
+
       res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send({ message: ERROR_MESSAGES.SERVER_ERROR });
@@ -49,15 +66,8 @@ class BuyerController {
 
   async getBuyerById(req, res) {
     const userId = req.params.userId;
-    const user = req.payload;
 
     try {
-      if (user.typeUser == typesUserEnum.BUYER) {
-        return res
-          .status(HTTP_STATUS.FORBIDDEN)
-          .send({ message: ERROR_MESSAGES.FORBIDDEN });
-      }
-
       const foundUser = await User.findByPk(userId);
 
       if (!foundUser) {
@@ -68,8 +78,9 @@ class BuyerController {
 
       const userResponse = {
         id: foundUser.id,
-        name: foundUser.name,
+        name: foundUser.fullName,
         email: foundUser.email,
+        cpf: foundUser.cpf,
         createdAt: foundUser.createdAt,
         updatedAt: foundUser.updatedAt,
       };
@@ -85,15 +96,8 @@ class BuyerController {
 
   async updateBuyer(req, res) {
     const userId = req.params.userId;
-    const user = req.payload;
 
     try {
-      if (user.typeUser == typesUserEnum.BUYER) {
-        return res
-          .status(HTTP_STATUS.FORBIDDEN)
-          .send({ message: ERROR_MESSAGES.FORBIDDEN });
-      }
-
       const foundUser = await User.findByPk(userId);
 
       if (!foundUser) {
@@ -105,7 +109,7 @@ class BuyerController {
       const { fullName, email, cpf, phone, typeUser } = req.body;
 
       if (fullName) {
-        foundUser.name = fullName;
+        foundUser.fullName = fullName;
       }
 
       if (email) {
@@ -133,24 +137,28 @@ class BuyerController {
         const phoneRegex = /^\d{11,}$/;
         if (!phoneRegex.test(phone)) {
           return res
-            .status(HTTP_STATUS.UNPROCESSABLE_ENTIT)
+            .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
             .send({ message: ERROR_MESSAGES.INVALID_PHONE });
         }
         foundUser.phone = phone;
       }
 
-      if (typeUser && typeUser !== foundUser.typeUser) {
+      if (typeUser !== undefined && typeUser !== null && typeUser !== "") {
         if (
-          foundUser.typeUser === typesUserEnum.BUYER &&
-          typeUser === typesUserEnum.ADMIN
+          foundUser.typeUser === typeUserEnum.BUYER &&
+          typeUser === typeUserEnum.ADMIN
         ) {
-          return res.status(HTTP_STATUS.UNPROCESSABLE_ENTIT).send({
+          foundUser.typeUser = typeUser;
+        } else {
+          return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
             message: ERROR_MESSAGES.TYPE_USER_REQUIRED,
           });
         }
-        foundUser.typeUser = typeUser;
+      } else {
+        return res.status(HTTP_STATUS.BAD_REQUEST).send({
+          message: "O campo typeUser é obrigatório e não pode ser vazio.",
+        });
       }
-
       await foundUser.save();
 
       res.status(HTTP_STATUS.NO_CONTENT).send();
