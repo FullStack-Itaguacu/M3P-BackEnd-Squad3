@@ -5,6 +5,7 @@ const { Op } = require("sequelize");
 const typeProductEnum = require("../constants/enums/typeProductEnum");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 const productService = require("../services/product.services");
+const productSchema = require("../constants/schemas/productSchema");
 
 class ProductController {
   listProductId = async (req, res) => {
@@ -64,6 +65,17 @@ class ProductController {
         .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
+
+  updateProduct = async (req, res) => {
+    const { productId } = req.params;
+
+   
+
+
+
+  };
+
+
 }
 
 const productController = new ProductController();
