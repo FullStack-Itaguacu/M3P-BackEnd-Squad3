@@ -21,3 +21,4 @@ router.post("/admin/login",authLoginMiddleware,acessControl(typeUserEnum.ADMIN),
 
 
 module.exports = router
+
