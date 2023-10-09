@@ -53,6 +53,7 @@ const Product = dbConnection.define(
     },
 
     totalStock: {
+      field: 'total_stock' ,
       type: INTEGER,
       allowNull: false,
     },
