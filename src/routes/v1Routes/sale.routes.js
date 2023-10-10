@@ -10,8 +10,9 @@ const  auth  = require('../../middlewares/auth')
     const saleRoutes = Router()
 
     saleRoutes.post('/sales', auth, validatorSales, saleController.createSale)
-    saleRoutes.get('/sales', auth, acessControl(typeUserEnum.BUYER), saleController.listSales)
+    saleRoutes.get('/sales', auth, saleController.listSales)
     saleRoutes.get('/sales/admin', auth, acessControl(typeUserEnum.ADMIN), saleController.listSaleAdmin)
+    saleRoutes.get('/sales/:id', auth, saleController.listSaleById)
 
 
 module.exports = saleRoutes
