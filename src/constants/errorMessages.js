@@ -1,3 +1,4 @@
+const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
 
@@ -104,7 +105,14 @@ INVALID_DATA: {
     message: "Quantidade insuficiente de produtos",
     code: "INSUFFICIENT_PRODUCT_QUANTITY"
   },
-  
+  INVALID_PAYMENT_TYPE:{
+    message: `Tipo de pagamento inválido (Os valores permitidos para o campo typePayment são: ${typePaymentEnum.join(", ")})`,
+    code: "INVALID_PAYMENT_TYPE"
+  },
+  UNIC_TYPE_PAYMENT:{
+    message: "Todos os itens devem ter o mesmo tipo de pagamento",
+    code: "UNIC_TYPE_PAYMENT"
+  },
 
 };
 
