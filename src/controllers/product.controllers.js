@@ -1,11 +1,9 @@
 const { Product } = require("../models/product");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
-const { Op } = require("sequelize");
-const typeProductEnum = require("../constants/enums/typeProductEnum");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 const productService = require("../services/product.services");
-const productSchema = require("../constants/schemas/productSchema");
+
 
 class ProductController {
   createProduct = async (req, res) => {
@@ -69,6 +67,7 @@ class ProductController {
   };
 
   getProducts = async (req, res) => {
+
     try {
       const optionsQuery = productService.buildQueryOptions(req);
 
@@ -117,6 +116,7 @@ class ProductController {
         .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
+
 }
 
 const productController = new ProductController();

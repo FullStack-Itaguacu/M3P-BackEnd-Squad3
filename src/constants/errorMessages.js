@@ -1,9 +1,7 @@
 const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
-
 const ERROR_MESSAGES = {
-
   INVALID_CPF: {
     message: "CPF inválido",
     code: "INVALID_CPF",
@@ -45,7 +43,7 @@ const ERROR_MESSAGES = {
     message: "Email já cadastrado",
     code: "EMAIL_ALREADY_EXISTS",
   },
-  EMAIL_OR_PASSWORD_IS_INCORRECT : {
+  EMAIL_OR_PASSWORD_IS_INCORRECT: {
     message: "Email ou senha incorretos",
     code: "EMAIL_OR_PASSWORD_IS_INCORRECT",
   },
@@ -67,23 +65,26 @@ const ERROR_MESSAGES = {
     code: "NOT_FOUND",
   },
 
-
   INVALID_TYPE_PRODUCT: {
-    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(", ")}`,
+    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(
+      ", "
+    )}`,
     code: "INVALID_TYPE_PRODUCT",
   },
 
   FAILED_TO_LIST_EN: {
-    message: "Erro ao listar compras, verifique esta autenticado como comprador!",
-    code: "FAILED_TO_LIST_EN"
+    message:
+      "Erro ao listar compras, verifique se está autenticado como comprador!",
+    code: "FAILED_TO_LIST_EN",
   },
 
-  FAILED_TO_LIST:{
-    message: "Falha ao tentar listas compras!",
-    code: "FAILED_TO_LIST"
+  FAILED_TO_LIST: {
+    message: "Falha ao tentar listar compras!",
+    code: "FAILED_TO_LIST",
   },
 
   FAILED_TO_LIST_ADMIN: {
+
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
 
     code: "FAILED_TO_LIST_ADMIN"
@@ -140,7 +141,7 @@ INVALID_DATA: {
     code: "INVALID_TOTAL_STOCK",
   },
 
-};
 
+};
 
 module.exports = ERROR_MESSAGES;
