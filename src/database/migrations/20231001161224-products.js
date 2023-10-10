@@ -7,7 +7,6 @@ module.exports = {
       await queryInterface.createTable('products', { 
         id: {
           type: Sequelize.INTEGER,
-          allowNull: false,
           autoIncrement: true,
           primaryKey: true
         }, 
@@ -28,6 +27,10 @@ module.exports = {
         },
 
         dosage: {
+          type: Sequelize.STRING,
+          allowNull: false
+        },
+        type_dosage: {
           type: Sequelize.STRING,
           allowNull: false
         },

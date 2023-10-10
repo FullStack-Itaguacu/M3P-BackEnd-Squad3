@@ -1,3 +1,4 @@
+const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
 const ERROR_MESSAGES = {
@@ -83,10 +84,64 @@ const ERROR_MESSAGES = {
   },
 
   FAILED_TO_LIST_ADMIN: {
-    message:
-      "Erro ao listar compras, verifique se você está autenticado como vendedor!",
-    code: "FAILED_TO_LIST_ADMIN",
+
+    message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
+
+    code: "FAILED_TO_LIST_ADMIN"
   },
+
+  PRODUCT_NOT_FOUND: {
+    message: "Produto não encontrado",
+    code: "PRODUCT_NOT_FOUND",
+  },
+  INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+
+INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+  INVALID_USER_ADDRESS_ID :{
+    message:"Id de endereço inexistente!",
+    code: "INVALID_USER_ADDRESS_ID"
+  },
+
+  MISSING_REQUIRED_FIELDS:{
+    message: "Campos obrigatórios: {productId, amountBuy, userAddressId, typePayment}",
+    code: "MISSING_REQUIRED_FIELDS"
+  },
+  INSUFFICIENT_PRODUCT_QUANTITY:{
+    message: "Quantidade insuficiente de produtos",
+    code: "INSUFFICIENT_PRODUCT_QUANTITY"
+  },
+  INVALID_PAYMENT_TYPE:{
+    message: `Tipo de pagamento inválido (Os valores permitidos para o campo typePayment são: ${typePaymentEnum.join(", ")})`,
+    code: "INVALID_PAYMENT_TYPE"
+  },
+  UNIC_TYPE_PAYMENT:{
+    message: "Todos os itens devem ter o mesmo tipo de pagamento",
+    code: "UNIC_TYPE_PAYMENT"
+  },
+  INVALID_NAME: {
+    message: "Nome inválido",
+    code: "INVALID_NAME",
+  },
+  INVALID_IMAGE_LINK: {
+    message: "Link da imagem inválido",
+    code: "INVALID_IMAGE_LINK",
+  },
+  INVALID_DOSAGE: {
+    message: "Dosagem inválida não pode ser vazia",
+    code: "INVALID_DOSAGE",
+  },
+  INVALID_TOTAL_STOCK: {
+    message: "Estoque inválido",
+    code: "INVALID_TOTAL_STOCK",
+  },
+
+
 };
 
 module.exports = ERROR_MESSAGES;

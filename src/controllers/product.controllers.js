@@ -1,10 +1,40 @@
 const { Product } = require("../models/product");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
-const { Op } = require("sequelize");
-const typeProductEnum = require("../constants/enums/typeProductEnum");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
+const productService = require("../services/product.services");
+
 class ProductController {
+  createProduct = async (req, res) => {
+    const product = req.body;
+    const userId = req.user.id;
+
+    try {
+      const createData = {
+        name: product.name,
+        labName: product.labName,
+        imageLink: product.imageLink,
+        dosage: product.dosage,
+        typeDosage: product.typeDosage,
+        unitPrice: product.unitPrice,
+        totalStock: product.totalStock,
+        typeProduct: product.typeProduct,
+        description: product.description,
+        userId,
+      };
+      console.log("dados para criar", createData);
+
+      const productCreated = await Product.create(createData);
+
+      return res.status(HTTP_STATUS.CREATED).send(productCreated);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.FAILED_TO_CREATE);
+    }
+  };
+
   listProductId = async (req, res) => {
     const { id } = req.params;
     try {
@@ -21,104 +51,52 @@ class ProductController {
   };
 
   getProducts = async (req, res) => {
-    const userId = req.user.id;
-
-    const { name, typeProduct } = req.query;
-    typeProductEnum;
-
-    const where = { userId };
-
-    if (name) {
-      where.name = { [Op.like]: `%${name}%` };
-    }
-
-    if (typeProduct) {
-      if (!typeProductEnum.includes(typeProduct)) {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send(ERROR_MESSAGES.INVALID_TYPE_PRODUCT);
-      } else {
-        where.typeProduct = typeProduct;
-      }
-    }
-
-    let order = [];
-
-    if (req.query.totalStock) {
-      order.push(["totalStock", req.query.totalStock]);
-    }
-
     try {
-      const products = await Product.findAll({
-        where,
-        order,
-      });
+      const optionsQuery = productService.buildQueryOptions(req);
 
-      if (products.length > 0) {
-        res.status(HTTP_STATUS.OK).json(products);
-      } else {
-        res.status(HTTP_STATUS.NO_CONTENT).send();
+      if (optionsQuery.code === ERROR_MESSAGES.INVALID_TYPE_PRODUCT.code) {
+        return res.status(HTTP_STATUS.BAD_REQUEST).json(optionsQuery);
       }
-    } catch (err) {
-      console.error(err);
-      res
+
+      let response;
+
+      if (optionsQuery.where) {
+        const filteredProductsByUserId =
+          await productService.getPivateFilteredProducts(optionsQuery);
+
+        response = filteredProductsByUserId;
+      }
+
+      if (optionsQuery.isPaginated) {
+        const filteredProductsPaginate =
+          await productService.getPaginatedProducts(optionsQuery);
+
+        response = filteredProductsPaginate;
+      }
+
+      res.status(HTTP_STATUS.OK).json(response);
+    } catch (error) {
+      console.error(error);
+      return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
-        .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+        .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
-  async createOneProduct(req, res) {
-    try {
-      const {
-        name,
-        labName,
-        imageLink,
-        dosage,
-        unitPrice,
-        typeProduct,
-        totalStock,
-        userId,
-      } = req.body;
 
-      if ((!name, !labName, !imageLink, !dosage)) {
-        return res
-          .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
-          .send(ERROR_MESSAGES.MANDATORY_FILLING);
-      }
-      if (unitPrice <= 0) {
-        return res
-          .status(HTTP_STATUS.REQ_FIELD)
-          .send(ERROR_MESSAGES.QUANTITY_ERROR);
-      }
-      if (
-        typeProduct !== "Medicamento controlado" &&
-        typeProduct !== "Medicamento não controlado"
-      ) {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send(ERROR.MESSAGE.MANDATORY_FILLING);
-      }
-      if (totalStock < 0) {
-        return res
-          .status(HTTP_STATUS.BAD_REQUEST)
-          .send(ERROR_MESSAGES.QUANTITY_ERROR);
-      }
-      const data = await Product.create({
-        name,
-        labName,
-        imageLink,
-        dosage,
-        unitPrice,
-        typeProduct,
-        totalStock,
-        userId,
-      });
-      return res.status(HTTP_STATUS.OK).send(ERROR_MESSAGES.OK);
+  updateProduct = async (req, res) => {
+    const productMIddleware = req.product;
+    const product = req.body;
+    try {
+      const updatedProduct = await productMIddleware.update(product);
+
+      return res.status(HTTP_STATUS.NO_CONTENT).send();
     } catch (error) {
+      console.error(error);
       return res
-        .status(HTTP_STATUS.USER_ADM)
-        .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
-  }
+  };
 }
 
 const productController = new ProductController();

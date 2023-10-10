@@ -4,7 +4,7 @@ const userSignupValidatorMiddleware = require("../../middlewares/userSignupValid
 const authLoginMiddleware = require("../../middlewares/authLoginMiddleware")
 const acessControl = require("../../middlewares/accessControlMiddleware")
 const typeUserEnum = require("../../constants/enums/typeUserEnum")
-const auth = require("../../middlewares/auth")
+
 
 
 
@@ -21,3 +21,4 @@ router.post("/admin/login",authLoginMiddleware,acessControl(typeUserEnum.ADMIN),
 
 
 module.exports = router
+
