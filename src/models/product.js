@@ -43,6 +43,10 @@ const Product = dbConnection.define(
     },
 
     dosage: {
+      type: NUMBER,
+      allowNull: false,
+    },
+    typeDosage: {
       type: ENUM(...typeDosageEnum),
       allowNull: false,
     },
