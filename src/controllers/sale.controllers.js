@@ -96,7 +96,7 @@ class SaleController {
       const sellerId = req.user.id;
 
       if (typeof sellerId !== "undefined") {
-        const sales = await Sale.findAll({ where: { sellerId } });
+        const sales = await SalesItem.findAll({ where: { sellerId } });
 
         if (sales) {
           return res.status(HTTP_STATUS.OK).send(sales);
