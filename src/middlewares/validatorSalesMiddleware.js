@@ -5,6 +5,7 @@ const {Product} = require('../models/product')
 const {UserAddress} = require('../models/user_address')
 
 async function validatorSales (req, res, next) {
+    const validatedProducts = [];
 
     try{
         if(!req.body || !Array.isArray (req.body)) {
@@ -33,11 +34,11 @@ async function validatorSales (req, res, next) {
             )
         }
 
-    //     if (!checkProduct.totalStock < amountBuy) {
-    //             return res.status(HTTP_STATUS.CONFLICT).send(
-    //             ERROR_MESSAGES.INSUFFICIENT_PRODUCT_QUANTITY
-    //     );
-    //   }
+        if (!checkProduct.totalStock >  sale.amountBuy) {
+                return res.status(HTTP_STATUS.CONFLICT).send(
+                ERROR_MESSAGES.INSUFFICIENT_PRODUCT_QUANTITY
+        );
+      }
 
       if (!typePaymentEnum.includes(sale.typePayment)) {
         return res.status(HTTP_STATUS.BAD_REQUEST).send(
@@ -45,10 +46,13 @@ async function validatorSales (req, res, next) {
         );
       }
 
-    req.product = checkProduct 
+        validatedProducts.push(checkProduct);
+
+    }
+  
+    req.product = validatedProducts 
 
     next();
-        }
     }catch(error){
         console.error(error)
         return res.status (HTTP_STATUS.INTERNAL_SERVER_ERROR).send (
