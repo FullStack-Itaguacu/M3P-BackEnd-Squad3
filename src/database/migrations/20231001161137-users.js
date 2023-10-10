@@ -19,7 +19,8 @@ module.exports = {
 
         cpf: {
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: false,
+          unique: true
         },
 
         birth_date: {
@@ -29,7 +30,8 @@ module.exports = {
 
         email:{
           type: Sequelize.STRING,
-          allowNull: false
+          allowNull: false,
+          unique: true
         },
 
         phone:{

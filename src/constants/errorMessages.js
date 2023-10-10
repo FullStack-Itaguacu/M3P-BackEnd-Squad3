@@ -1,3 +1,4 @@
+const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
 
@@ -84,6 +85,7 @@ const ERROR_MESSAGES = {
 
   FAILED_TO_LIST_ADMIN: {
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
+
     code: "FAILED_TO_LIST_ADMIN"
   },
 
@@ -95,8 +97,32 @@ const ERROR_MESSAGES = {
     message: "Dados inválidos",
     code: "INVALID_DATA",
   },
-  
 
+INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+  INVALID_USER_ADDRESS_ID :{
+    message:"Id de endereço inexistente!",
+    code: "INVALID_USER_ADDRESS_ID"
+  },
+
+  MISSING_REQUIRED_FIELDS:{
+    message: "Campos obrigatórios: {productId, amountBuy, userAddressId, typePayment}",
+    code: "MISSING_REQUIRED_FIELDS"
+  },
+  INSUFFICIENT_PRODUCT_QUANTITY:{
+    message: "Quantidade insuficiente de produtos",
+    code: "INSUFFICIENT_PRODUCT_QUANTITY"
+  },
+  INVALID_PAYMENT_TYPE:{
+    message: `Tipo de pagamento inválido (Os valores permitidos para o campo typePayment são: ${typePaymentEnum.join(", ")})`,
+    code: "INVALID_PAYMENT_TYPE"
+  },
+  UNIC_TYPE_PAYMENT:{
+    message: "Todos os itens devem ter o mesmo tipo de pagamento",
+    code: "UNIC_TYPE_PAYMENT"
+  },
 
 };
 
