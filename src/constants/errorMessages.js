@@ -84,8 +84,23 @@ const ERROR_MESSAGES = {
 
   FAILED_TO_LIST_ADMIN: {
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
-    code: "FAILED_TO_LIST_ADMIN"
-  }
+    code: "FAILED_T, O_LIST_ADMIN"
+  }, 
+
+INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+  INVALID_USER_ADDRESS_ID :{
+    message:"Id de endereço inexistente!",
+    code: "INVALID_USER_ADDRESS_ID"
+  },
+
+  MISSING_REQUIRED_FIELDS:{
+    message: "Campos obrigatórios: {productId, amountBuy, userAddressId, typePayment}",
+    code: "MISSING_REQUIRED_FIELDS"
+  },
+
 
 
 };
