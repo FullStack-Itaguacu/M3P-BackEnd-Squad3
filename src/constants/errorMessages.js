@@ -100,8 +100,11 @@ INVALID_DATA: {
     message: "Campos obrigatórios: {productId, amountBuy, userAddressId, typePayment}",
     code: "MISSING_REQUIRED_FIELDS"
   },
-
-
+  INSUFFICIENT_PRODUCT_QUANTITY:{
+    message: "Quantidade insuficiente de produtos",
+    code: "INSUFFICIENT_PRODUCT_QUANTITY"
+  },
+  
 
 };
 
