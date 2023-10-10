@@ -67,15 +67,22 @@ class ProductController {
   };
 
   updateProduct = async (req, res) => {
-    const { productId } = req.params;
+  
+    const productMIddleware = req.product;
+    
+    
+    try {
 
-   
+      const updatedProduct = await product.update(req.body);
 
-
-
+      res.status(HTTP_STATUS.OK).json(updatedProduct);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+    }
   };
-
-
 }
 
 const productController = new ProductController();

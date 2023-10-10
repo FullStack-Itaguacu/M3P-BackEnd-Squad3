@@ -85,7 +85,17 @@ const ERROR_MESSAGES = {
   FAILED_TO_LIST_ADMIN: {
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
     code: "FAILED_TO_LIST_ADMIN"
-  }
+  },
+
+  PRODUCT_NOT_FOUND: {
+    message: "Produto não encontrado",
+    code: "PRODUCT_NOT_FOUND",
+  },
+  INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+  
 
 
 };
