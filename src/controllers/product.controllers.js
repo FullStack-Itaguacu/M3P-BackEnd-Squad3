@@ -69,13 +69,12 @@ class ProductController {
   updateProduct = async (req, res) => {
   
     const productMIddleware = req.product;
-    
-    
+    const product = req.body;    
     try {
 
-      const updatedProduct = await product.update(req.body);
+      const updatedProduct = await productMIddleware.update(product);
 
-      res.status(HTTP_STATUS.OK).json(updatedProduct);
+      return res.status(HTTP_STATUS.NO_CONTENT).send();
     } catch (error) {
       console.error(error);
       return res

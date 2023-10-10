@@ -123,6 +123,22 @@ INVALID_DATA: {
     message: "Todos os itens devem ter o mesmo tipo de pagamento",
     code: "UNIC_TYPE_PAYMENT"
   },
+  INVALID_NAME: {
+    message: "Nome inválido",
+    code: "INVALID_NAME",
+  },
+  INVALID_IMAGE_LINK: {
+    message: "Link da imagem inválido",
+    code: "INVALID_IMAGE_LINK",
+  },
+  INVALID_DOSAGE: {
+    message: "Dosagem inválida não pode ser vazia",
+    code: "INVALID_DOSAGE",
+  },
+  INVALID_TOTAL_STOCK: {
+    message: "Estoque inválido",
+    code: "INVALID_TOTAL_STOCK",
+  },
 
 };
 

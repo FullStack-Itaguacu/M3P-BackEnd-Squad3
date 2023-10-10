@@ -6,18 +6,58 @@ async function checkProductOwner(req, res, next) {
   const properties = ["name", "imageLink", "dosage", "totalStock"];
   const productOwnerId = req.user.id;
   const productId = req.params.productId;
+ const {name, imageLink, dosage, totalStock} = req.body
+
 
   try {
     const bodyProperties = Object.keys(req.body);
     const existingProperties = properties.filter((prop) =>
       bodyProperties.includes(prop)
     );
+   
 
     if (!existingProperties || !existingProperties.length) {
       return res
         .status(HTTP_STATUS.BAD_REQUEST)
         .json(ERROR_MESSAGES.INVALID_DATA);
     }
+
+    if(existingProperties.includes("name") ){
+      if (!name || typeof name !== "string" || name.length < 3) {
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send(ERROR_MESSAGES.INVALID_NAME);
+      }
+    }
+
+    if(existingProperties.includes("imageLink") ){
+
+      if (!imageLink || typeof imageLink !== "string" || imageLink.length < 3) {
+        return res
+          .status(HTTP_STATUS.BAD_REQUEST)
+          .send(ERROR_MESSAGES.INVALID_IMAGE_LINK);
+      }
+    }
+
+    if(existingProperties.includes("dosage") ){
+        
+        if (!dosage || typeof dosage !== "number" || dosage.length <= 0) {
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .send(ERROR_MESSAGES.INVALID_DOSAGE);
+        }
+      }
+
+      if(existingProperties.includes("totalStock") ){
+          
+          if (!totalStock || typeof totalStock !== "number" || totalStock.length <= 0 || totalStock <= 0	) {
+            return res
+              .status(HTTP_STATUS.BAD_REQUEST)
+              .send(ERROR_MESSAGES.INVALID_TOTAL_STOCK);
+          }
+        }
+
+
 
     const product = await Product.findByPk(productId);
 
