@@ -5,7 +5,7 @@ const states = typeStatesEnum;
 
 const addressSchema = Joi.object({
 
-  id: Joi.number().integer(),
+
 
   zip: Joi.string().length(8).regex(/^[0-9]+$/).required().messages({
     'string.length': `CEP precisa ter {#limit} caracteres`,

@@ -1,12 +1,46 @@
 const { Product } = require("../models/product");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
-const { Op } = require("sequelize");
-const typeProductEnum = require("../constants/enums/typeProductEnum");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 const productService = require("../services/product.services");
 
+
 class ProductController {
+  createProduct = async (req, res) => {
+    const product = req.body;
+    const userId = req.user.id;
+
+    try {
+
+      const createData={
+        name: product.name,
+        labName: product.labName,
+        imageLink: product.imageLink,
+        dosage: product.dosage,
+        typeDosage: product.typeDosage,
+        unitPrice: product.unitPrice,
+        totalStock: product.totalStock,
+        typeProduct: product.typeProduct,
+        description: product.description,
+        userId,
+      }
+      console.log("dados para criar",createData);
+
+
+      const productCreated = await Product.create(
+        createData
+      );
+     
+
+      return res.status(HTTP_STATUS.CREATED).send(productCreated);
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.FAILED_TO_CREATE);
+    }
+  }
+
   listProductId = async (req, res) => {
     const { id } = req.params;
     const user = req.user;
@@ -33,6 +67,7 @@ class ProductController {
   };
 
   getProducts = async (req, res) => {
+
     try {
       const optionsQuery = productService.buildQueryOptions(req);
 
@@ -64,6 +99,24 @@ class ProductController {
         .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
+
+  updateProduct = async (req, res) => {
+  
+    const productMIddleware = req.product;
+    const product = req.body;    
+    try {
+
+      const updatedProduct = await productMIddleware.update(product);
+
+      return res.status(HTTP_STATUS.NO_CONTENT).send();
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
+    }
+  };
+
 }
 
 const productController = new ProductController();

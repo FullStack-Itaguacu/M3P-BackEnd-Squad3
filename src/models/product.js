@@ -4,6 +4,7 @@ const {
   STRING,
   DECIMAL,
   ENUM,
+  NUMBER,
 } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
 const typeDosageEnum = require("../constants/enums/typeDosageEnum");
@@ -13,16 +14,16 @@ const Product = dbConnection.define(
   "product",
   {
     id: {
-      type: INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      type:INTEGER,
+      primaryKey: true,  
+      autoIncrement: true 
     },
 
     userId: {
       type: INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
-        model: { tableName: "user" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
@@ -43,6 +44,10 @@ const Product = dbConnection.define(
     },
 
     dosage: {
+      type: NUMBER,
+      allowNull: false,
+    },
+    typeDosage: {
       type: ENUM(...typeDosageEnum),
       allowNull: false,
     },

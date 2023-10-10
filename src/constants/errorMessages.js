@@ -1,8 +1,7 @@
+const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
-
 const ERROR_MESSAGES = {
-
   INVALID_CPF: {
     message: "CPF inválido",
     code: "INVALID_CPF",
@@ -44,7 +43,7 @@ const ERROR_MESSAGES = {
     message: "Email já cadastrado",
     code: "EMAIL_ALREADY_EXISTS",
   },
-  EMAIL_OR_PASSWORD_IS_INCORRECT : {
+  EMAIL_OR_PASSWORD_IS_INCORRECT: {
     message: "Email ou senha incorretos",
     code: "EMAIL_OR_PASSWORD_IS_INCORRECT",
   },
@@ -66,29 +65,83 @@ const ERROR_MESSAGES = {
     code: "NOT_FOUND",
   },
 
-
   INVALID_TYPE_PRODUCT: {
-    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(", ")}`,
+    message: `Os valores permitidos para o campo typeProduct são: ${typeProductEnum.join(
+      ", "
+    )}`,
     code: "INVALID_TYPE_PRODUCT",
   },
 
   FAILED_TO_LIST_EN: {
-    message: "Erro ao listar compras, verifique esta autenticado como comprador!",
-    code: "FAILED_TO_LIST_EN"
+    message:
+      "Erro ao listar compras, verifique se está autenticado como comprador!",
+    code: "FAILED_TO_LIST_EN",
   },
 
-  FAILED_TO_LIST:{
-    message: "Falha ao tentar listas compras!",
-    code: "FAILED_TO_LIST"
+  FAILED_TO_LIST: {
+    message: "Falha ao tentar listar compras!",
+    code: "FAILED_TO_LIST",
   },
 
   FAILED_TO_LIST_ADMIN: {
+
     message: "Erro ao listar compras, verifique se você esta autenticado como vendedor!",
+
     code: "FAILED_TO_LIST_ADMIN"
-  }
+  },
+
+  PRODUCT_NOT_FOUND: {
+    message: "Produto não encontrado",
+    code: "PRODUCT_NOT_FOUND",
+  },
+  INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+
+INVALID_DATA: {
+    message: "Dados inválidos",
+    code: "INVALID_DATA",
+  },
+  INVALID_USER_ADDRESS_ID :{
+    message:"Id de endereço inexistente!",
+    code: "INVALID_USER_ADDRESS_ID"
+  },
+
+  MISSING_REQUIRED_FIELDS:{
+    message: "Campos obrigatórios: {productId, amountBuy, userAddressId, typePayment}",
+    code: "MISSING_REQUIRED_FIELDS"
+  },
+  INSUFFICIENT_PRODUCT_QUANTITY:{
+    message: "Quantidade insuficiente de produtos",
+    code: "INSUFFICIENT_PRODUCT_QUANTITY"
+  },
+  INVALID_PAYMENT_TYPE:{
+    message: `Tipo de pagamento inválido (Os valores permitidos para o campo typePayment são: ${typePaymentEnum.join(", ")})`,
+    code: "INVALID_PAYMENT_TYPE"
+  },
+  UNIC_TYPE_PAYMENT:{
+    message: "Todos os itens devem ter o mesmo tipo de pagamento",
+    code: "UNIC_TYPE_PAYMENT"
+  },
+  INVALID_NAME: {
+    message: "Nome inválido",
+    code: "INVALID_NAME",
+  },
+  INVALID_IMAGE_LINK: {
+    message: "Link da imagem inválido",
+    code: "INVALID_IMAGE_LINK",
+  },
+  INVALID_DOSAGE: {
+    message: "Dosagem inválida não pode ser vazia",
+    code: "INVALID_DOSAGE",
+  },
+  INVALID_TOTAL_STOCK: {
+    message: "Estoque inválido",
+    code: "INVALID_TOTAL_STOCK",
+  },
 
 
 };
-
 
 module.exports = ERROR_MESSAGES;

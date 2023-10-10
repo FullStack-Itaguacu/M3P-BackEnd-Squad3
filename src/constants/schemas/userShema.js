@@ -3,7 +3,7 @@ const validateDate = require('../../services/validateDate');
 
 const userSchema = Joi.object({
 
-  id: Joi.number().integer(),
+  
   
   fullName: Joi.string().regex(/^(\p{L}+)\s(\p{L}+)$/u).min(2).max(50).required().messages({
     'string.pattern.base': `Nome incorreto (Nome e Sobrenome) com mínimo de 3 caracteres cada`,
