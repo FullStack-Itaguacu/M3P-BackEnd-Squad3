@@ -6,7 +6,6 @@ module.exports = {
     await queryInterface.createTable("address", {
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       },
