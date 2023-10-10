@@ -1,96 +1,54 @@
 'use strict';
 
-/** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up (queryInterface, Sequelize) {
-    
-    await queryInterface.createTable('sales', { 
-      id:{
-        type: Sequelize.INTEGER ,
+    await queryInterface.createTable('sales', {
+      id: {
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true
-      }, 
-
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
       buyer_id: {
         type: Sequelize.INTEGER,
         references: {
-          model:{
-          tableName: 'users'
+          model: { tableName: 'users' },
+          key: 'id'
         },
-        key: 'id'
-      },
         allowNull: true
       },
-
-      seller_id: { 
+      user_address_id: {
         type: Sequelize.INTEGER,
-        references: { 
-          model: 'users', 
+        references: {
+          model: { tableName: 'users_address' },
           key: 'id'
         },
         allowNull: false
       },
-
-      product_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'products'
-        },
-        key: 'id'
-      },
-        allowNull: false
-      },
-
-      amount_buy: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-      },
-
-      user_address_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'users_address'
-        },
-        key: 'id'
-      },
-        allowNull: false
-      },
-
       total: {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
-
       type_payment: {
         type: Sequelize.STRING,
-          allowNull: false
+        allowNull: false
       },
-
+      deleted_at: { 
+        type: Sequelize.DATE,
+        allowNull: true
+      },
       created_at: {
-        type: Sequelize.DATE,
         allowNull: false,
+        type: Sequelize.DATE
       },
-
       updated_at: {
-        type: Sequelize.DATE,
         allowNull: true,
-      },
-
-      deleted_at: {
-        type: Sequelize.DATE,
-        allowNull: true,
+        type: Sequelize.DATE
       }
-
-    })
-    
+    });
   },
 
   async down (queryInterface, Sequelize) {
-    
-     await queryInterface.dropTable('sales');
-    
+    await queryInterface.dropTable('sales');
   }
 };
