@@ -4,11 +4,6 @@ const typeDosageEnum = require('../enums/typeDosageEnum');
 
 const productSchema = Joi.object({
 
-  userId: Joi.number().integer().required().messages({
-    'number.base': `Usuário precisa ser um número`,
-    'number.empty': `Usuário não pode ser vazio`,
-    'any.required': `Usuário é um campo obrigatório`
-  }),
 
   name: Joi.string().required().messages({
     'string.empty': `Nome não pode ser vazio`,
@@ -26,10 +21,16 @@ const productSchema = Joi.object({
     'any.required': `Link da imagem é um campo obrigatório`
   }),
 
-  dosage: Joi.string().valid(...typeDosageEnum).required().messages({
-    'any.only': `Dosagem precisa ser uma dosagem válida ${typeDosageEnum.join(', ')}`,
-    'string.empty': `Dosagem não pode ser vazio`,
-    'any.required': `Dosagem é um campo obrigatório`
+  dosage: Joi.number().required().messages({
+    'number.base': `Dosagem precisa ser um número`,
+    'number.empty': `Dosagem não pode ser vazio`,
+    'any.required': `Dosagem é um campo obrigatório...`
+  }),
+
+  typeDosage: Joi.string().valid(...typeDosageEnum).required().messages({
+    'any.only': `typeDosage precisa ser uma dosagem válida ${typeDosageEnum.join(', ')}`,
+    'string.empty': `typeDosage não pode ser vazio`,
+    'any.required': `typeDosage é um campo obrigatório`
   }),
 
   unitPrice: Joi.number().precision(2).required().messages({
