@@ -25,7 +25,7 @@ class ProductController {
         userId,
       }
      
-
+      
 
       const productCreated = await Product.create(
         createData
