@@ -15,4 +15,5 @@ router.post(
 );
 router.post("/user/admin/login",authMiddleware,acessControl(typeUserEnum.ADMIN), adminController.loginUser);
 
+
 module.exports = router;
