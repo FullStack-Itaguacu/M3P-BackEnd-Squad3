@@ -21,10 +21,15 @@ class ProductController {
         typeProduct: product.typeProduct,
         description: product.description,
         userId,
-      };
-      console.log("dados para criar", createData);
 
-      const productCreated = await Product.create(createData);
+      }
+     
+  
+      const productCreated = await Product.create(
+        createData
+      );
+     
+
 
       return res.status(HTTP_STATUS.CREATED).send(productCreated);
     } catch (error) {
@@ -44,7 +49,7 @@ class ProductController {
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
     } catch (error) {
-      //console.log()
+
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
@@ -84,7 +89,13 @@ class ProductController {
     }
   };
 
+<<<<<<< HEAD
   updateProduct = async (req, res) => {
+=======
+
+  updateProduct = async (req, res) => {
+
+>>>>>>> 9dde89be41696e5a6bc63a63cf8b4432cb402fcd
     const productMIddleware = req.product;
     const product = req.body;
     try {
