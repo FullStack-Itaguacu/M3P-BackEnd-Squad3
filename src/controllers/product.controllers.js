@@ -43,26 +43,17 @@ class ProductController {
 
   listProductId = async (req, res) => {
     const { id } = req.params;
-    const user = req.user;
     try {
-      if (!user || user.roles !== "Administrador") {
-        const error = new Error(ERROR_MESSAGES.UNAUTHORIZED);
-        error.status = HTTP_STATUS.UNAUTHORIZED;
-        throw error;
-      }
-      const produto = await Product.findById(id);
+      const produto = await Product.findByPk(id);
       if (!produto) {
-        const error = new Error(ERROR_MESSAGES.NOT_FOUND);
-        error.status = HTTP_STATUS.NOT_FOUND;
-        throw error;
+        return res.status(HTTP_STATUS.NOT_FOUND).send(SUCESS_MESSAGE.NOT_DATA);
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
     } catch (error) {
-      const errorMsg = error.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
-      const errorStatus = error.status || HTTP_STATUS.INTERNAL_SERVER_ERROR;
+      //console.log()
       return res
-        .status(errorStatus)
-        .send({ mensagem: errorMsg, erro: error.name, causa: error.cause });
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
 
@@ -100,7 +91,7 @@ class ProductController {
     }
   };
 
-  updateProduct = async (req, res) => {
+   updateProduct = async (req, res) => {
   
     const productMIddleware = req.product;
     const product = req.body;    
