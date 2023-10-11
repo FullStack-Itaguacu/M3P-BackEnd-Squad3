@@ -6,6 +6,7 @@ const typeUserEnum = require("../../constants/enums/typeUserEnum");
 
 const router = Router();
 
+
 router.get(
   "/buyers/admin/:offset/:limit",
   auth,
