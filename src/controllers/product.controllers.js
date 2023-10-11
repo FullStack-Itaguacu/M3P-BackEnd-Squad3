@@ -4,15 +4,13 @@ const ERROR_MESSAGES = require("../constants/errorMessages");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 const productService = require("../services/product.services");
 
-
 class ProductController {
   createProduct = async (req, res) => {
     const product = req.body;
     const userId = req.user.id;
 
     try {
-
-      const createData={
+      const createData = {
         name: product.name,
         labName: product.labName,
         imageLink: product.imageLink,
@@ -23,14 +21,15 @@ class ProductController {
         typeProduct: product.typeProduct,
         description: product.description,
         userId,
+
       }
      
-      
-
+  
       const productCreated = await Product.create(
         createData
       );
      
+
 
       return res.status(HTTP_STATUS.CREATED).send(productCreated);
     } catch (error) {
@@ -39,35 +38,24 @@ class ProductController {
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send(ERROR_MESSAGES.FAILED_TO_CREATE);
     }
-  }
+  };
 
   listProductId = async (req, res) => {
     const { id } = req.params;
-    const user = req.user;
     try {
-      if (!user || user.roles !== "Administrador") {
-        const error = new Error(ERROR_MESSAGES.UNAUTHORIZED);
-        error.status = HTTP_STATUS.UNAUTHORIZED;
-        throw error;
-      }
-      const produto = await Product.findById(id);
+      const produto = await Product.findByPk(id);
       if (!produto) {
-        const error = new Error(ERROR_MESSAGES.NOT_FOUND);
-        error.status = HTTP_STATUS.NOT_FOUND;
-        throw error;
+        return res.status(HTTP_STATUS.NOT_FOUND).send(SUCESS_MESSAGE.NOT_DATA);
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
     } catch (error) {
-      const errorMsg = error.message || ERROR_MESSAGES.INTERNAL_SERVER_ERROR;
-      const errorStatus = error.status || HTTP_STATUS.INTERNAL_SERVER_ERROR;
       return res
-        .status(errorStatus)
-        .send({ mensagem: errorMsg, erro: error.name, causa: error.cause });
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
 
   getProducts = async (req, res) => {
-
     try {
       const optionsQuery = productService.buildQueryOptions(req);
 
@@ -101,11 +89,9 @@ class ProductController {
   };
 
   updateProduct = async (req, res) => {
-  
     const productMIddleware = req.product;
-    const product = req.body;    
+    const product = req.body;
     try {
-
       const updatedProduct = await productMIddleware.update(product);
 
       return res.status(HTTP_STATUS.NO_CONTENT).send();
@@ -116,7 +102,6 @@ class ProductController {
         .json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
     }
   };
-
 }
 
 const productController = new ProductController();
