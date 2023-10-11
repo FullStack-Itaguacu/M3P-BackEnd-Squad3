@@ -1,7 +1,7 @@
 
 const typePaymentEnum = require("../constants/enums/typePaymentEnum");
 const { dbConnection } = require("../database/dbConnection");
-const { INTEGER, NUMBER, DATE, DECIMAL, ENUM } = require("sequelize");
+const { INTEGER, DATE, ENUM } = require("sequelize");
 
 
 const Sale = dbConnection.define(
@@ -21,25 +21,6 @@ const Sale = dbConnection.define(
         key: "id",
       },
     },
-
-    sellerId: {
-      type: INTEGER,
-      allowNull: true,
-      references: {
-        model: { tableName: "users" },
-        key: "id",
-      },
-    },
-    productId: {
-      type: INTEGER,
-      references: {
-        model:{
-        tableName: 'products'
-      },
-      key: 'id'
-    },
-      allowNull: false
-    },
     userAddressId: {
       type: INTEGER,
       allowNull: true,
@@ -49,13 +30,9 @@ const Sale = dbConnection.define(
       },
     },
 
-    amountBuy: {
-      type: NUMBER,
-      allowNull: false,
-    },
 
     total: {
-      type: DECIMAL(10, 2),
+      type: INTEGER,
       allowNull: false,
     },
 
