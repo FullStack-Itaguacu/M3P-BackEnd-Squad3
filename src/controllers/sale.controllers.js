@@ -56,7 +56,6 @@ class SaleController {
 
       if (typeof buyerId !== "undefined") {
         const sales = await Sale.findAll({ where: { buyerId } });
-        
 
         if (sales) {
           res.status(HTTP_STATUS.OK).send(sales);
@@ -75,9 +74,7 @@ class SaleController {
       const saleId = req.params.id;
 
       if (typeof saleId !== "undefined") {
-        
         const salesItems = await SalesItem.findAll({ where: { saleId } });
-        
 
         if (salesItems) {
           return res.status(HTTP_STATUS.OK).send(salesItems);
@@ -100,6 +97,32 @@ class SaleController {
 
         if (sales) {
           return res.status(HTTP_STATUS.OK).send(sales);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.FAILED_TO_LIST);
+    }
+  };
+  dashboardAdmin = async (req, res) => {
+    try {
+      const sellerId = req.user.id;
+      let totalSales = 0;
+      let totalAmount = 0;
+
+      if (typeof sellerId !== "undefined") {
+        const sales = await SalesItem.findAll({ where: { sellerId } });
+        console.log(sales);
+        if (sales) {
+          sales.map((sale) => {
+            totalSales += sale.amountBuy * sale.product.unitPrice;
+            totalAmount += sale.amountBuy;
+          });
+          return res.status(HTTP_STATUS.OK).send({ totalSales, totalAmount });
+        }  else {
+          return res.status(HTTP_STATUS.OK).send({ totalSales, totalAmount });
         }
       }
     } catch (error) {
