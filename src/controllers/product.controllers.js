@@ -49,6 +49,7 @@ class ProductController {
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
     } catch (error) {
+
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send(ERROR_MESSAGES.INTERNAL_SERVER_ERROR);
@@ -88,7 +89,9 @@ class ProductController {
     }
   };
 
+
   updateProduct = async (req, res) => {
+
     const productMIddleware = req.product;
     const product = req.body;
     try {
