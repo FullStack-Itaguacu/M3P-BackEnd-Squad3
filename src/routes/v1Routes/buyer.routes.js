@@ -6,23 +6,9 @@ const typeUserEnum = require("../../constants/enums/typeUserEnum");
 
 const router = Router();
 
-router.get(
-  "/buyers/admin/:offset/:limit",
-  auth,
-  acessControl(typeUserEnum.ADMIN),
-  buyerController.listBuyers
-);
-router.get(
-  "/buyers/admin/:userId",
-  auth,
-  acessControl(typeUserEnum.ADMIN),
-  buyerController.getBuyerById
-);
-router.patch(
-  "/buyers/admin/:userId",
-  auth,
-  acessControl(typeUserEnum.ADMIN),
-  buyerController.updateBuyer
-);
+
+router.get("/buyers/admin/:offset/:limit",auth,acessControl(typeUserEnum.ADMIN),buyerController.listBuyers);
+router.get("/buyers/admin/:userId",auth,acessControl(typeUserEnum.ADMIN),buyerController.getBuyerById);
+router.patch("/buyers/admin/:userId",auth,acessControl(typeUserEnum.ADMIN),buyerController.updateBuyer);
 
 module.exports = router;

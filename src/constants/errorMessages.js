@@ -99,9 +99,9 @@ const ERROR_MESSAGES = {
     code: "INVALID_DATA",
   },
 
-INVALID_DATA: {
-    message: "Dados inválidos",
-    code: "INVALID_DATA",
+INVALID_DATA_BODY: {
+    message: "Necessario enviar todos os campos obrigatórios",
+    code: "INVALID_DATA_BODY",
   },
   INVALID_USER_ADDRESS_ID :{
     message:"Id de endereço inexistente!",
