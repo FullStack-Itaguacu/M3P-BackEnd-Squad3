@@ -2,8 +2,7 @@ const {Router} = require("express")
 const userController = require("../../controllers/user.controllers")
 const userSignupValidatorMiddleware = require("../../middlewares/userSignupValidatorMiddleware ")
 const authLoginMiddleware = require("../../middlewares/authLoginMiddleware")
-const acessControl = require("../../middlewares/accessControlMiddleware")
-const typeUserEnum = require("../../constants/enums/typeUserEnum")
+
 
 
 

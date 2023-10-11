@@ -8,11 +8,7 @@ const authMiddleware = require("../../middlewares/authLoginMiddleware");
 
 const router = Router();
 
-router.post(
-  "/user/admin/signup",auth,acessControl(typeUserEnum.ADMIN),
-  userSignupValidatorMiddleware,
-  adminController.createUserAdmin
-);
+router.post("/user/admin/signup",auth,acessControl(typeUserEnum.ADMIN),userSignupValidatorMiddleware,adminController.createUserAdmin);
 router.post("/user/admin/login",authMiddleware,acessControl(typeUserEnum.ADMIN), adminController.loginUser);
 
 
