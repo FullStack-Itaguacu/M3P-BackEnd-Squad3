@@ -24,7 +24,7 @@ class ProductController {
         description: product.description,
         userId,
       }
-      console.log("dados para criar",createData);
+     
 
 
       const productCreated = await Product.create(
