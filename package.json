@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "swagger-autogen": "node src/swagger/swagger.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@nestjs/swagger": "^7.1.13",
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "cpf-check": "^3.0.0",
@@ -23,10 +25,13 @@
     "passport-local": "^1.0.0",
     "pg": "^8.11.3",
     "pg-connection-string": "^2.6.2",
-    "sequelize": "^6.33.0"
+    "sequelize": "^6.33.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.22",
-    "sequelize-cli": "^6.6.1"
+    "sequelize-cli": "^6.6.1",
+    "swagger-autogen": "^2.23.6"
   }
 }
