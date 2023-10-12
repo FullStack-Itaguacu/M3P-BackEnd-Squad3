@@ -8,7 +8,7 @@ Nossa equipe chamou a atenção dos gestores da empresa LabPharmacy Inc, uma ren
 Este site proporcionará a oportunidade de cadastrar vendedores, cadastrar usuário(compradores), comprar medicamentos, efetuar o registro de compradores e vendedores. Os vendedores terão a capacidade de monitorar suas vendas, enquanto os compradores poderão acompanhar suas compras anteriores com facilidade.
 
 ## Tenologias Utilizadas
- O backend do Pharmacy Central System foi desenvolvido utilizando as seguintes tecnologias:
+ O backend do Pharmalândia Medications foi desenvolvido utilizando as seguintes tecnologias:
  
 - Node.js: É uma plataforma de desenvolvimento JavaScript para aplicações de rede e servidor.
 - Express.js: Frameword web para Node.js, que facilita a criação de APIs.
@@ -17,13 +17,13 @@ Este site proporcionará a oportunidade de cadastrar vendedores, cadastrar usuá
 - DBeaver: Gerenciador de banco de dados SQL.
 
 
-## Como executar o sistema Pharmacy Central System
+## Como executar o Pharmalândia Medications
 
-Para executar o Pharmacy Central System em uma máquina local, siga as seguites instruções:
+Para executar o Pharmalândia Medications em uma máquina local, siga as seguites instruções:
 
 1. Certifique-se de ter o Node.js instalado em sua máquina
 
-2. Clone o repositório do Phamacy Central System em sua máquina local:
+2. Clone o repositório do Pharmalândia Medications em sua máquina local:
 
 ```sh
 https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3.git
@@ -57,7 +57,7 @@ Aqui você precisará ter um gerenciador database configurado. Neste projeto foi
 npx sequelize db:migrate
 ```
 
-8. Agora você já pode acessar o Pharmacy Central System em seu navegador através do endereço, usei o ThunderClient para os testes ` http://localhost:3002`
+8. Agora você já pode acessar o Pharmalândia Medications em seu navegador através do endereço, usei o ThunderClient para os testes ` http://localhost:3002`
 
 ## Endpoint criados e suas funcionalidades
 | Endpoint | Funcionalidade |
