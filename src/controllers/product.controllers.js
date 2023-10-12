@@ -59,7 +59,7 @@ class ProductController {
     try {
       const produto = await Product.findByPk(id);
       if (!produto) {
-        console.log("entrou aqui");
+        
         return res.status(HTTP_STATUS.NOT_FOUND).send(SUCESS_MESSAGE.NOT_DATA);
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
