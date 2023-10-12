@@ -33,16 +33,17 @@ const productSchema = Joi.object({
     'any.required': `typeDosage é um campo obrigatório`
   }),
 
-  unitPrice: Joi.number().precision(2).required().messages({
+  unitPrice: Joi.number().precision(2).min(0.01).required().messages({
     'number.base': `Preço unitário precisa ser um número`,
     'number.empty': `Preço unitário não pode ser vazio`,
+    'number.min': `Preço unitário precisa ser maior que zero`,
     'any.required': `Preço unitário é um campo obrigatório`
   }),
 
-  totalStock: Joi.number().integer().min(0).required().messages({
+  totalStock: Joi.number().integer().min(1).required().messages({
     'number.base': `Estoque total precisa ser um número inteiro`,
     'number.empty': `Estoque total não pode ser vazio`,
-    'number.min': `Estoque total precisa ser maior ou igual a {#limit}`,
+    'number.min': `Estoque total precisa ser maior que zero`,
     'any.required': `Estoque total é um campo obrigatório`
   }),
 
