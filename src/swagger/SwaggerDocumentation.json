@@ -588,7 +588,7 @@
                 "operationId": "updateProductById",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "JWT": []
                     }
                 ],
                 "consumes": [
@@ -655,6 +655,11 @@
                 "summary": "Lista usuários",
                 "description": "Retorna uma lista paginada de usuários",
                 "operationId": "listUsers",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "offset",
@@ -681,95 +686,268 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado"
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
                     },
                     "403": {
-                        "description": "Proibido"
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
                     },
                     "204": {
-                        "description": "Sem conteúdo"
+                        "description": "Sem conteúdo",
+                        "schema": {
+                            "$ref": "#/definitions/SucessNO_CONTENT"
+                        }
                     }
                 }
             }
         },
         "/buyers/admin/{userId}": {
+
+            "get": {
+              "tags": [
+                "Usuário"
+              ],
+              "summary": "Obtém usuário por ID",
+              "description": "Retorna os detalhes de um usuário pelo seu ID",
+              "operationId": "getUserById",
+                "security": [
+                    {
+                    "JWT": []
+                    }
+                ],
+              
+              "parameters": [
+                {
+                  "name": "userId",
+                  "in": "path",
+                  "description": "ID do usuário",
+                  "required": true,
+                  "type": "integer", 
+                  "format": "int64"
+                }
+              ],
+              
+              "responses": {
+                "200": {
+                  "description": "OK",
+                  "schema": {
+                    "$ref": "#/definitions/User"  
+                  }
+                },
+                "401": {
+                  "description": "Não autorizado",
+                  "schema": {
+                    "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                  }
+                },
+                "403": {
+                  "description": "Proibido",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorFORBIDDEN"
+                    }
+                },
+                "404": {
+                  "description": "Não encontrado",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorNOT_FOUND"
+                    }
+                }
+              }
+            },
+          
+            "patch": {
+              "tags": [
+                "Usuário" 
+              ],
+              "summary": "Atualiza usuário por ID",
+              "description": "Atualiza dados de um usuário pelo seu ID",  
+              "operationId": "updateUserById",
+                "security": [
+                    {
+                    "JWT": []
+                    }
+                ],
+              
+              "parameters": [
+                {
+                  "name": "userId",
+                  "in": "path",
+                  "description": "ID do usuário",
+                  "required": true,
+                  "type": "integer",
+                  "format": "int64"
+                },
+                {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Dados para atualizar",
+                  "required": true,
+                  "schema": {
+                    "$ref": "#/definitions/UpdateUserRequest"
+                  }
+                }
+              ],
+              
+              "responses": {
+                "204": {
+                  "description": "Atualizado"
+                },
+                "401": {
+                    "description": "Atualizado",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                    }
+                },
+                "403": {
+                    "description": "Proibido",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorFORBIDDEN"
+                    }
+                },
+                "404": {
+                    "description": "Não encontrado",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorNOT_FOUND"
+                    }
+                
+                },
+                "422": {
+                    "description": "Entidade inválida",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorINVALID_DATA"
+                    }
+                }
+              }
+            }
+          
+          },
+          "/sales": {
+
+            "post": {
+              "tags": [  
+                "Vendas"
+              ],
+              "summary": "Registra vendas",
+              "description": "Registra uma nova venda",
+              "operationId": "createSale",
+                "security": [
+                    {
+                    "JWT": []
+                    }
+                ],
+              
+              "parameters": [
+                {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Itens da venda",
+                  "required": true,
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/NewSaleItem"  
+                    }
+                  }
+                }
+              ],
+              
+              "responses": {
+                "201": {
+                  "description": "Criado"   
+                },
+                
+                "400": {
+                  "description": "Requisição inválida",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorBAD_REQUEST"
+                    }
+                },
+                
+                "401": {
+                    "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                },
+                 
+                "409": { 
+                    "description": "Conflito",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorCONFLICT"
+                        }
+                },
+                
+                "422": {
+                    "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                }
+              }
+            },
+          
+            "get": {
+              "summary": "Obtém vendas do usuário",
+              
+              "description": "Retorna a lista de vendas do usuário autenticado", 
+              
+              "operationId": "getAuthenticatedUserSales", 
+                "security": [
+                    {
+                    "JWT": []
+                    }
+                ],
+              
+              "responses": {
+              
+                "200": {
+                  "description": "OK",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Sale"
+                    } 
+                  }
+                },
+                
+                "401": {
+                    "description": "Não autorizado",
+                    "schema": {
+                        "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                    }
+                    
+                }
+              }
+            }
+            
+          },
+        "/sales/admin": {
             "get": {
                 "tags": [
-                    "Usuário"
+                    "Vendas"
                 ],
-                "summary": "Obtém usuário por ID",
-                "description": "Retorna os detalhes de um usuário pelo seu ID",
-                "operationId": "getUserById",
-                "parameters": [
+                "summary": "Obtém vendas do administrador",
+                "description": "Retorna a lista de vendas realizadas pelo administrador autenticado",
+                "operationId": "getAdminSales",
+                "security": [
                     {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID do usuário",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
+                        "JWT": []
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/User"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sale"
+                            }
                         }
-                    },
-                    "401": {
-                        "description": "Não autorizado"
-                    },
-                    "403": {
-                        "description": "Proibido"
-                    },
-                    "404": {
-                        "description": "Não encontrado"
-                    }
-                }
-            }
-        },
-        "/buyers/admin/{userId}": {
-            "patch": {
-                "tags": [
-                    "Usuário"
-                ],
-                "summary": "Atualiza usuário por ID",
-                "description": "Atualiza dados de um usuário pelo seu ID",
-                "operationId": "updateUserById",
-                "security": [
-                    {
-                        "JWT": []
-                    }
-                ],
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "name": "userId",
-                        "in": "path",
-                        "description": "ID do usuário",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    },
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Dados para atualizar",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/UpdateUserRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Atualizado"
                     },
                     "401": {
                         "description": "Não autorizado",
@@ -782,116 +960,6 @@
                         "schema": {
                             "$ref": "#/definitions/ErrorFORBIDDEN"
                         }
-                    },
-                    "404": {
-                        "description": "Não encontrado",
-                        "schema": {
-                            "$ref": "#/definitions/ErrorNOT_FOUND"
-                        }
-                    },
-                    "422": {
-                        "description": "Entidade inválida",
-                        "schema": {
-                            "$ref": "#/definitions/ErrorINVALID_DATA"
-                        }
-                    }
-                }
-            }
-        },
-        "/sales/": {
-            "post": {
-                "tags": [
-                    "Vendas"
-                ],
-                "summary": "Registra vendas",
-                "description": "Registra uma nova venda",
-                "operationId": "createSales",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "parameters": [
-                    {
-                        "in": "body",
-                        "name": "body",
-                        "description": "Itens da venda",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/NewSaleItem"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Criado"
-                    },
-                    "400": {
-                        "description": "Requisição inválida"
-                    },
-                    "401": {
-                        "description": "Não autorizado"
-                    },
-                    "409": {
-                        "description": "Conflito"
-                    },
-                    "422": {
-                        "description": "Entidade inválida"
-                    }
-                }
-            }
-        },
-        "/sales/": {
-            "get": {
-                "tags": [
-                    "Vendas"
-                ],
-                "summary": "Obtém vendas do usuário",
-                "description": "Retorna a lista de vendas realizadas pelo usuário autenticado",
-                "operationId": "getBuyerSales",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Sale"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Não autorizado"
-                    }
-                }
-            }
-        },
-        "/sales/admin": {
-            "get": {
-                "tags": [
-                    "Vendas"
-                ],
-                "summary": "Obtém vendas do administrador",
-                "description": "Retorna a lista de vendas realizadas pelo administrador autenticado",
-                "operationId": "getAdminSales",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/Sale"
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Não autorizado"
-                    },
-                    "403": {
-                        "description": "Proibido"
                     }
                 }
             }
@@ -904,6 +972,11 @@
                 "summary": "Obtém dashboard de vendas do administrador",
                 "description": "Retorna informações aggregadas sobre vendas realizadas pelo administrador",
                 "operationId": "getAdminSalesDashboard",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -912,7 +985,11 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado"
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    
                     }
                 }
             }
@@ -1295,10 +1372,12 @@
                     "type": "string"
                 },
                 "imageLink": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "url",
+                    "example": "http://www.teste.com.br"
                 },
                 "dosage": {
-                    "type": "string"
+                    "type": "number"
                 },
                 "totalStock": {
                     "type": "integer"
