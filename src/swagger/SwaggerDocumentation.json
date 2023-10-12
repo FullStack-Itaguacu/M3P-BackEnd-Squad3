@@ -621,16 +621,28 @@
                         "description": "Atualizado"
                     },
                     "401": {
-                        "description": "Não autorizado"
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
                     },
                     "403": {
-                        "description": "Proibido"
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
                     },
                     "404": {
-                        "description": "Não encontrado"
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
                     },
                     "422": {
-                        "description": "Entidade inválida"
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
                     }
                 }
             }
@@ -727,7 +739,7 @@
                 "operationId": "updateUserById",
                 "security": [
                     {
-                        "bearerAuth": []
+                        "JWT": []
                     }
                 ],
                 "consumes": [
@@ -760,16 +772,28 @@
                         "description": "Atualizado"
                     },
                     "401": {
-                        "description": "Não autorizado"
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
                     },
                     "403": {
-                        "description": "Proibido"
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
                     },
                     "404": {
-                        "description": "Não encontrado"
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
                     },
                     "422": {
-                        "description": "Entidade inválida"
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
                     }
                 }
             }
@@ -1352,7 +1376,10 @@
                     "type": "string"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "format": "email",
+                    "example": "teste@email.com"
+
                 },
                 "cpf": {
                     "type": "string"
@@ -1361,7 +1388,12 @@
                     "type": "string"
                 },
                 "typeUser": {
-                    "type": "string"
+                    "type": "string",
+                    "default": "BUYER",
+                    "enum": {
+                        "ADMIN": "ADMIN",
+                        "BUYER": "BUYER"
+                    }
                 }
             }
         },
