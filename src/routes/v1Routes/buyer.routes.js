@@ -24,5 +24,6 @@ router.patch(
   acessControl(typeUserEnum.ADMIN),
   buyerController.updateBuyer
 );
+router.get("/buyers/address", auth, buyerController.listAddress )
 
 module.exports = router;
