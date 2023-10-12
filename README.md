@@ -50,8 +50,11 @@ npm rum dev
 6. Crie um banco de dados PostgreSQL e atualiza as configurações de conexão do arquivo criando um arquivo .env, e completando conforme o exemplo .envexemple, com as informações do seu banco de dados.
 Aqui você precisará ter um gerenciador database configurado. Neste projeto foi utilizado o DBeaver.
 
+![exemplo  env](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/68390cdf-b330-4b4f-81e0-c18a0d753f32)
 
-7. Para rodar as migrations para que as tabelas sejam inseridas em seu banco de dados fazer o comando:
+
+
+8. Para rodar as migrations para que as tabelas sejam inseridas em seu banco de dados fazer o comando:
 
 ```sh
 npx sequelize db:migrate
@@ -124,7 +127,7 @@ A organização do projeto foi feito utiliznado o método Kanban, montando no tr
 ![trello](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/f60458b6-6ee3-496b-a65a-2c43099705a2)
 
 
-##Melhorias Futuras
+## Melhorias Futuras
 -  Um ponto que seria muito importante de acrescentar seria poder deletar um produto, pois as vezes esse produto pode ter saido de venda mais ainda pode aparecer na listagem.
 - Ter a opção de deletar ou desativar um administrador
 
