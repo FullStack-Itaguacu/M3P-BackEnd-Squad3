@@ -8,7 +8,29 @@ passport.use(
   new JWTStrategy(
     {
       secretOrKey: jwtSecret,
-      jwtFromRequest: req => req.headers.authorization?.split(' ')[1]  
+      jwtFromRequest: req => {
+        const authHeader = req.headers.authorization;
+        let token 
+
+        if(!authHeader) return null;
+
+        
+        
+        const authHeaderContentBearer = authHeader.split(' ')[0] === 'Bearer'	;
+
+        if (authHeaderContentBearer) {
+          token = authHeader.split(' ')[1];
+       
+          
+          return token;
+        }
+         
+          return authHeader;
+        
+
+       
+       
+      }
     },
 
     async (token, done) => {
