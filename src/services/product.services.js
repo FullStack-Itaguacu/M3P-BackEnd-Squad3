@@ -3,6 +3,7 @@ const { Product } = require("../models/product");
 const { DEFAULT_LIMIT, DEFAULT_OFFSET } = require("../constants/defaultsValue");
 const typeProductEnum = require("../constants/enums/typeProductEnum");
 const ERROR_MESSAGES = require("../constants/errorMessages");
+const typeUserEnum = require("../constants/enums/typeUserEnum");
 
 class ProductService {
   constructor(productModel) {
@@ -10,19 +11,25 @@ class ProductService {
   }
 
   async getPivateFilteredProducts(options) {
-       
-    const products = await this.product.findAll({
+    
+    const { count, rows } = await this.product.findAndCountAll({
       where:options.where,
       order:options.order,
+      offset:options.offset,
+      limit:options.limit,
     });
   
-    return products;
+    return {
+      products: rows,
+      total: count,
+    };
   
   }
 
 
   async getPaginatedProducts(options) {
     const { where,offset, limit,order } = options;
+    
 
     const { count, rows } = await this.product.findAndCountAll({
       where,
@@ -40,8 +47,14 @@ class ProductService {
 
 
   buildQueryOptions(req) {
+    
     const { name, typeProduct,totalStock } = req.query;
     const { offset, limit } = req.params;
+    let typeUser = null;
+
+    if(req.user){
+       typeUser = req.user.role;
+    }
 
     if (typeProduct && !typeProductEnum.includes(typeProduct)) {
       return ERROR_MESSAGES.INVALID_TYPE_PRODUCT;
@@ -62,7 +75,7 @@ class ProductService {
 
 
     const options = {
-      isPaginated: !!limit,
+      isAdmin: typeUser===typeUserEnum.ADMIN,
       order: [],
       where,
       offset: parseInt(offset) || DEFAULT_OFFSET,
