@@ -127,8 +127,8 @@ A organização do projeto foi feito utiliznado o método Kanban, montando no tr
 
 
 ## Melhorias Futuras
--  Um ponto que seria muito importante de acrescentar seria poder deletar um produto, pois as vezes esse produto pode ter saido de venda mais ainda pode aparecer na listagem.
-- Ter a opção de deletar ou desativar um administrador
+-  Sentimos falta do delete. Afinal, o produto pode deixar de ser comercializado. 
+-  Achamos interessante ter a opção de deletar ou desativar um administrador.
 
 
 
