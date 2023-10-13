@@ -149,6 +149,10 @@ INVALID_DATA_BODY: {
     message: "Estoque inválido",
     code: "INVALID_TOTAL_STOCK",
   },
+  IVALID_BODY_ADDRESS_ARRAY: {
+    message: "O campo address deve ser um array",
+    code: "IVALID_BODY_ADDRESS_ARRAY",
+  },
   
 
 
