@@ -9,6 +9,7 @@ async function authMiddleware(req, res, next) {
   try {
 
     const { email, password } = req.body;
+    
    
     if(!email || !password) {
       return res.status(HTTP_STATUS.BAD_REQUEST).json(ERROR_MESSAGES.BAD_REQUEST);
@@ -16,21 +17,26 @@ async function authMiddleware(req, res, next) {
 
     const user = await authLoginServices.findUserByEmail(email);
 
+    
     if(!user) {
       return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNREGISTERED_USER);
     }
 
+   
+
     const isValid = await authLoginServices.validatePassword(password, user);
 
-    if(!isValid) {
-      return res.status(HTTP_STATUS).json(ERROR_MESSAGES.UNAUTHORIZED);
+    if(!isValid || isValid === null) {
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNAUTHORIZED);
     }
+    
 
     req.user= user.dataValues; 
 
     next();
 
   } catch (error) {
+    console.log(error);
     return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json(ERROR_MESSAGES.INTERNAL_SERVER_ERROR); 
   }
 

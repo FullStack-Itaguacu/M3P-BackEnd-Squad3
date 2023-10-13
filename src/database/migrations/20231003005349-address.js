@@ -9,6 +9,14 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      users_address_id: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'users_address',
+          key: 'id'
+        }
+      },
 
       zip: {
         type: Sequelize.STRING,

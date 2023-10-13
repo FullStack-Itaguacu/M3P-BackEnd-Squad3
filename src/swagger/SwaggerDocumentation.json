@@ -552,6 +552,11 @@
                 "summary": "Obtém endereços do usuário",
                 "description": "Retorna a lista de endereços cadastrados pelo usuário autenticado",
                 "operationId": "getBuyerAddresses",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -563,7 +568,10 @@
                         }
                     },
                     "401": {
-                        "description": "Não autorizado"
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
                     }
                 }
             }
@@ -1146,9 +1154,12 @@
                 "user": {
                     "$ref": "#/definitions/User"
                 },
-                "address": {
-                    "$ref": "#/definitions/Address"
-                }
+                "addresses": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Address"
+                    }
+                  }
             }
         },
         "CreateAdminRequest": {
