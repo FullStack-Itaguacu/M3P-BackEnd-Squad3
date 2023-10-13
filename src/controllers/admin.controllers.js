@@ -11,8 +11,8 @@ const { createJwtToken } = require("../utils/createJwtToken");
 
 class AdminController {
   createUserAdmin = async (req, res) => {
-    // #swagger.tags = ['admin']
-    const { user, address } = req.body;
+    
+    const { user, addresses } = req.body;
 
     const { fullName, email, cpf, phone, password, birthDate, typeUser } = user;
 
@@ -39,12 +39,26 @@ class AdminController {
         typeUser,
       });
 
-      const addressCreated = await Address.create(address);
-
       const userAddressCreated = await UserAddress.create({
         userId: userCreated.id,
-        addressId: addressCreated.id,
       });
+
+      for (const address of addresses) {
+        const { street, numberStreet,neighborhood, complement, zip, city, state } = address;
+
+        const addressCreated = await Address.create({
+          userAddressId: userAddressCreated.id,
+          street,
+          numberStreet,
+          neighborhood,
+          complement,
+          zip,
+          city,
+          state,
+        });
+
+        await userAddressCreated.addAddress(addressCreated);
+      }
 
       return res.status(HTTP_STATUS.CREATED).send(SUCESS_MESSAGE.USER_CREATED);
     } catch (error) {
