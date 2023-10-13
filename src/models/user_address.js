@@ -3,7 +3,7 @@ const { DataTypes, Model } = require('sequelize');
 const dbConnection = require('../database/dbConnection').dbConnection;
 
 const {User} = require('./user'); 
-const {Address} = require('./address');
+
 
 class UserAddress extends Model {}
 
@@ -19,13 +19,6 @@ UserAddress.init({
       model: User, 
       key: 'id'
     }
-  },
-  addressId: {
-   type: DataTypes.INTEGER,
-    references: {
-     model: Address,  
-      key: 'id'
-    }
   }
 }, 
 {
@@ -35,10 +28,9 @@ UserAddress.init({
 });
 
 
-User.belongsToMany(Address, { through: UserAddress });
-Address.belongsToMany(User, { through: UserAddress });
-
+// Relacionamentos
+User.hasOne(UserAddress);  
 UserAddress.belongsTo(User);
-UserAddress.belongsTo(Address);
+
 
 module.exports = {UserAddress};

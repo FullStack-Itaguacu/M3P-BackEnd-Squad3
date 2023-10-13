@@ -1,8 +1,10 @@
 const { User } = require("../models/user");
+const { UserAddress } = require("../models/user_address")
 const Sequelize = require("sequelize");
 const typeUserEnum = require("../constants/enums/typeUserEnum");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
+const { Address } = require("../models/address");
 
 class BuyerController {
   async listBuyers(req, res) {
@@ -68,7 +70,7 @@ class BuyerController {
     const userId = req.params.userId;
 
     try {
-      const foundUser = await User.findByPk(userId);
+      const foundUser = await UserAddress.findByPk(userId);
 
       if (!foundUser) {
         return res
@@ -169,6 +171,34 @@ class BuyerController {
         .send({ message: ERROR_MESSAGES.SERVER_ERROR });
     }
   }
+
+  listAddress = async (req, res) => {
+    try {
+      const addressId = req.user.id;
+
+      if (typeof addressId !== "undefined") {
+        const userAddress = await UserAddress.findOne({ 
+          where: { userId: req.user.id }}
+        );
+        
+        const addresses = await Address.findAll({
+          where: {
+            userAddressId: userAddress.id 
+          }
+        });
+        
+
+        if (addresses) {
+          res.status(HTTP_STATUS.OK).send(addresses);
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      return res
+        .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
+        .send(ERROR_MESSAGES.SERVER_ERROR);
+    }
+  };
 }
 
 const buyerController = new BuyerController();

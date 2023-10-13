@@ -6,7 +6,15 @@ const typeUserEnum = require("../constants/enums/typeUserEnum");
 
 async function userSignupValidatorMiddleware(req, res, next) {
   try {
-    const { user, address } = req.body;
+    const { user, addresses } = req.body;
+
+    console.log(addresses[0]);
+
+    if (!Array.isArray(addresses)) {
+      return res
+        .status(HTTP_STATUS.BAD_REQUEST)
+        .send(ERROR_MESSAGES.IVALID_BODY_ADDRESS_ARRAY);
+    }
 
     const patch = req.originalUrl;
 
@@ -21,23 +29,36 @@ async function userSignupValidatorMiddleware(req, res, next) {
     }
 
     const userValidate = await userSchema.validate(user);
-    const addressValidate = await addressSchema.validate(address);
 
     if (userValidate.error) {
       const errors = userValidate.error.details.map(({ message }) => ({
         message,
       }));
 
-      return res.status(400).send({ errors });
-    }
-    if (addressValidate.error) {
-      const errors = addressValidate.error.details.map(({ message }) => ({
-        message,
-      }));
-
-      return res.status(400).send({ errors });
+      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
+        code: ERROR_MESSAGES.INVALID_DATA.code,
+        message: ERROR_MESSAGES.INVALID_DATA.message,
+        cause:errors[0].message,
+      });
     }
 
+
+
+    for (const address of addresses) {
+      const addressValidate = await addressSchema.validate(address);
+      if (addressValidate.error) {
+        const errors = addressValidate.error.details.map(({ message }) => ({
+          message,
+        }));
+  
+        return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
+          code: ERROR_MESSAGES.INVALID_DATA.code,
+          message: ERROR_MESSAGES.INVALID_DATA.message,
+          cause:errors[0].message,
+        });
+      }
+
+    }
     next();
   } catch (error) {
     console.log(error);
