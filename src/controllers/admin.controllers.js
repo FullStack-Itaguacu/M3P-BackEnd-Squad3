@@ -11,7 +11,6 @@ const { createJwtToken } = require("../utils/createJwtToken");
 
 class AdminController {
   createUserAdmin = async (req, res) => {
-    
     const { user, addresses } = req.body;
     const adminUserId = req.user.id;
 
@@ -38,7 +37,7 @@ class AdminController {
         password: passwordHash,
         birthDate,
         typeUser,
-        createdBy:adminUserId
+        createdBy: adminUserId,
       });
 
       const userAddressCreated = await UserAddress.create({
@@ -46,7 +45,15 @@ class AdminController {
       });
 
       for (const address of addresses) {
-        const { street, numberStreet,neighborhood, complement, zip, city, state } = address;
+        const {
+          street,
+          numberStreet,
+          neighborhood,
+          complement,
+          zip,
+          city,
+          state,
+        } = address;
 
         const addressCreated = await Address.create({
           userAddressId: userAddressCreated.id,
@@ -64,7 +71,6 @@ class AdminController {
 
       return res.status(HTTP_STATUS.CREATED).send(SUCESS_MESSAGE.USER_CREATED);
     } catch (error) {
-      console.log(error);
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send({ message: ERROR_MESSAGES.INTERNAL_SERVER_ERROR });
