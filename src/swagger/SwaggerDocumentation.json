@@ -1168,9 +1168,12 @@
                 "user": {
                     "$ref": "#/definitions/NewAdmin"
                 },
-                "address": {
-                    "$ref": "#/definitions/Address"
-                }
+                "addresses": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Address"
+                    }
+                  }
             }
         },
         "NewAdmin": {
