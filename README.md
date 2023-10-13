@@ -74,11 +74,13 @@ npx sequelize db:migrate
 ![Cadastro usuário](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/0e5e47b5-74ef-4112-8785-420cc32be6d7)
 |  |  |
 |POST /user/admin/signup | Endpoint Privado com o objetivo de cadastrar um usuário na aplicação. |
+![user-admin-signup](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/8fd2ae81-4d46-45af-9e83-f664e909fb24)
 | | |
 |POST /products/admin | Endpoint Privado com o objetivo de cadastrar um produto na aplicação. |
 ![product-admin](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/443eb8b0-1e8a-49eb-8e4d-ce850ea10449)
 | | |
 |GET /products/admin/:offset/:limit | Endpoint Privado com o objetivo de listar todos os produtos cadastrados daquele usuário administrador.|
+![products-admin-0-20](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/50940314-4068-4fd1-a97b-66435cc1894c)
 | | |
 |GET /products/:offset/:limit | Endpoint Privado com o objetivo de  listar todos os produtos cadastrados na aplicação. |
 ![product-limit](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/d5297aca-70dd-44eb-a865-3cc343ef8eda)
@@ -99,6 +101,7 @@ npx sequelize db:migrate
 ![buyers-admin-ID](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/672ee20c-1631-4321-8f21-ac7a235779a5)
 | | |
 |PATCH /buyers/admin/:userId | Endpoint Privado com o objetivo de atualizar alguns campos do usuário comprador na aplicação.|
+![buyers-admin-id-patch](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/6803c618-bed5-44b8-a613-636ced61044a)
 | | |
 |POST /sales/ | Endpoint Privado com o objetivo de  criar registros de venda na aplicação.|
 ![cadastro-sales](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/0d55b9aa-5e03-40bb-b9e5-d4efa6aac22b)
@@ -113,6 +116,8 @@ npx sequelize db:migrate
 ![sales-ID](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/b0a5301a-d0ab-459d-8212-2e57b9910220)
 | | |
 |GET /sales/dashboard/admin | Endpoint Privado com o objetivo de  fornecer resultados financeiros a partir das vendas realizadas.|
+![dashboard-admin](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/b041c344-6f6b-4221-8767-ec50527679fc)
+
 
 ## Realização entre as tabelas
 Para este projeto fizemos as seguintes relações entre as tabelas:
@@ -130,8 +135,12 @@ Para oferecer mais detalhes de cada rota você pode consultar a documentação p
 ![swagger](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/86123419/f368a712-88ab-4e60-abf1-a07728d79d3e)
 
 ## Melhorias Futuras
--  Sentimos falta do delete. Afinal, o produto pode deixar de ser comercializado, ou outra razão precisa ser deletado.
--  Achamos interessante ter a opção de deletar ou desativar um administrador.
+-  Deletar ou desativar um produtos, uma vez que o produto pode não estar mais disponível para comercialização ou por outras razões que justifiquem a exclusão.
+-  Deletar ou desativar um administrador.
+-  Deletar ou desativar um usuário.
+-  Atualização de dados / endereço do usuário.
+-  Alteração de senha.
+
 
 
 
