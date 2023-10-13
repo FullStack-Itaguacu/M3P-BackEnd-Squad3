@@ -1,6 +1,7 @@
 const { dbConnection } = require("../database/dbConnection");
 const { STRING, DATE, INTEGER, NUMBER, ENUM } = require("sequelize");
 const typeStatesEnum = require("../constants/enums/typeStatesEnum");
+const { UserAddress } = require("./user_address");
 
 const Address = dbConnection.define(
   "address",
@@ -9,6 +10,16 @@ const Address = dbConnection.define(
       type: INTEGER,
       autoIncrement: true,
       primaryKey: true,
+    },
+    userAddressId: {
+      type: INTEGER,
+      allowNull: false,
+      field: 'users_address_id',
+  
+      references: { 
+        model: UserAddress,
+        key: 'id'
+      }
     },
 
     zip: {
@@ -80,5 +91,7 @@ const Address = dbConnection.define(
     timestamps: true,
   }
 );
+UserAddress.hasMany(Address);
+Address.belongsTo(UserAddress, { as: 'user_address' });
 
 module.exports = { Address };
