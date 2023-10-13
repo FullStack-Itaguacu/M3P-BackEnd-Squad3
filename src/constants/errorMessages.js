@@ -24,6 +24,11 @@ const ERROR_MESSAGES = {
     message: "Usuário não autorizado",
     code: "UNAUTHORIZED",
   },
+  UNREGISTERED_USER:{
+    message: "Usuário não cadastrado",
+    code: "UNREGISTERED_USER",
+  },
+  
   INVALID_PHONE: {
     message: "Telefone inválido",
     code: "INVALID_PHONE",
