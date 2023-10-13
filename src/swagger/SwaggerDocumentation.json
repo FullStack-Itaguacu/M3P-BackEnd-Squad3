@@ -84,7 +84,7 @@
                     "401": {
                         "description": "Não autorizado",
                         "schema": {
-                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                            "$ref": "#/definitions/ErrorUNREGISTERED_USER"
                         }
                     }
                 }
@@ -1016,6 +1016,19 @@
             "properties": {
                 "token": {
                     "type": "string"
+                }
+            }
+        },
+        "ErrorUNREGISTERED_USER": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário não cadastrado"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "UNREGISTERED_USER"
                 }
             }
         },
