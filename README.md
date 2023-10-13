@@ -5,7 +5,7 @@
 
 Nossa equipe chamou a atenção dos gestores da empresa LabPharmacy Inc, uma renomada empresa do ramo de tecnologia farmacêutica, e com isso fomos convidados para desenvolver o site Pharmalândia Medications um Marketplace de produtos farmacêuticos.
 
-Este site proporcionará a oportunidade de cadastrar vendedores, cadastrar usuário(compradores), comprar medicamentos, efetuar o registro de compradores e vendedores. Os vendedores terão a capacidade de monitorar suas vendas, enquanto os compradores poderão acompanhar suas compras anteriores com facilidade.
+Este site proporcionará a oportunidade de cadastrar vendedores, usuário(compradores), comprar medicamentos, efetuar o registro de compradores e vendedores. Os vendedores terão a capacidade de monitorar suas vendas, enquanto os compradores poderão acompanhar suas compras anteriores com facilidade.
 
 ## Tenologias Utilizadas
  O backend do Pharmalândia Medications foi desenvolvido utilizando as seguintes tecnologias:
@@ -19,9 +19,9 @@ Este site proporcionará a oportunidade de cadastrar vendedores, cadastrar usuá
 
 ## Como executar o Pharmalândia Medications
 
-Para executar o Pharmalândia Medications em uma máquina local, siga as seguites instruções:
+Para executar o Pharmalândia Medications em uma máquina local, siga as seguintes instruções:
 
-1. Certifique-se de ter o Node.js instalado em sua máquina
+1. Certifique-se de ter o Node.js instalado em sua máquina;
 
 2. Clone o repositório do Pharmalândia Medications em sua máquina local:
 
@@ -29,7 +29,7 @@ Para executar o Pharmalândia Medications em uma máquina local, siga as seguite
 https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3.git
 ```
 
-3. Acesse o diretorio do projeto :
+3. Acesse o diretório do projeto :
 
 ```sh
 cd M3P-BackEnd-Squad3
@@ -44,22 +44,22 @@ npm install
 5. Inicie o servidor
 
 ```sh
-npm rum dev
+npm rum dev:
 ```
 
-6. Crie um banco de dados PostgreSQL e atualiza as configurações de conexão do arquivo criando um arquivo .env, e completando conforme o exemplo .envexemple, com as informações do seu banco de dados.
+6. Crie um banco de dados PostgreSQL e atualize as configurações de conexão do arquivo criando um arquivo .env, e complete conforme o arquivo .envexemple, com as informações do seu banco de dados.
 Aqui você precisará ter um gerenciador database configurado. Neste projeto foi utilizado o DBeaver.
 
 ![exemplo  env](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/1b077986-6e68-4100-b511-6dea8eb54465)
 
 
-8. Para rodar as migrations para que as tabelas sejam inseridas em seu banco de dados fazer o comando:
+8. Para rodar as migrations e para que as tabelas sejam inseridas em seu banco de dados você precisa fazer o comando:
 
 ```sh
 npx sequelize db:migrate
 ```
 
-8. Agora você já pode acessar o Pharmalândia Medications em seu navegador através do endereço, usei o ThunderClient para os testes ` http://localhost:3002`
+8. Agora você já pode acessar o Pharmalândia Medications em seu navegador.Usamos o ThunderClient para os testes ` http://localhost:3002`
 
 ## Endpoint criados e suas funcionalidades
 | Endpoint | Funcionalidade |
@@ -125,9 +125,12 @@ A organização do projeto foi feito utiliznado o método Kanban, montando no tr
 
 ![trello](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/f60458b6-6ee3-496b-a65a-2c43099705a2)
 
+## Documentação Swagger
+Para oferecer mais detalhes de cada rota você pode consultar a documentação pelo endereço: `http://localhost:3002/api-docs/`
+![swagger](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/86123419/f368a712-88ab-4e60-abf1-a07728d79d3e)
 
 ## Melhorias Futuras
--  Sentimos falta do delete. Afinal, o produto pode deixar de ser comercializado. 
+-  Sentimos falta do delete. Afinal, o produto pode deixar de ser comercializado, ou outra razão precisa ser deletado.
 -  Achamos interessante ter a opção de deletar ou desativar um administrador.
 
 
