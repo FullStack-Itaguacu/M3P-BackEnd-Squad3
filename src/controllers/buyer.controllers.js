@@ -4,6 +4,7 @@ const Sequelize = require("sequelize");
 const typeUserEnum = require("../constants/enums/typeUserEnum");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
+const { Address } = require("../models/address");
 
 class BuyerController {
   async listBuyers(req, res) {
@@ -176,11 +177,19 @@ class BuyerController {
       const addressId = req.user.id;
 
       if (typeof addressId !== "undefined") {
-        const address = await UserAddress.findAll({ where: { addressId } });
+        const userAddress = await UserAddress.findOne({ 
+          where: { userId: req.user.id }}
+        );
+        
+        const addresses = await Address.findAll({
+          where: {
+            userAddressId: userAddress.id 
+          }
+        });
         
 
-        if (address) {
-          res.status(HTTP_STATUS.OK).send(address);
+        if (addresses) {
+          res.status(HTTP_STATUS.OK).send(addresses);
         }
       }
     } catch (error) {
