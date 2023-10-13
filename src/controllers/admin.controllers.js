@@ -13,6 +13,7 @@ class AdminController {
   createUserAdmin = async (req, res) => {
     
     const { user, addresses } = req.body;
+    const adminUserId = req.user.id;
 
     const { fullName, email, cpf, phone, password, birthDate, typeUser } = user;
 
@@ -37,6 +38,7 @@ class AdminController {
         password: passwordHash,
         birthDate,
         typeUser,
+        createdBy:adminUserId
       });
 
       const userAddressCreated = await UserAddress.create({
