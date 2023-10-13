@@ -130,7 +130,7 @@ class BuyerController {
         const cpfRegex = /^\d{11}$/;
         if (!cpfRegex.test(cpf)) {
           return res
-            .status(HTTP_STATUS.UNPROCESSABLE_ENTIT)
+            .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
             .send({ message: ERROR_MESSAGES.INVALID_CPF });
         }
 
