@@ -16,10 +16,10 @@ module.exports = {
         },
         allowNull: true
       },
-      user_address_id: {
+      address_id: {
         type: Sequelize.INTEGER,
         references: {
-          model: { tableName: 'users_address' },
+          model: { tableName: 'address' },
           key: 'id'
         },
         allowNull: false
