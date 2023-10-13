@@ -4,6 +4,7 @@ const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 const { dbConnection } = require("../database/dbConnection");
 const { SalesItem } = require("../models/sales_item");
+const { Product } = require("../models/product");
 
 class SaleController {
   createSale = async (req, res) => {
@@ -17,7 +18,7 @@ class SaleController {
       const sale = await Sale.create({
         buyerId,
         total,
-        userAddressId: body[0].userAddressId,
+        addressId: body[0].addressId,
         typePayment: typePayment,
       });
 
@@ -34,7 +35,7 @@ class SaleController {
         });
 
         total += product.unitPrice * amount;
-        console.log(total);
+        
 
         await sale.update({ total });
 
@@ -72,6 +73,7 @@ class SaleController {
   listSaleById = async (req, res) => {
     try {
       const saleId = req.params.id;
+      console.log(saleId);
 
       if (typeof saleId !== "undefined") {
         const salesItems = await SalesItem.findAll({ where: { saleId } });
@@ -81,7 +83,7 @@ class SaleController {
         }
       }
     } catch (error) {
-      console.error(error);
+      // console.error(error);
       return res
         .status(HTTP_STATUS.INTERNAL_SERVER_ERROR)
         .send(ERROR_MESSAGES.FAILED_TO_LIST);
@@ -114,17 +116,18 @@ class SaleController {
 
       if (typeof sellerId !== "undefined") {
         const sales = await SalesItem.findAll({ where: { sellerId } });
-        console.log(sales);
         if (sales) {
-          sales.map((sale) => {
-            totalSales += sale.amountBuy * sale.product.unitPrice;
+          await Promise.all(sales.map(async (sale) => {
+            const productsale = await Product.findByPk(sale.productId);
+            totalSales += sale.amountBuy * productsale.unitPrice;
             totalAmount += sale.amountBuy;
-          });
+          }));
           return res.status(HTTP_STATUS.OK).send({ totalSales, totalAmount });
-        }  else {
-          return res.status(HTTP_STATUS.OK).send({ totalSales, totalAmount });
-        }
+        }   
+      }  else {
+        return res.status(HTTP_STATUS.OK).send({ totalSales, totalAmount });
       }
+      
     } catch (error) {
       console.error(error);
       return res
