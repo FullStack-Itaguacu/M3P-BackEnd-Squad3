@@ -103,10 +103,10 @@ npx sequelize db:migrate
 |PATCH /buyers/admin/:userId | Endpoint Privado com o objetivo de atualizar alguns campos do usuário comprador na aplicação.|
 ![buyers-admin-id-patch](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/6803c618-bed5-44b8-a613-636ced61044a)
 | | |
-|POST /sales/ | Endpoint Privado com o objetivo de  criar registros de venda na aplicação.|
+|POST /sales | Endpoint Privado com o objetivo de  criar registros de venda na aplicação.|
 ![cadastro-sales](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/0d55b9aa-5e03-40bb-b9e5-d4efa6aac22b)
 | | |
-|GET /sales/ | Endpoint Privado com o objetivo de  fornecer todas as compras que aquele comprador realizou.|
+|GET /sales | Endpoint Privado com o objetivo de  fornecer todas as compras que aquele comprador realizou.|
 ![get-sales](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/115937834/5c6f4242-1b99-4dff-a1f6-da60cea5bd42)
 | | |
 |GET /sales/admin | Endpoint Privado com o objetivo de  fornecer todas as vendas que aquele administrador realizou.|
