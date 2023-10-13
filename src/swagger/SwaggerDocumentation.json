@@ -971,7 +971,7 @@
                 }
             }
         },
-        "/sales/:id":{
+        "/sales/{salesId}":{
             "get": {
                 "tags": [
                     "Vendas"
@@ -986,7 +986,7 @@
                 ],
                 "parameters": [
                     {
-                        "name": "id",
+                        "name": "salesId",
                         "in": "path",
                         "description": "ID da venda",
                         "required": true,

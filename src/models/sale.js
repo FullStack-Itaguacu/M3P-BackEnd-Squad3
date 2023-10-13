@@ -21,11 +21,11 @@ const Sale = dbConnection.define(
         key: "id",
       },
     },
-    userAddressId: {
+    addressId: {
       type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "users_address" },
+        model: { tableName: "address" },
         key: "id",
       },
     },

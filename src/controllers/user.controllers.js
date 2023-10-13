@@ -14,7 +14,7 @@ class UserController {
   createUser = async (req, res) => {
     const { user, addresses } = req.body;
 
-    const { fullName, email, cpf, phone, password, birthDate, typeUser } = user;
+    const { fullName, email, cpf, phone, password, birthDate,  } = user;
 
     const passwordHash = await passwordHasher.hashPassword(password);
 
@@ -36,7 +36,7 @@ class UserController {
         phone,
         password: passwordHash,
         birthDate,
-        typeUser,
+       
       });
 
       const userAddressCreated = await UserAddress.create({

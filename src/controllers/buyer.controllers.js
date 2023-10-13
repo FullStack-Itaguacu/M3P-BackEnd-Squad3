@@ -6,6 +6,7 @@ const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 const { Address } = require("../models/address");
 
+
 class BuyerController {
   async listBuyers(req, res) {
     const { offset = 0, limit = 20 } = req.params;
@@ -70,7 +71,7 @@ class BuyerController {
     const userId = req.params.userId;
 
     try {
-      const foundUser = await UserAddress.findByPk(userId);
+      const foundUser = await User.findByPk(userId);
 
       if (!foundUser) {
         return res
@@ -109,6 +110,7 @@ class BuyerController {
       }
 
       const { fullName, email, cpf, phone, typeUser } = req.body;
+     
 
       if (fullName) {
         foundUser.fullName = fullName;
@@ -145,21 +147,11 @@ class BuyerController {
         foundUser.phone = phone;
       }
 
-      if (typeUser !== undefined && typeUser !== null && typeUser !== "") {
-        if (
-          foundUser.typeUser === typeUserEnum.BUYER &&
-          typeUser === typeUserEnum.ADMIN
-        ) {
+      if (typeUser.includes(typeUserEnum.BUYER) || typeUser.includes(typeUserEnum.ADMIN)) {
+       
           foundUser.typeUser = typeUser;
         } else {
-          return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
-            message: ERROR_MESSAGES.TYPE_USER_REQUIRED,
-          });
-        }
-      } else {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send({
-          message: "O campo typeUser é obrigatório e não pode ser vazio.",
-        });
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.INVALID_TYPE_USER);
       }
       await foundUser.save();
 
