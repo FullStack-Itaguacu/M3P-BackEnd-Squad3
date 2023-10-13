@@ -5,6 +5,7 @@ const config = require('./config/config.server');
 const routes = require('./routes');
 
 
+
 class Server{
     constructor (server = express())    { 
       this.middlewares(server) 
@@ -17,9 +18,16 @@ class Server{
     async middlewares(app) {
       
       app.use(cors({
-        origin: 'http://localhost:3002/api-docs/#/Usu%C3%A1rio/createUser', // Substitua pelo URL do Swagger
+        origin: (origin, callback) => {
+          const allowedOrigins = [`http://localhost:${config.port}`]; 
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error(`Acesso negado pelo CORS: ${origin}`));
+          }
+        },
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        credentials: true, // Habilita o uso de credenciais (cookies, autenticação)
+        credentials: true
       }));
       app.use(express.json()) 
     }
