@@ -78,7 +78,8 @@ class AdminController {
   };
 
   loginUser = async (req, res) => {
-    const userDb = req.body;
+    const userDb = req.user;
+  
 
     try {
       createJwtToken(userDb).then((token) => {
