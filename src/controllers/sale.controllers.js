@@ -73,7 +73,7 @@ class SaleController {
   listSaleById = async (req, res) => {
     try {
       const saleId = req.params.id;
-      console.log(saleId);
+    
 
       if (typeof saleId !== "undefined") {
         const salesItems = await SalesItem.findAll({ where: { saleId } });
