@@ -8,7 +8,7 @@ async function userSignupValidatorMiddleware(req, res, next) {
   try {
     const { user, addresses } = req.body;
 
-    console.log(addresses[0]);
+ 
 
     if (!Array.isArray(addresses)) {
       return res
