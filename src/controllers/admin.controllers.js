@@ -11,6 +11,7 @@ const { createJwtToken } = require("../utils/createJwtToken");
 
 class AdminController {
   createUserAdmin = async (req, res) => {
+    // #swagger.tags = ['admin']
     const { user, address } = req.body;
 
     const { fullName, email, cpf, phone, password, birthDate, typeUser } = user;

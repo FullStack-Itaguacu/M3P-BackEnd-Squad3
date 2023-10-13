@@ -54,7 +54,7 @@ const userSchema = Joi.object({
     'string.pattern.base': `Senha precisa conter letras maiúsculas, minúsculas e números`,
     'string.min': `Senha precisa ter no mínimo {#limit} caracteres`,
     'string.empty': `Senha não pode ser vazio`,
-    'any.required': `Telefone é um campo obrigatório`
+    'any.required': `Password é um campo obrigatório`
   }),
 
   typeUser: Joi.string().valid('ADMIN', 'BUYER').messages({

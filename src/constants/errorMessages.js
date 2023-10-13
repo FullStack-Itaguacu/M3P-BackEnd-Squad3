@@ -2,6 +2,10 @@ const typePaymentEnum = require("./enums/typePaymentEnum");
 const typeProductEnum = require("./enums/typeProductEnum");
 
 const ERROR_MESSAGES = {
+  PRODUCT_ALREADY_REGISTERED: {
+    message: "Produto já cadastrado",
+    code: "PRODUCT_ALREADY_REGISTERED",
+  },
   INVALID_CPF: {
     message: "CPF inválido",
     code: "INVALID_CPF",
@@ -20,6 +24,11 @@ const ERROR_MESSAGES = {
     message: "Usuário não autorizado",
     code: "UNAUTHORIZED",
   },
+  UNREGISTERED_USER:{
+    message: "Usuário não cadastrado",
+    code: "UNREGISTERED_USER",
+  },
+  
   INVALID_PHONE: {
     message: "Telefone inválido",
     code: "INVALID_PHONE",
@@ -140,6 +149,7 @@ INVALID_DATA_BODY: {
     message: "Estoque inválido",
     code: "INVALID_TOTAL_STOCK",
   },
+  
 
 
 };

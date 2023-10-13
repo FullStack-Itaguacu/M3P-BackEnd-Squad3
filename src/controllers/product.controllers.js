@@ -28,10 +28,24 @@ class ProductController {
       const productCreated = await Product.create(
         createData
       );
+
+      const formatDataResponseProductsCreated = {
+        id: productCreated.id,
+        name: productCreated.name,
+        labName: productCreated.labName,
+        imageLink: productCreated.imageLink,
+        dosage: productCreated.dosage,
+        typeDosage: productCreated.typeDosage,
+        unitPrice: productCreated.unitPrice,
+        totalStock: productCreated.totalStock,
+        typeProduct: productCreated.typeProduct,
+        description: productCreated.description,
+        userId: productCreated.userId,
+      };
      
 
 
-      return res.status(HTTP_STATUS.CREATED).send(productCreated);
+      return res.status(HTTP_STATUS.CREATED).send(formatDataResponseProductsCreated);
     } catch (error) {
       console.error(error);
       return res
@@ -45,6 +59,7 @@ class ProductController {
     try {
       const produto = await Product.findByPk(id);
       if (!produto) {
+        
         return res.status(HTTP_STATUS.NOT_FOUND).send(SUCESS_MESSAGE.NOT_DATA);
       }
       return res.status(HTTP_STATUS.OK).send({ produto });
@@ -66,21 +81,29 @@ class ProductController {
 
       let response;
 
-      if (optionsQuery.where) {
+    
+      if (optionsQuery.isAdmin) {
         const filteredProductsByUserId =
           await productService.getPivateFilteredProducts(optionsQuery);
 
         response = filteredProductsByUserId;
       }
 
-      if (optionsQuery.isPaginated) {
+      if (!optionsQuery.isAdmin) {
+ 
         const filteredProductsPaginate =
           await productService.getPaginatedProducts(optionsQuery);
 
         response = filteredProductsPaginate;
       }
+   
+  
 
-      res.status(HTTP_STATUS.OK).json(response);
+      const filterContentData = response.products === undefined || response.products.length === 0;
+
+      filterContentData ? res.status(HTTP_STATUS.NO_CONTENT).send(SUCESS_MESSAGE.NOT_DATA) : res.status(HTTP_STATUS.OK).send(response);
+      
+
     } catch (error) {
       console.error(error);
       return res

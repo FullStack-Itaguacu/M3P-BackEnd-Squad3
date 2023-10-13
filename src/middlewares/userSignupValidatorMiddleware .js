@@ -28,14 +28,22 @@ async function userSignupValidatorMiddleware(req, res, next) {
         message,
       }));
 
-      return res.status(400).send({ errors });
+      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
+        code: ERROR_MESSAGES.INVALID_DATA.code,
+        message: ERROR_MESSAGES.INVALID_DATA.message,
+        cause:errors[0].message,
+      });
     }
     if (addressValidate.error) {
       const errors = addressValidate.error.details.map(({ message }) => ({
         message,
       }));
 
-      return res.status(400).send({ errors });
+      return res.status(HTTP_STATUS.UNPROCESSABLE_ENTITY).send({
+        code: ERROR_MESSAGES.INVALID_DATA.code,
+        message: ERROR_MESSAGES.INVALID_DATA.message,
+        cause:errors[0].message,
+      });
     }
 
     next();

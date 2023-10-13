@@ -17,7 +17,7 @@ async function authMiddleware(req, res, next) {
     const user = await authLoginServices.findUserByEmail(email);
 
     if(!user) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNAUTHORIZED);
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNREGISTERED_USER);
     }
 
     const isValid = await authLoginServices.validatePassword(password, user);
@@ -26,7 +26,7 @@ async function authMiddleware(req, res, next) {
       return res.status(HTTP_STATUS).json(ERROR_MESSAGES.UNAUTHORIZED);
     }
 
-    req.user= user.dataValues; //disponibiliza usuário para próximas middlewares
+    req.user= user.dataValues; 
 
     next();
 

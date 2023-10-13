@@ -4,6 +4,8 @@ const {dbConnection} = require('./database/dbConnection');
 const config = require('./config/config.server');
 const routes = require('./routes');
 
+
+
 class Server{
     constructor (server = express())    { 
       this.middlewares(server) 
@@ -14,7 +16,19 @@ class Server{
     }
   
     async middlewares(app) {
-      app.use(cors()) 
+      
+      app.use(cors({
+        origin: (origin, callback) => {
+          const allowedOrigins = [`http://localhost:${config.port}`]; 
+          if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+          } else {
+            callback(new Error(`Acesso negado pelo CORS: ${origin}`));
+          }
+        },
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true
+      }));
       app.use(express.json()) 
     }
   
