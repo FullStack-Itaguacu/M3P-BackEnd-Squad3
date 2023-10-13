@@ -3,6 +3,7 @@ const ERROR_MESSAGES = require("../constants/errorMessages");
 const typePaymentEnum = require("../constants/enums/typePaymentEnum");
 const { Product } = require("../models/product");
 const { UserAddress } = require("../models/user_address");
+const { Address } = require("../models/address");
 
 async function validatorSales(req, res, next) {
   const validatedProducts = [];
@@ -19,7 +20,7 @@ async function validatorSales(req, res, next) {
       if (
         !sale.productId ||
         !sale.amountBuy ||
-        !sale.userAddressId ||
+        !sale.addressId ||
         !sale.typePayment
       ) {
         return res
@@ -34,7 +35,7 @@ async function validatorSales(req, res, next) {
           .send(ERROR_MESSAGES.PRODUCT_NOT_FOUND);
       }
 
-      const checkUserAddressId = await UserAddress.findByPk(sale.userAddressId);
+      const checkUserAddressId = await Address.findByPk(sale.addressId);
       if (!checkUserAddressId) {
         return res
           .status(HTTP_STATUS.NOT_FOUND)
