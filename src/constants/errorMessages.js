@@ -153,6 +153,10 @@ INVALID_DATA_BODY: {
     message: "O campo address deve ser um array",
     code: "IVALID_BODY_ADDRESS_ARRAY",
   },
+  INVALID_TYPE_USER: {
+    message: "O campo typeUser deve ser ADMIN ou BUYER",
+    code: "INVALID_TYPE_USER",
+  },
   
 
 

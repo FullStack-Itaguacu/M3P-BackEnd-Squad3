@@ -146,6 +146,9 @@ class BuyerController {
         }
         foundUser.phone = phone;
       }
+      if(!typeUser){
+        return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.TYPE_USER_REQUIRED);
+      }
 
       if (typeUser.includes(typeUserEnum.BUYER) || typeUser.includes(typeUserEnum.ADMIN)) {
        
