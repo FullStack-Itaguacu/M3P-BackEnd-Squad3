@@ -5,7 +5,7 @@ const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 const passwordHasher = require("../utils/passwordHasher");
 const validateUserInput = require("../services/validateUserInput.services");
-const checkEmailOrCPFExists = require("../services/checkEmailOrCPFExists");
+const checkEmailOrCPFExists = require("../services/checkEmailOrCpfExists");
 const { SUCESS_MESSAGE } = require("../constants/sucessMessage");
 const { createJwtToken } = require("../utils/createJwtToken");
 
