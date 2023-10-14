@@ -1,11 +1,10 @@
 const { User } = require("../models/user");
-const { UserAddress } = require("../models/user_address")
+const { UserAddress } = require("../models/user_address");
 const Sequelize = require("sequelize");
 const typeUserEnum = require("../constants/enums/typeUserEnum");
 const { HTTP_STATUS } = require("../constants/httpStatus");
 const ERROR_MESSAGES = require("../constants/errorMessages");
 const { Address } = require("../models/address");
-
 
 class BuyerController {
   async listBuyers(req, res) {
@@ -110,7 +109,6 @@ class BuyerController {
       }
 
       const { fullName, email, cpf, phone, typeUser } = req.body;
-     
 
       if (fullName) {
         foundUser.fullName = fullName;
@@ -146,6 +144,7 @@ class BuyerController {
         }
         foundUser.phone = phone;
       }
+
     
 
       if (typeUser || typeUser.includes(typeUserEnum.BUYER) || typeUser.includes(typeUserEnum.ADMIN)) {
@@ -153,6 +152,7 @@ class BuyerController {
           foundUser.typeUser = typeUser;
         } else {
         return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.INVALID_TYPE_USER);
+
       }
       await foundUser.save();
 
@@ -170,16 +170,15 @@ class BuyerController {
       const addressId = req.user.id;
 
       if (typeof addressId !== "undefined") {
-        const userAddress = await UserAddress.findOne({ 
-          where: { userId: req.user.id }}
-        );
-        
+        const userAddress = await UserAddress.findOne({
+          where: { userId: req.user.id },
+        });
+
         const addresses = await Address.findAll({
           where: {
-            userAddressId: userAddress.id 
-          }
+            userAddressId: userAddress.id,
+          },
         });
-        
 
         if (addresses) {
           res.status(HTTP_STATUS.OK).send(addresses);
