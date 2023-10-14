@@ -110,13 +110,13 @@ class BuyerController {
 
       const { fullName, email, cpf, phone, typeUser } = req.body;
 
-      if (fullName) {
+      if (fullName !== undefined) {
         foundUser.fullName = fullName;
       }
 
-      if (email) {
+      if (email !== undefined) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (email && !emailRegex.test(email)) {
           return res
             .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
             .send({ message: ERROR_MESSAGES.INVALID_EMAIL });
@@ -124,20 +124,20 @@ class BuyerController {
         foundUser.email = email;
       }
 
-      if (cpf) {
+      if (cpf !== undefined) {
         const cpfRegex = /^\d{11}$/;
-        if (!cpfRegex.test(cpf)) {
+        if (cpf && !cpfRegex.test(cpf)) {
           return res
             .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
             .send({ message: ERROR_MESSAGES.INVALID_CPF });
         }
 
-        foundUser.cpf = cpf.replace(/\D/g, "");
+        foundUser.cpf = cpf ? cpf.replace(/\D/g, "") : null;
       }
 
       if (phone !== undefined) {
         const phoneRegex = /^\d{11,}$/;
-        if (!phoneRegex.test(phone)) {
+        if (phone && !phoneRegex.test(phone)) {
           return res
             .status(HTTP_STATUS.UNPROCESSABLE_ENTITY)
             .send({ message: ERROR_MESSAGES.INVALID_PHONE });
@@ -145,15 +145,21 @@ class BuyerController {
         foundUser.phone = phone;
       }
 
-    
 
-      if (typeUser || typeUser.includes(typeUserEnum.BUYER) || typeUser.includes(typeUserEnum.ADMIN)) {
-       
+      if (typeUser !== undefined) {
+        if (
+          typeUser.includes(typeUserEnum.BUYER) ||
+          typeUser.includes(typeUserEnum.ADMIN)
+        ) {
           foundUser.typeUser = typeUser;
         } else {
-        return res.status(HTTP_STATUS.BAD_REQUEST).send(ERROR_MESSAGES.INVALID_TYPE_USER);
-
+          return res
+            .status(HTTP_STATUS.BAD_REQUEST)
+            .send(ERROR_MESSAGES.INVALID_TYPE_USER);
+        }
       }
+
+
       await foundUser.save();
 
       res.status(HTTP_STATUS.NO_CONTENT).send();
