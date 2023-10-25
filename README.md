@@ -132,7 +132,7 @@ A organização do projeto foi feita utilizando o método Kanban, montando no tr
 
 ## Documentação Swagger
 
-Para oferecer mais detalhes de cada rota você pode consultar a documentação pelo endereço: `http://localhost:3002/api-docs/`
+Para oferecer mais detalhes de cada rota você pode consultar a documentação pelo endereço: `https://monitorrindodeploymaster.cyclic.app/api-docs`
 ![swagger](https://github.com/FullStack-Itaguacu/M3P-BackEnd-Squad3/assets/86123419/f368a712-88ab-4e60-abf1-a07728d79d3e)
 
 ## Melhorias Futuras
