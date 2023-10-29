@@ -12,7 +12,7 @@ async function authMiddleware(req, res, next) {
     
    
     if(!email || !password) {
-      return res.status(HTTP_STATUS.BAD_REQUEST).json(ERROR_MESSAGES.BAD_REQUEST);
+      return res.status(HTTP_STATUS.BAD_REQUEST).json(ERROR_MESSAGES.BAD_REQUEST_LOGIN);
     }
 
     const user = await authLoginServices.findUserByEmail(email);
@@ -27,7 +27,8 @@ async function authMiddleware(req, res, next) {
     const isValid = await authLoginServices.validatePassword(password, user);
 
     if(!isValid || isValid === null) {
-      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNAUTHORIZED);
+      console.log('entrou aqui');
+      return res.status(HTTP_STATUS.UNAUTHORIZED).json(ERROR_MESSAGES.UNAUTHORIZED_LOGIN);
     }
     
 
