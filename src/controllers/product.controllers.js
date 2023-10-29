@@ -72,6 +72,7 @@ class ProductController {
   };
 
   getProducts = async (req, res) => {
+  
     try {
       const optionsQuery = productService.buildQueryOptions(req);
 
@@ -116,9 +117,18 @@ class ProductController {
   updateProduct = async (req, res) => {
 
     const productMIddleware = req.product;
-    const product = req.body;
+    const product = {
+      ...(req.body.name && {name: req.body.name}),
+      ...(req.body.imageLink && {imageLink: req.body.imageLink}),
+      ...(req.body.dosage && {dosage: req.body.dosage}),
+      ...(req.body.totalStock && {totalStock: req.body.totalStock}),
+      ...(req.body.unitPrice && {unitPrice: req.body.unitPrice})  
+    };
+
+
     try {
       const updatedProduct = await productMIddleware.update(product);
+    
 
       return res.status(HTTP_STATUS.NO_CONTENT).send();
     } catch (error) {
