@@ -1,6 +1,8 @@
-const paymentType = require("../constants/paymentType");
+
+const typePaymentEnum = require("../constants/enums/typePaymentEnum");
 const { dbConnection } = require("../database/dbConnection");
-const { INTEGER, NUMBER, DATE, DECIMAL } = require("sequelize");
+const { INTEGER, DATE, ENUM } = require("sequelize");
+
 
 const Sale = dbConnection.define(
   "sale",
@@ -15,20 +17,11 @@ const Sale = dbConnection.define(
       type: INTEGER,
       allowNull: true,
       references: {
-        model: { tableName: "user" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
-
-    sellerId: {
-      type: INTEGER,
-      allowNull: true,
-      references: {
-        model: { tableName: "sale" },
-        key: "id",
-      },
-    },
-    userAddressId: {
+    addressId: {
       type: INTEGER,
       allowNull: true,
       references: {
@@ -37,33 +30,14 @@ const Sale = dbConnection.define(
       },
     },
 
-    amountBuy: {
-      type: NUMBER,
-      allowNull: false,
-    },
 
-    productUnitPrice: {
-      type: DECIMAL(10, 2),
-      allowNull: false,
-    },
-
-    quantityProductSold: {
+    total: {
       type: INTEGER,
       allowNull: false,
     },
 
-    saleDate: {
-      type: DATE,
-      allowNull: false,
-    },
-
-    totalSalePrice: {
-      type: DECIMAL(10, 2),
-      allowNull: false,
-    },
-
-    formPayment: {
-      type: paymentType,
+    typePayment: {
+      type: ENUM(...typePaymentEnum),
       allowNull: false,
     },
 
@@ -83,7 +57,6 @@ const Sale = dbConnection.define(
     },
   },
   {
-    freezeTableName: true,
     paranoid: true,
     timestamps: true,
   }

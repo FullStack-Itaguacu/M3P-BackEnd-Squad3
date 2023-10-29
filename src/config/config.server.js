@@ -34,6 +34,13 @@ const config = {
 
   // Server
     port: value.PORT,
+
+    // AWS
+
+    bucket: value.BUCKET,
+    awsRegion: value.AWSREGION,
+    awsAccessKeyId: value.AWSACCESS_KEY_ID,
+    awsSecretAccessKey: value.AWSSECRET_ACCESS_KEY,
     
 }
 

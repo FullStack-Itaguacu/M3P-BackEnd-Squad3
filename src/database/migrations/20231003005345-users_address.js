@@ -7,7 +7,6 @@ module.exports = {
      await queryInterface.createTable('users_address', { 
       id: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         autoIncrement: true,
         primaryKey: true,
       }, 
@@ -17,17 +16,6 @@ module.exports = {
         references: {
           model:{
           tableName: 'users'
-        },
-        key: 'id'
-      },
-        allowNull: false
-      },
-
-      address_id: {
-        type: Sequelize.INTEGER,
-        references: {
-          model:{
-          tableName: 'address'
         },
         key: 'id'
       },

@@ -4,6 +4,8 @@ const {dbConnection} = require('./database/dbConnection');
 const config = require('./config/config.server');
 const routes = require('./routes');
 
+
+
 class Server{
     constructor (server = express())    { 
       this.middlewares(server) 
@@ -14,7 +16,15 @@ class Server{
     }
   
     async middlewares(app) {
-      app.use(cors()) 
+      
+      app.use(cors({
+        origin: ['http://localhost:5173', 'http://localhost:5174','https://monitorrindodeploymaster.cyclic.app'],
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+        credentials: true,
+      }));
+      
+      
+      
       app.use(express.json()) 
     }
   

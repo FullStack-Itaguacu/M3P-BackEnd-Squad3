@@ -1,0 +1,1529 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API para o projeto Marketplace de produtos farmacêuticos.",
+        "version": "1.0.0",
+        "title": "Marketplace API"
+    },
+    "host": "localhost:3002",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Usuário",
+            "description": "Operações relacionadas a usuários"
+        },
+        {
+            "name": "Autenticação",
+            "description": "Operações relacionadas à autenticação de usuários"
+        },
+        {
+            "name": "Produtos",
+            "description": "Operações relacionadas a produtos"
+        },
+        {
+            "name": "Vendas",
+            "description": "Operações relacionadas a vendas"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "paths": {
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticação de usuário comprador",
+                "description": "Efetua o login de um usuário comprador na aplicação",
+                "operationId": "authUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para autenticação",
+                        "required": true,
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "email",
+                                "password"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/AuthSuccessResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/admin/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticação de usuário administrador",
+                "description": "Efetua o login de um usuário administrador na aplicação",
+                "operationId": "authAdmin",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para autenticação",
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "format": "email"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "email",
+                                "password"
+                            ]
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/AuthSuccessResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/signup": {
+            "post": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Cadastro de usuário",
+                "description": "Cadastra um novo usuário comprador",
+                "operationId": "createUser",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do usuário",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Sucesso",
+                        "schema": {
+                            "$ref": "#/definitions/SucessCreated"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorBAD_REQUEST"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorCONFLICT"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/admin/signup": {
+            "post": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Cadastro de usuário administrador",
+                "description": "Cadastra um novo usuário administrador",
+                "operationId": "createAdmin",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do usuário",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateAdminRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Criado",
+                        "schema": {
+                            "$ref": "#/definitions/SucessCreated"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorBAD_REQUEST"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorCONFLICT"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/admin": {
+            "post": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Cadastro de produto",
+                "description": "Cadastra um novo produto",
+                "operationId": "createProduct",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados do produto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateProductRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Criado",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorBAD_REQUEST"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            }
+        },
+        "/products/admin/{offset}/{limit}": {
+            "get": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Lista produtos do administrador",
+                "description": "Retorna uma lista paginada de produtos cadastrados pelo administrador",
+                "operationId": "listAdminProducts",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Deslocamento da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 0
+                    },
+                    {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "Tamanho da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 10
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do medicamento",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "typeProduct",
+                        "in": "query",
+                        "description": "Tipo do medicamento",
+                        "required": false,
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "Controlado",
+                            "Não controlado"
+                        ]
+                    },
+                    {
+                        "name": "totalStock",
+                        "in": "query",
+                        "description": "Exibir quantidade de estoque crescente ou decrescente",
+                        "required": false,
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "desc",
+                            "asc"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProductListResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "204": {
+                        "description": "Sem conteúdo"
+                    }
+                }
+            }
+        },
+        "/products/{offset}/{limit}": {
+            "get": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Lista produtos",
+                "description": "Retorna uma lista paginada de todos os produtos",
+                "operationId": "listProducts",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Deslocamento da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 0
+                    },
+                    {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "Tamanho da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32",
+                        "default": 10
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nome do medicamento",
+                        "required": false,
+                        "type": "string",
+                        "format": "string"
+                    },
+                    {
+                        "name": "typeProduct",
+                        "in": "query",
+                        "description": "Tipo do medicamento",
+                        "required": false,
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "Controlado",
+                            "Não controlado"
+                        ]
+                    },
+                    {
+                        "name": "totalStock",
+                        "in": "query",
+                        "description": "Exibir quantidade de estoque crescente ou decrescente",
+                        "required": false,
+                        "type": "string",
+                        "format": "string",
+                        "enum": [
+                            "desc",
+                            "asc"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProductListResult"
+                        }
+                    },
+                    "204": {
+                        "description": "Sem conteúdo"
+                    }
+                }
+            }
+        },
+        "/products/{productId}": {
+            "get": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Obtém produto por ID",
+                "description": "Retorna os detalhes de um produto pelo seu ID",
+                "operationId": "getProductById",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Product"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
+                    }
+                }
+            }
+        },
+        "/buyers/address": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Obtém endereços do usuário",
+                "description": "Retorna a lista de endereços cadastrados pelo usuário autenticado",
+                "operationId": "getBuyerAddresses",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Address"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                }
+            }
+        },
+        "/products/admin/{productId}": {
+            "patch": {
+                "tags": [
+                    "Produtos"
+                ],
+                "summary": "Atualiza produto por ID",
+                "description": "Atualiza dados de um produto pelo seu ID",
+                "operationId": "updateProductById",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "description": "ID do produto",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para atualizar",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateProductRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Atualizado"
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            }
+        },
+        "/buyers/admin/{offset}/{limit}": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Lista usuários",
+                "description": "Retorna uma lista paginada de usuários",
+                "operationId": "listUsers",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "path",
+                        "description": "Deslocamento da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "limit",
+                        "in": "path",
+                        "description": "Tamanho da página",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/UserListResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "204": {
+                        "description": "Sem conteúdo",
+                        "schema": {
+                            "$ref": "#/definitions/SucessNO_CONTENT"
+                        }
+                    }
+                }
+            }
+        },
+        "/buyers/admin/{userId}": {
+            "get": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Obtém usuário por ID",
+                "description": "Retorna os detalhes de um usuário pelo seu ID",
+                "operationId": "getUserById",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Usuário"
+                ],
+                "summary": "Atualiza usuário por ID",
+                "description": "Atualiza dados de um usuário pelo seu ID",
+                "operationId": "updateUserById",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID do usuário",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Dados para atualizar",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateUserRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Atualizado"
+                    },
+                    "401": {
+                        "description": "Atualizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            }
+        },
+        "/sales": {
+            "post": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "Registra vendas",
+                "description": "Registra uma nova venda",
+                "operationId": "createSale",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Itens da venda",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/NewSaleItem"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Criado"
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorBAD_REQUEST"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflito",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorCONFLICT"
+                        }
+                    },
+                    "422": {
+                        "description": "Entidade inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorINVALID_DATA"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "Obtém vendas do usuário",
+                "description": "Retorna a lista de vendas do usuário autenticado",
+                "operationId": "getAuthenticatedUserSales",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sale"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    }
+                }
+            }
+        },
+        "/sales/admin": {
+            "get": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "Obtém vendas do administrador",
+                "description": "Retorna a lista de vendas realizadas pelo administrador autenticado",
+                "operationId": "getAdminSales",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Sale"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "403": {
+                        "description": "Proibido",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorFORBIDDEN"
+                        }
+                    }
+                }
+            }
+        },
+        "/sales/dashboard/admin": {
+            "get": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "Obtém dashboard de vendas do administrador",
+                "description": "Retorna informações aggregadas sobre vendas realizadas pelo administrador",
+                "operationId": "getAdminSalesDashboard",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AdminSalesDashboardResult"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    }
+                }
+            }
+        },
+        "/sales/:id":{
+            "get": {
+                "tags": [
+                    "Vendas"
+                ],
+                "summary": "Obtém venda por ID",
+                "description": "Retorna os detalhes de uma venda pelo seu ID",
+                "operationId": "getSaleById",
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da venda",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Sale"
+                        }
+                    },
+                    "401": {
+                        "description": "Não autorizado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorNOT_FOUND"
+                        }
+                    }
+                }
+            }
+        
+        }
+    },
+    "definitions": {
+        "AuthSuccessResponse": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "ErrorUNAUTHORIZED": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário não autorizado"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "UNAUTHORIZED"
+                }
+            }
+        },
+        "ErrorFORBIDDEN": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário não autorizado"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "FORBIDDEN"
+                }
+            }
+        },
+        "ErrorINVALID_DATA": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "example": "INVALID_DATA"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "Dados inválidos"
+                },
+                "cause": {
+                    "type": "string",
+                    "example": "O campo 'email' é obrigatório"
+                }
+            }
+        },
+        "ErrorCONFLICT": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário já cadastrado"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "CONFLICT"
+                }
+            }
+        },
+        "ErrorBAD_REQUEST": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Requisição inválida"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "BAD_REQUEST"
+                }
+            }
+        },
+        "ErrorNOT_FOUND": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Nenhuma informação encontrada"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "NOT_DATA"
+                }
+            }
+        },
+        "SucessCreated": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário criado com sucesso!"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "USER_CREATED"
+                }
+            }
+        },
+        "SucessNO_CONTENT": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Sem conteúdo"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "NO_CONTENT"
+                }
+            }
+        },
+        "CreateUserRequest": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/User"
+                },
+                "address": {
+                    "$ref": "#/definitions/Address"
+                }
+            }
+        },
+        "CreateAdminRequest": {
+            "type": "object",
+            "properties": {
+                "user": {
+                    "$ref": "#/definitions/NewAdmin"
+                },
+                "address": {
+                    "$ref": "#/definitions/Address"
+                }
+            }
+        },
+        "NewAdmin": {
+            "type": "object",
+            "properties": {
+                "fullName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email"
+                },
+                "cpf": {
+                    "description": "CPF do usuário",
+                    "type": "string",
+                    "minLength": 11,
+                    "maxLength": 11,
+                    "example": "12345678900"
+                },
+                "birthDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "phone": {
+                    "type": "string",
+                    "minLength": 11,
+                    "maxLength": 11,
+                    "example": "11999999999"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "typeUser": {
+                    "type": "string",
+                    "default": "ADMIN",
+                    "enum": {
+                        "ADMIN": "ADMIN",
+                        "BUYER": "BUYER"
+                    }
+                }
+            },
+            "required": [
+                "fullName",
+                "email",
+                "cpf",
+                "birthDate",
+                "phone",
+                "password",
+                "typeUser"
+            ]
+        },
+        "NewUser": {
+            "type": "object",
+            "properties": {
+                "fullName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "birthDate": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "Address": {
+            "type": "object",
+            "properties": {
+                "street": {
+                    "type": "string"
+                },
+                "numberStreet": {
+                    "type": "integer"
+                },
+                "complement": {
+                    "type": "string"
+                },
+                "neighborhood": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "state": {
+                    "type": "string"
+                },
+                "zip": {
+                    "type": "string"
+                },
+                "lat": {
+                    "type": "string"
+                },
+                "long": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "street",
+                "numberStreet",
+                "neighborhood",
+                "city",
+                "state",
+                "zip"
+            ]
+        },
+        "CreateProductRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "labName": {
+                    "type": "string"
+                },
+                "imageLink": {
+                    "type": "string",
+                    "format": "url",
+                    "example": "http://www.teste.com.br"
+                },
+                "typeDosage": {
+                    "type": "string",
+                    "enum": [
+                        "mg",
+                        "mcg",
+                        "g",
+                        "mL",
+                        "%",
+                        "outro"
+                    ]
+                },
+                "dosage": {
+                    "type": "string"
+                },
+                "unitPrice": {
+                    "type": "decimal",
+                    "example": 0.00
+                },
+                "typeProduct": {
+                    "type": "string",
+                    "enum": [
+                        "Controlado",
+                        "Não Controlado"
+                    ]
+                },
+                "totalStock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "Product": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "userId": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "labName": {
+                    "type": "string"
+                },
+                "imageLink": {
+                    "type": "string",
+                    "format": "url",
+                    "example": "http://www.teste.com.br"
+                },
+                "typeDosage": {
+                    "type": "string",
+                    "enum": [
+                        "mg",
+                        "mcg",
+                        "g",
+                        "mL",
+                        "%",
+                        "outro"
+                    ]
+                },
+                "dosage": {
+                    "type": "string",
+                    "example": "10"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "unitPrice": {
+                    "type": "number"
+                },
+                "typeProduct": {
+                    "type": "string"
+                },
+                "totalStock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "ProductListResult": {
+            "type": "object",
+            "properties": {
+                "products": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Product"
+                    }
+                },
+                "count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "UpdateProductRequest": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "imageLink": {
+                    "type": "string",
+                    "format": "url",
+                    "example": "http://www.teste.com.br"
+                },
+                "dosage": {
+                    "type": "number"
+                },
+                "totalStock": {
+                    "type": "integer"
+                }
+            }
+        },
+        "User": {
+            "type": "object",
+            "properties": {
+                "fullName": {
+                    "type": "string"
+                },
+                "cpf": {
+                    "type": "string",
+                    "minLength": 11,
+                    "maxLength": 11,
+                    "example": "12345678900"
+                },
+                "birthDate": {
+                    "type": "string",
+                    "format": "date",
+                    "example": "1990-01-01"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "teste@teste.com.br"
+                },
+                "phone": {
+                    "type": "string",
+                    "minLength": 11,
+                    "maxLength": 11,
+                    "example": "11999999999"
+                },
+                "password": {
+                    "type": "string",
+                    "minLength": 8,
+                    "example": "123Senha@"
+                },
+                "typeUser": {
+                    "type": "string",
+                    "default": "BUYER"
+                }
+            },
+            "required": [
+                "fullName",
+                "cpf",
+                "birthDate",
+                "email",
+                "phone",
+                "password"
+            ]
+        },
+        "UserListResult": {
+            "type": "object",
+            "properties": {
+                "users": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/User"
+                    }
+                },
+                "count": {
+                    "type": "integer"
+                }
+            }
+        },
+        "UpdateUserRequest": {
+            "type": "object",
+            "properties": {
+                "fullName": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "teste@email.com"
+                },
+                "cpf": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "typeUser": {
+                    "type": "string",
+                    "default": "BUYER",
+                    "enum": {
+                        "ADMIN": "ADMIN",
+                        "BUYER": "BUYER"
+                    }
+                }
+            }
+        },
+        "NewSaleItem": {
+            "type": "object",
+            "properties": {
+                "productId": {
+                    "type": "integer"
+                },
+                "amountBuy": {
+                    "type": "integer"
+                },
+                "addressId": {
+                    "type": "integer"
+                },
+                "typePayment": {
+                    "type": "string"
+                }
+            }
+        },
+        "Sale": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "product": {
+                    "$ref": "#/definitions/Product"
+                },
+                "amountBuy": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "AdminSalesDashboardResult": {
+            "type": "object",
+            "properties": {
+                "totalSales": {
+                    "type": "number"
+                },
+                "totalAmount": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

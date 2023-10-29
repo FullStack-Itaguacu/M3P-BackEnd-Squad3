@@ -1,49 +1,54 @@
 const {
   INTEGER,
-  BLOB,
-  NUMBER,
   DATE,
   STRING,
   DECIMAL,
   ENUM,
+  NUMBER,
 } = require("sequelize");
 const { dbConnection } = require("../database/dbConnection");
+const typeDosageEnum = require("../constants/enums/typeDosageEnum");
+const typeProductEnum = require("../constants/enums/typeProductEnum");
 
 const Product = dbConnection.define(
   "product",
   {
     id: {
-      type: INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
+      type:INTEGER,
+      primaryKey: true,  
+      autoIncrement: true 
     },
 
     userId: {
       type: INTEGER,
-      allowNull: false,
+      allowNull: true,
       references: {
-        model: { tableName: "user" },
+        model: { tableName: "users" },
         key: "id",
       },
     },
 
-    productName: {
+    name: {
       type: STRING,
       allowNull: false,
     },
 
-    laboratoryName: {
+    labName: {
       type: STRING,
       allowNull: false,
     },
 
     imageLink: {
-      type: BLOB,
+      type: STRING,
       allowNull: false,
     },
 
     dosage: {
-      type: ENUM("mg", "mcg", "g", "mL", "%", "outro"),
+      type: NUMBER,
+      allowNull: false,
+    },
+    typeDosage: {
+      type: ENUM(...typeDosageEnum),
       allowNull: false,
     },
 
@@ -52,18 +57,14 @@ const Product = dbConnection.define(
       allowNull: false,
     },
 
-    totalPrice: {
-      type: NUMBER,
-      allowNull: false,
-    },
-
     totalStock: {
+      field: 'total_stock' ,
       type: INTEGER,
       allowNull: false,
     },
 
-    productType: {
-      type: ENUM("Medicamento controlado", "Medicamento não controlado"),
+    typeProduct: {
+      type: ENUM(...typeProductEnum),
       allowNull: false,
     },
 
@@ -72,10 +73,6 @@ const Product = dbConnection.define(
       allowNull: true,
     },
 
-    registrationDate: {
-      type: DATE,
-      allowNull: false,
-    },
 
     createdAt: {
       type: DATE,
@@ -93,7 +90,6 @@ const Product = dbConnection.define(
     },
   },
   {
-    freezeTableName: true,
     paranoid: true,
     timestamps: true,
   }
