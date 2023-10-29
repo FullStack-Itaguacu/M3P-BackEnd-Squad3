@@ -137,7 +137,13 @@
                     "401": {
                         "description": "Não autorizado",
                         "schema": {
-                            "$ref": "#/definitions/ErrorUNAUTHORIZED"
+                            "$ref": "#/definitions/ErrorUNREGISTERED_USER"
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorBAD_REQUEST_LOGIN"
                         }
                     },
                     "403": {
@@ -1045,11 +1051,37 @@
             "properties": {
                 "message": {
                     "type": "string",
-                    "example": "Usuário não autorizado"
+                    "example": "Usuário não cadastrado"
                 },
                 "code": {
                     "type": "string",
                     "example": "UNAUTHORIZED"
+                }
+            }
+        },
+        "ErrorUNAUTHORIZED_LOGIN": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Usuário não cadastrado"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "UNAUTHORIZED__LOGIN"
+                }
+            }
+        },
+        "ErrorBAD_REQUEST_LOGIN": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Os campos email e password são obrigatórioss"
+                },
+                "code": {
+                    "type": "string",
+                    "example": "BAD_REQUEST_LOGIN"
                 }
             }
         },
@@ -1063,6 +1095,10 @@
                 "code": {
                     "type": "string",
                     "example": "FORBIDDEN"
+                },
+                "cause": {
+                    "type": "string",
+                    "example": "Usuário não autorizado para esta operação"
                 }
             }
         },
@@ -1418,6 +1454,9 @@
         "User": {
             "type": "object",
             "properties": {
+                "id": {
+                    "type": "number"
+                },
                 "fullName": {
                     "type": "string"
                 },
@@ -1443,11 +1482,6 @@
                     "maxLength": 11,
                     "example": "11999999999"
                 },
-                "password": {
-                    "type": "string",
-                    "minLength": 8,
-                    "example": "123Senha@"
-                },
                 "typeUser": {
                     "type": "string",
                     "default": "BUYER"
@@ -1471,8 +1505,11 @@
                         "$ref": "#/definitions/User"
                     }
                 },
-                "count": {
-                    "type": "integer"
+                "currentPage": {
+                    "type": "number"
+                },
+                "totalPages": {
+                    "type": "number"
                 }
             }
         },
