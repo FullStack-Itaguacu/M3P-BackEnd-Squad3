@@ -11,25 +11,24 @@ class ProductService {
   }
 
   async getPivateFilteredProducts(options) {
-    
     const { count, rows } = await this.product.findAndCountAll({
-      where:options.where,
-      order:options.order,
-      offset:options.offset,
-      limit:options.limit,
+      where: options.where,
+      order: options.order,
+      offset: options.offset,
+      limit: options.limit,
     });
-  
+    const totalPages = Math.ceil(count / options.limit);
+
     return {
       products: rows,
-      total: count,
+      totalProducts: count,
+      totalPages,
+      currentPage: options.offset / options.limit + 1,
     };
-  
   }
 
-
   async getPaginatedProducts(options) {
-    const { where,offset, limit,order } = options;
-    
+    const { where, offset, limit, order } = options;
 
     const { count, rows } = await this.product.findAndCountAll({
       where,
@@ -37,23 +36,23 @@ class ProductService {
       offset,
       limit,
     });
-
+    const totalPages = Math.ceil(count / limit);
     return {
       products: rows,
-      total: count,
+      totalProducts: count,
+      totalPages,
+      currentPage: offset / limit + 1,
+      
     };
   }
 
-
-
   buildQueryOptions(req) {
-    
-    const { name, typeProduct,totalStock } = req.query;
+    const { name, typeProduct, totalStock } = req.query;
     const { offset, limit } = req.params;
     let typeUser = null;
 
-    if(req.user){
-       typeUser = req.user.role;
+    if (req.user) {
+      typeUser = req.user.role;
     }
 
     if (typeProduct && !typeProductEnum.includes(typeProduct)) {
@@ -62,7 +61,7 @@ class ProductService {
 
     const where = {};
 
-    if(req.user) {
+    if (req.user) {
       where.userId = req.user.id;
     }
     if (name) {
@@ -73,9 +72,8 @@ class ProductService {
       where.typeProduct = typeProduct;
     }
 
-
     const options = {
-      isAdmin: typeUser===typeUserEnum.ADMIN,
+      isAdmin: typeUser === typeUserEnum.ADMIN,
       order: [],
       where,
       offset: parseInt(offset) || DEFAULT_OFFSET,
@@ -83,12 +81,11 @@ class ProductService {
     };
 
     if (totalStock) {
-      options.order = [['total_stock', req.query.totalStock]]; 
+      options.order = [["total_stock", req.query.totalStock]];
     }
 
     if (req.user) {
       options.where.userId = req.user.id;
-      
     }
 
     return options;
