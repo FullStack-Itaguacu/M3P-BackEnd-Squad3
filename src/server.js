@@ -18,17 +18,13 @@ class Server{
     async middlewares(app) {
       
       app.use(cors({
-        origin: (origin, callback) => {
-          const allowedOrigins = [`http://localhost:${config.port}`]; 
-          if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-          } else {
-            callback(new Error(`Acesso negado pelo CORS: ${origin}`));
-          }
-        },
+        origin: ['http://localhost:5173', 'http://localhost:5174','https://monitorrindodeploymaster.cyclic.app'],
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        credentials: true
+        credentials: true,
       }));
+      
+      
+      
       app.use(express.json()) 
     }
   

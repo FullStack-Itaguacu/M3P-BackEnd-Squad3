@@ -23,7 +23,7 @@ async function checkProductOwner(req, res, next) {
     }
 
     if(existingProperties.includes("name") ){
-      if (!name || typeof name !== "string" || name.length < 3) {
+      if (!name || name.trim().length === 0) {
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR_MESSAGES.INVALID_NAME);
@@ -32,7 +32,9 @@ async function checkProductOwner(req, res, next) {
 
     if(existingProperties.includes("imageLink") ){
 
-      if (!imageLink || typeof imageLink !== "string" || imageLink.length < 3) {
+      if (!imageLink &&  imageLink.trim() === 0) {
+
+        
         return res
           .status(HTTP_STATUS.BAD_REQUEST)
           .send(ERROR_MESSAGES.INVALID_IMAGE_LINK);
@@ -41,7 +43,7 @@ async function checkProductOwner(req, res, next) {
 
     if(existingProperties.includes("dosage") ){
         
-        if (!dosage || typeof dosage !== "number" || dosage.length <= 0) {
+      if (!dosage && dosage > 0 && dosage !== null) {
           return res
             .status(HTTP_STATUS.BAD_REQUEST)
             .send(ERROR_MESSAGES.INVALID_DOSAGE);
@@ -50,7 +52,7 @@ async function checkProductOwner(req, res, next) {
 
       if(existingProperties.includes("totalStock") ){
           
-          if (!totalStock || typeof totalStock !== "number" || totalStock.length <= 0 || totalStock <= 0	) {
+          if (!totalStock || typeof totalStock !== "number" ||totalStock < 0	) {
             return res
               .status(HTTP_STATUS.BAD_REQUEST)
               .send(ERROR_MESSAGES.INVALID_TOTAL_STOCK);

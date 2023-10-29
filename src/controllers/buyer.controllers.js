@@ -10,12 +10,8 @@ class BuyerController {
   async listBuyers(req, res) {
     const { offset = 0, limit = 20 } = req.params;
     const { fullName, orderBy, orderDirection } = req.query;
-    const filter = typeUserEnum.BUYER;
-
     try {
-      const whereClause = {
-        typeUser: filter,
-      };
+      const whereClause = {};
       if (fullName) {
         whereClause.fullName = {
           [Sequelize.Op.iLike]: `%${fullName}%`,
@@ -37,6 +33,8 @@ class BuyerController {
         limit: Number(limit),
       });
 
+      const totalPages = Math.ceil(count / limit);
+
       const userData = users.map((user) => {
         return {
           id: user.id,
@@ -44,6 +42,7 @@ class BuyerController {
           email: user.email,
           cpf: user.cpf,
           phone: user.phone,
+          birthDate: user.birthDate,
           typeUser: user.typeUser,
           createdAt: user.createdAt,
         };
@@ -54,8 +53,9 @@ class BuyerController {
       }
 
       res.status(HTTP_STATUS.OK).send({
-        total: count,
-        userData,
+        users: userData,
+        totalPages,
+        currentPage: offset / limit + 1,
       });
     } catch (error) {
       console.error(error);
@@ -83,6 +83,9 @@ class BuyerController {
         name: foundUser.fullName,
         email: foundUser.email,
         cpf: foundUser.cpf,
+        phone: foundUser.phone,
+        typeUser: foundUser.typeUser,
+        birthDate: foundUser.birthDate,
         createdAt: foundUser.createdAt,
         updatedAt: foundUser.updatedAt,
       };
@@ -145,7 +148,6 @@ class BuyerController {
         foundUser.phone = phone;
       }
 
-
       if (typeUser !== undefined) {
         if (
           typeUser.includes(typeUserEnum.BUYER) ||
@@ -158,7 +160,6 @@ class BuyerController {
             .send(ERROR_MESSAGES.INVALID_TYPE_USER);
         }
       }
-
 
       await foundUser.save();
 

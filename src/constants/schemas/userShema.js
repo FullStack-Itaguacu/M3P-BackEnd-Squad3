@@ -5,8 +5,7 @@ const userSchema = Joi.object({
 
   
   
-  fullName: Joi.string().regex(/^(\p{L}+)\s(\p{L}+)$/u).min(2).max(50).required().messages({
-    'string.pattern.base': `Nome incorreto (Nome e Sobrenome) com mínimo de 3 caracteres cada`,
+  fullName: Joi.string().min(2).max(50).required().messages({
     'string.empty': `Nome não pode ser vazio`,
     'string.min': `Nome precisa ter no mínimo {#limit} caracteres`,
     'string.max': `Nome precisa ter no máximo {#limit} caracteres`,
